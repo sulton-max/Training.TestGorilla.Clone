@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGorilla.Domain", "TestGorilla.Domain\TestGorilla.Domain.csproj", "{0AE32110-BA0A-4522-8FA7-131FA1F461F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGorilla.Domain", "TestGorilla.Domain\TestGorilla.Domain.csproj", "{0AE32110-BA0A-4522-8FA7-131FA1F461F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGorilla.Api", "TestGorilla.WebApi\TestGorilla.Api.csproj", "{A8AD47B0-D216-4C35-95DC-997B96F3A1C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGorilla.Api", "TestGorilla.WebApi\TestGorilla.Api.csproj", "{A8AD47B0-D216-4C35-95DC-997B96F3A1C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGroilla.Service", "TestGroilla.Service\TestGroilla.Service.csproj", "{5F8BE2DD-DE04-4374-BA06-033A7956BB64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGroilla.Service", "TestGroilla.Service\TestGroilla.Service.csproj", "{5F8BE2DD-DE04-4374-BA06-033A7956BB64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGorilla.Data", "TestGorilla.Data\TestGorilla.Data.csproj", "{79DF165B-6E96-4D9E-8267-E5D952D1F678}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGorilla.Data", "TestGorilla.Data\TestGorilla.Data.csproj", "{79DF165B-6E96-4D9E-8267-E5D952D1F678}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGorilla.Presentation", "TestGorilla.Presentation\TestGorilla.Presentation.csproj", "{EE5EA123-D205-421E-A276-6FA3B7A99000}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{79DF165B-6E96-4D9E-8267-E5D952D1F678}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79DF165B-6E96-4D9E-8267-E5D952D1F678}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79DF165B-6E96-4D9E-8267-E5D952D1F678}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE5EA123-D205-421E-A276-6FA3B7A99000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE5EA123-D205-421E-A276-6FA3B7A99000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE5EA123-D205-421E-A276-6FA3B7A99000}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE5EA123-D205-421E-A276-6FA3B7A99000}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
