@@ -7,5 +7,4 @@ public class Test
     public string Description { get; set; }
     public QuestionLevel QuestionLevel { get; set; }
     public DateTime Time { get; set; }
-    public LanguageEnum Language { get; set; }
 }
