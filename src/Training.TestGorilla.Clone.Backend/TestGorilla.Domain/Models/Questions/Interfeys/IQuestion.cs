@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TestGorilla.Domain.Models.Questions.InterfeysQuestion
+﻿namespace TestGorilla.Domain.Models.Questions.InterfeysQuestion;
+public interface IQuestion
 {
-    public interface IQuestion
-    {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public Answer Answer { get; set; }
-        public DateTime Time { get; set; }
-    }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public Answer Answer { get; set; }
+    public DateTime Time { get; set; }
 }
+
