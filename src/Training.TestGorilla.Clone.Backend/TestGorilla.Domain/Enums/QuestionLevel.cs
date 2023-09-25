@@ -1,8 +1,8 @@
 ﻿namespace TestGorilla.Domain.Enums;
 public enum QuestionLevel
 {
-    Easy,
+    Low,
     Medium,
-    Hard
+    High
 }
 
