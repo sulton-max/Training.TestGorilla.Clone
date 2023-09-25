@@ -2,8 +2,8 @@
 namespace TestGorilla.Domain.Models.Questions;
 public class ShortQuestion : Auditable, IQuestion
 {
-    public string Title { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public string Description { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public Answer Answer { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public DateTime Time { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public string Title { get; set; }
+    public string Description { get; set ; }
+    public Answer Answer { get; set; }
+    public DateTime Time { get; set; }
 }
