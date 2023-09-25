@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TestGorilla.Domain.Enums;
 
-namespace TestGorilla.Domain.Models
+namespace TestGorilla.Domain.Models.Questions.InterfeysQuestion
 {
-    public class Test
+    public interface IQuestion
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        public QuestionLevel QuestionLevel { get; set; }
+        public Answer Answer { get; set; }
         public DateTime Time { get; set; }
-        public LanguageEnum Language { get; set; }
     }
 }
