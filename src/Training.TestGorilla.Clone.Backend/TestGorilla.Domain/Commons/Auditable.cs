@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TestGorilla.Domain.Auditable
+﻿
+namespace TestGorilla.Domain;
+public abstract class Auditable
 {
-    public abstract class Auditable
-    {
-    }
+    public long Id { get; set; }
+    public DateTime CratedTime { get; set; }
+    public DateTime UpdateTime { get; set; }
+
 }
