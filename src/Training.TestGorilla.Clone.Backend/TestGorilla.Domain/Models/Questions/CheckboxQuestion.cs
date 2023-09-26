@@ -1,8 +1,9 @@
 ﻿
 
+using TestGorilla.Domain.Commons;
 using TestGorilla.Domain.Models.Questions.InterfeysQuestion;
 namespace TestGorilla.Domain.Models.Questions;
-    public class CheckboxQuestion : Auditable, IQuestion
+    public class CheckboxQuestion : Auditable, IQuestion, IEntity
     {
         public string Title { get; set; }
         public string Description { get; set; }

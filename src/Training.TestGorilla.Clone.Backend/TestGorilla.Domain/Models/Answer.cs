@@ -1,8 +1,10 @@
+using TestGorilla.Domain.Commons;
+
 namespace TestGorilla.Domain.Models;
 
-public class Answer : Auditable, IAnswer
+public class Answer : Auditable, IAnswer, IEntity
 {
-    public long QuestionId { get; set; }
+    public Guid QuestionId { get; set; }
     public bool IsCorrect { get; set; }
     public string AnswerText { get; set; }
 }

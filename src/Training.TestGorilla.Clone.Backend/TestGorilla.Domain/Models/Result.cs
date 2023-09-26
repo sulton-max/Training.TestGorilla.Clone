@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestGorilla.Domain.Commons;
 
 namespace TestGorilla.Domain.Models
 {
-    public class Result : Auditable
+    public class Result : Auditable, IEntity
     {
-        public long UserId { get; set; }
-        public long TestId { get; set; }
-        public long ExamId { get; set; }
-        public long CategoryId { get; set; }
+        public Guid UserId { get; set; }
+        public Guid TestId { get; set; }
+        public Guid ExamId { get; set; }
+        public Guid CategoryId { get; set; }
         public decimal TestResult { get; set; }
         public decimal ExamResult { get; set;}
         public bool IsDelete { get; set; }
