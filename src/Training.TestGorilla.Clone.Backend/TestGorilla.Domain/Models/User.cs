@@ -2,7 +2,7 @@
 using TestGorilla.Domain.Enums;
 
 namespace TestGorilla.Domain.Models;
-public class User : Auditable, IMembership
+public class User : Auditable,IEntity
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }

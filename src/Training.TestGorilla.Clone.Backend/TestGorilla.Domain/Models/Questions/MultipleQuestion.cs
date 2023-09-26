@@ -1,6 +1,7 @@
-﻿using TestGorilla.Domain.Models.Questions.InterfeysQuestion;
+﻿using TestGorilla.Domain.Commons;
+using TestGorilla.Domain.Models.Questions.InterfeysQuestion;
 namespace TestGorilla.Domain.Models.Questions;
-public class MultipleQuestion : Auditable, IQuestion
+public class MultipleQuestion : Auditable, IQuestion, IEntity
 {
     public string Title { get; set; }
     public string Description { get ; set; }
