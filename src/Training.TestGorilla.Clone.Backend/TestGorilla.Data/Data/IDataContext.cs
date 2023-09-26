@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestGorilla.Domain.Models;
+using TestGorilla.Domain.Models.Question;
 using TestGorilla.Domain.Models.Questions;
 
 namespace TestGorilla.Data.Data
@@ -17,9 +18,9 @@ namespace TestGorilla.Data.Data
         IFileSet<Result, Guid> Result { get; }
         IFileSet<Test, Guid> Tests { get; }
         IFileSet<User, Guid> Users { get; }
-        IFileSet<CheckboxQuestion, Guid> CheckboxQuestions { get; }
-        IFileSet<MultipleQuestion, Guid> MultipleQuestions { get; }
-        IFileSet<ShortQuestion, Guid> ShortQuestions { get; }
+        IFileSet<CheckBoxQuestion, Guid> CheckboxQuestions { get; }
+        IFileSet<MultipleChoiceQuestion, Guid> MultipleQuestions { get; }
+        IFileSet<ShortAnswerTypeQuestion, Guid> ShortQuestions { get; }
         ValueTask SaveChangesAsync();
     }
 }
