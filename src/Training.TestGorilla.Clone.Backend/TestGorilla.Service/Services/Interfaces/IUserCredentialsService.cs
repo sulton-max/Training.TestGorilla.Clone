@@ -1,6 +1,5 @@
-﻿namespace TestGorilla.Service.Services.Interfaces
+﻿namespace TestGorilla.Service.Services.Interfaces;
+
+public interface IUserCredentialsService
 {
-    public interface IUserCredentialsService
-    {
-    }
 }
