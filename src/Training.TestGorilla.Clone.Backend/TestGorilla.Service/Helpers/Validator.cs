@@ -24,8 +24,8 @@ public class Validator
     public static bool IsValidEmail(string emailAddress) =>
                     !string.IsNullOrEmpty(emailAddress) && Regex.IsMatch(emailAddress, EmailAddressValidatorRegex);
     
-    public static bool IsValidPhoneNumber(string phoneNumber) 
-        => !string.IsNullOrEmpty(phoneNumber) && Regex.IsMatch(phoneNumber, PhoneNumberValidatorRegex);
+    public static bool IsValidPhoneNumber(string phoneNumber) => 
+                    !string.IsNullOrEmpty(phoneNumber) && Regex.IsMatch(phoneNumber, PhoneNumberValidatorRegex);
     
     public static bool IsValidPassword(string password) =>
                     !string.IsNullOrEmpty(password) && Regex.IsMatch(password, PasswordValidatorRegex);
