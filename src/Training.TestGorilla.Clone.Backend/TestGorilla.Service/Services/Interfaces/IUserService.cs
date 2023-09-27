@@ -1,7 +1,6 @@
-﻿namespace TestGorilla.Service.Services.Interfaces
-{
-    public class IUserService
-    {
+﻿namespace TestGorilla.Service.Services.Interfaces;
 
-    }
+public class IUserService
+{
+
 }
