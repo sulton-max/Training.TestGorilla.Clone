@@ -40,8 +40,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         {
             Title = question.Title,
             Description = question.Description,
-            CreatedTime = question.CreatedTime,
-            UpdateTime = question.UpdateTime,
+            UpdateTime = DateTime.UtcNow,
             Answer = question.Answer
         };
         CheckBoxQuestion result = (await _appDataContext.CheckboxQuestions.AddAsync(newCheckboxQuestion)).Entity;
