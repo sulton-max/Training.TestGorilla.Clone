@@ -10,4 +10,14 @@
     <ProjectReference Include="..\TestGorilla.Data\TestGorilla.Data.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net" Version="0.1.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
+  </ItemGroup>
+
 </Project>
