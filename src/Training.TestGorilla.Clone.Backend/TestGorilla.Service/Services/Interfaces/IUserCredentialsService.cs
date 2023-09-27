@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace TestGorilla.Service.Services.Interfaces;
 
-namespace TestGorilla.Service.Services.Interfaces
+public interface IUserCredentialsService
 {
-    internal interface IUserCredentialsService
-    {
-    }
 }
