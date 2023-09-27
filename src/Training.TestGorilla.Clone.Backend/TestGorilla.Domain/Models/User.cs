@@ -1,8 +1,10 @@
-﻿using TestGorilla.Domain.Commons;
+﻿using FileBaseContext.Abstractions.Models.Entity;
+using TestGorilla.Domain.Commons;
 using TestGorilla.Domain.Enums;
 
 namespace TestGorilla.Domain.Models;
-public class User : Auditable,IEntity
+
+public class User : Auditable, IFileSetEntity<Guid>
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
@@ -11,4 +13,9 @@ public class User : Auditable,IEntity
     public UserRole Role { get; set; }
     public DateTime DateOfBirth { get; set; }
     public string PhoneNumber { get; set; }
+
+    public User()
+    {
+        
+    }
 }

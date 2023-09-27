@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGorilla.Domain", "TestG
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGorilla.Api", "TestGorilla.WebApi\TestGorilla.Api.csproj", "{A8AD47B0-D216-4C35-95DC-997B96F3A1C1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGroilla.Service", "TestGroilla.Service\TestGroilla.Service.csproj", "{5F8BE2DD-DE04-4374-BA06-033A7956BB64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGorilla.Service", "TestGorilla.Service\TestGorilla.Service.csproj", "{5F8BE2DD-DE04-4374-BA06-033A7956BB64}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGorilla.Data", "TestGorilla.Data\TestGorilla.Data.csproj", "{79DF165B-6E96-4D9E-8267-E5D952D1F678}"
 EndProject

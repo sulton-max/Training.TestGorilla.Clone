@@ -3,6 +3,7 @@ using FileBaseContext.Abstractions.Models.FileSet;
 using FileBaseContext.Context.Models.Configurations;
 using FileBaseContext.Context.Models.FileContext;
 using TestGorilla.Domain.Models;
+using TestGorilla.Domain.Models.Question;
 using TestGorilla.Domain.Models.Questions;
 
 namespace TestGorilla.Data.Data;
@@ -25,11 +26,11 @@ public class AppFileContext : FileContext ,IDataContext
 
     public IFileSet<User, Guid> Users => Set<User>(nameof(Users));
 
-    public IFileSet<CheckboxQuestion, Guid> CheckboxQuestions => Set<CheckboxQuestion>(nameof(CheckboxQuestions));
+    public IFileSet<CheckBoxQuestion, Guid> CheckboxQuestions => Set<CheckBoxQuestion>(nameof(CheckboxQuestions));
 
-    public IFileSet<MultipleQuestion, Guid> MultipleQuestions => Set<MultipleQuestion>(nameof(MultipleQuestions));
+    public IFileSet<MultipleChoiceQuestion, Guid> MultipleQuestions => Set<MultipleChoiceQuestion>(nameof(MultipleQuestions));
 
-    public IFileSet<ShortQuestion, Guid> ShortQuestions => Set<ShortQuestion>(nameof(ShortQuestions));
+    public IFileSet<ShortAnswerTypeQuestion, Guid> ShortQuestions => Set<ShortAnswerTypeQuestion>(nameof(ShortQuestions));
 
     public virtual ValueTask AddPrimaryKeys(IEnumerable<IFileSetBase> fileSets)
     {
