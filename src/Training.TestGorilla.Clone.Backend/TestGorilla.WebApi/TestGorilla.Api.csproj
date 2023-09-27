@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TestGroilla.Service\TestGroilla.Service.csproj" />
+    <ProjectReference Include="..\TestGorilla.Service\TestGorilla.Service.csproj" />
   </ItemGroup>
 
 </Project>
