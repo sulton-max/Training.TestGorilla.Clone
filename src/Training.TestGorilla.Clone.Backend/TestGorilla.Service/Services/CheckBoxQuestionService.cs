@@ -26,7 +26,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
             throw new ArgumentException("Question is not valid!!");
         }
         var existingCheckboxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x =>
-            x.Id == question.Id && DateTime.UtcNow - x.CratedTime > TimeSpan.FromMinutes(90) && x.Answer.AnswerText == null);
+            x.Id == question.Id && DateTime.UtcNow - x.CreatedTime > TimeSpan.FromMinutes(90) && x.Answer.AnswerText == null);
         if (existingCheckboxQuestion != null)
         {
             throw new InvalidOperationException($"CheckboxQuestion {question.Id} already exists");
@@ -51,7 +51,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         {
             Title = question.Title,
             Description = question.Description,
-            UpdateTime = DateTime.UtcNow,
+            UpdatedTime = DateTime.UtcNow,
             Answer = question.Answer
         };
         CheckBoxQuestion result = (await _appDataContext.CheckboxQuestions.AddAsync(newCheckboxQuestion)).Entity;
