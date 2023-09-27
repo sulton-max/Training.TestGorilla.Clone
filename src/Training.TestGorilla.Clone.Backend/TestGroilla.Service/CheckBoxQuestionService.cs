@@ -1,10 +1,4 @@
-﻿using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
-using TestGorilla.Data.Data;
-using TestGorilla.Domain.Models;
-using TestGorilla.Domain.Models.Questions;
-
-namespace TestGroilla.Service;
+﻿namespace TestGroilla.Service;
 
 public class CheckBoxQuestionService : ICheckBoxQuestionService
 {
@@ -47,7 +41,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         CheckboxQuestion result = (await _appDataContext.CheckboxQuestions.AddAsync(newCheckboxQuestion)).Entity;
         await _appDataContext.SaveChangesAsync();
         return result;
-        
+
     }
 
     public bool DeleteAsync(Guid questionId)
@@ -55,8 +49,8 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         var DeleteCheckBoxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x => x.Id == questionId);
         if (DeleteCheckBoxQuestion != null)
         {
-           _appDataContext.CheckboxQuestions.RemoveAsync(DeleteCheckBoxQuestion);
-           _appDataContext.SaveChangesAsync();
+            _appDataContext.CheckboxQuestions.RemoveAsync(DeleteCheckBoxQuestion);
+            _appDataContext.SaveChangesAsync();
             return true;
         }
         return false;
