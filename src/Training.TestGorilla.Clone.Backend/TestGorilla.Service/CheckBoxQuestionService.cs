@@ -1,4 +1,10 @@
-﻿namespace TestGroilla.Service;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+using TestGorilla.Data.Data;
+using TestGorilla.Domain.Models;
+using TestGorilla.Domain.Models.Question;
+
+namespace TestGroilla.Service;
 
 public class CheckBoxQuestionService : ICheckBoxQuestionService
 {
@@ -11,34 +17,35 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
     }
 
 
-    public async Task<CheckboxQuestion> Createasync(CheckboxQuestion question)
+    public async Task<CheckBoxQuestion> Createasync(CheckBoxQuestion question)
     {
         var existingCheckboxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x =>
-            x.Id == question.Id && DateTime.UtcNow - x.Time > TimeSpan.FromMinutes(90));
+            x.Id == question.Id && DateTime.UtcNow - x.CratedTime > TimeSpan.FromMinutes(90));
         if (existingCheckboxQuestion != null)
         {
             throw new InvalidOperationException($"CheckboxQuestion {question.Id} already exists");
         }
-        CheckboxQuestion result = (await _appDataContext.CheckboxQuestions.AddAsync(question)).Entity;
+        CheckBoxQuestion result = (await _appDataContext.CheckboxQuestions.AddAsync(question)).Entity;
         await _appDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async Task<CheckboxQuestion> UpdateAsync(CheckboxQuestion question)
+    public async Task<CheckBoxQuestion> UpdateAsync(CheckBoxQuestion question)
     {
         var UpdatingCheckBoxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x => x.Id == question.Id);
         if (UpdatingCheckBoxQuestion == null)
         {
             throw new NotImplementedException("This Question does not exist");
         }
-        var newCheckboxQuestion = new CheckboxQuestion()
+        var newCheckboxQuestion = new CheckBoxQuestion()
         {
             Title = question.Title,
             Description = question.Description,
-            Time = question.Time,
+            CratedTime = question.CratedTime,
+            UpdateTime = question.UpdateTime,
             Answer = question.Answer
         };
-        CheckboxQuestion result = (await _appDataContext.CheckboxQuestions.AddAsync(newCheckboxQuestion)).Entity;
+        CheckBoxQuestion result = (await _appDataContext.CheckboxQuestions.AddAsync(newCheckboxQuestion)).Entity;
         await _appDataContext.SaveChangesAsync();
         return result;
 
@@ -56,12 +63,12 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         return false;
     }
 
-    public IQueryable<CheckboxQuestion> Get(Expression<Func<CheckboxQuestion, bool>> predicate)
+    public IQueryable<CheckBoxQuestion> Get(Expression<Func<CheckBoxQuestion, bool>> predicate)
     {
         return _appDataContext.CheckboxQuestions.Where(predicate.Compile()).AsQueryable();
     }
 
-    public async Task<PaginationResult<CheckboxQuestion>> GetByQuestionIdAsync(Guid id, int PageToken, int PageSize)
+    public async Task<PaginationResult<CheckBoxQuestion>> GetByQuestionIdAsync(Guid id, int PageToken, int PageSize)
     {
         var query = _appDataContext.CheckboxQuestions
             .Where(question => question.Id == id).AsQueryable();
@@ -75,7 +82,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
             .Take(PageSize)
             .ToListAsync();
 
-        var paginationResult = new PaginationResult<CheckboxQuestion>
+        var paginationResult = new PaginationResult<CheckBoxQuestion>
         {
             Items = questions,
             TotalItems = totalItems,
@@ -86,7 +93,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         return paginationResult;
     }
 
-    public async Task<CheckboxQuestion> GetByQuestionTitleAsync(string Title)
+    public async Task<CheckBoxQuestion> GetByQuestionTitleAsync(string Title)
     {
         var searchingQuestionWithTitle = _appDataContext.CheckboxQuestions.FirstOrDefault(c => c.Title == Title);
         if (searchingQuestionWithTitle == null)
@@ -95,7 +102,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         }
         return searchingQuestionWithTitle;
     }
-    public Task<IEnumerable<CheckboxQuestion>> GetByQuestionCategoryAsync(string category)
+    public Task<IEnumerable<CheckBoxQuestion>> GetByQuestionCategoryAsync(string category)
     {
         var existingCategory =
             _appDataContext.Categories.FirstOrDefault(x => x.Name.Equals(category, StringComparison.OrdinalIgnoreCase));
@@ -108,4 +115,6 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
             _appDataContext.CheckboxQuestions.Where(question => question.Category.Id == existingCategory.Id);
         return Task.FromResult(questionCategory);
     }
+
+   
 }
