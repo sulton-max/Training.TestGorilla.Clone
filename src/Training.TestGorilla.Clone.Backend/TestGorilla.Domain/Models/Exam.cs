@@ -10,10 +10,10 @@ public class Exam : Auditable, IEntity
     public Guid ExaminatorId { get; set; }
     public List<Test> Tests { get; set; }
     public List<User> Candidates { get; set; }
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = false;
     public bool IsDeleted { get; set; }
 
-    public Exam()
+    public Exam(string title, string description, TimeSpan duration)
     {
 
     }
