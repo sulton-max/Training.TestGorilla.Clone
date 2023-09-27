@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 using TestGorilla.Data.Data;
 using TestGorilla.Domain.Models;
 using TestGorilla.Domain.Models.Question;
+using TestGorilla.Service.Helpers;
 using TestGorilla.Service.Services.Interfaces;
 
 namespace TestGorilla.Service.Services;
@@ -11,13 +12,19 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
 {
     private readonly IDataContext _appDataContext;
     private ICheckBoxQuestionService _checkBoxQuestionServiceImplementation;
+    private readonly Validator _validator;
 
-    public CheckBoxQuestionService(IDataContext appDataContext)
+    public CheckBoxQuestionService(IDataContext appDataContext, Validator validator)
     {
         _appDataContext = appDataContext;
+        _validator = validator;
     }
     public async Task<CheckBoxQuestion> CreateAsync(CheckBoxQuestion question)
     {
+        if (!_validator.IsValidDescription(question.Description) || !_validator.IsValidTitle(question.Title))
+        {
+            throw new ArgumentException("Question is not valid!!");
+        }
         var existingCheckboxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x =>
             x.Id == question.Id && DateTime.UtcNow - x.CreatedTime > TimeSpan.FromMinutes(90) && x.Answer.AnswerText == null);
         if (existingCheckboxQuestion != null)
@@ -31,6 +38,10 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
 
     public async Task<CheckBoxQuestion> UpdateAsync(CheckBoxQuestion question)
     {
+        if(!_validator.IsValidTitle(question.Title) || !_validator.IsValidDescription(question.Description))
+        {
+            throw new ArgumentException("Updated Question is not valid!!");
+        }
         var updatingCheckBoxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x => x.Id == question.Id);
         if (updatingCheckBoxQuestion == null)
         {

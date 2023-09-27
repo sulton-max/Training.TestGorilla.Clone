@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TestGorilla.Data.Data;
 using TestGorilla.Domain.Models;
 using TestGorilla.Domain.Models.Questions;
+using TestGorilla.Service.Helpers;
 using TestGorilla.Service.Services.Interfaces;
 
 namespace TestGorilla.Service.Services
@@ -10,12 +11,18 @@ namespace TestGorilla.Service.Services
     public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
     {
         private readonly IDataContext _appDataContext;
-        public MultipleChoiceQuestionService(IDataContext appDataContext)
+        private readonly Validator _validator;
+        public MultipleChoiceQuestionService(IDataContext appDataContext, Validator validator)
         {
             _appDataContext = appDataContext;
+            _validator = validator;
         }
         public async Task<MultipleChoiceQuestion> Createasync(MultipleChoiceQuestion question)
         {
+            if(!_validator.IsValidTitle(question.Title) || !_validator.IsValidDescription(question.Description))
+            {
+                throw new InvalidOperationException("This Question is not Valid!!");
+            }
             var creatingMultipleChoceQuestion = _appDataContext.MultipleQuestions.FirstOrDefault(x =>
                 x.Id == question.Id && DateTime.UtcNow - x.CreatedTime > TimeSpan.FromMinutes(90) && x.Answer.AnswerText == null);
             if (creatingMultipleChoceQuestion != null)
@@ -29,6 +36,10 @@ namespace TestGorilla.Service.Services
 
         public async Task<MultipleChoiceQuestion> UpdateAsync(MultipleChoiceQuestion question)
         {
+            if (!_validator.IsValidTitle(question.Title) || !_validator.IsValidDescription(question.Description))
+            {
+                throw new Exception("Updated Question is not valid!!");
+            }
             var updatingMultipleChoceQuestion =
                 _appDataContext.MultipleQuestions.FirstOrDefault(x => x.Id == question.Id);
             {
