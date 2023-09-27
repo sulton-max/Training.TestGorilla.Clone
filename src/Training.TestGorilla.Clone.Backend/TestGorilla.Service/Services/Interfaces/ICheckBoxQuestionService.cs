@@ -2,11 +2,11 @@
 using TestGorilla.Domain.Models;
 using TestGorilla.Domain.Models.Question;
 
-namespace TestGroilla.Service;
+namespace TestGorilla.Service.Services.Interfaces;
 
 public interface ICheckBoxQuestionService
 {
-    public Task<CheckBoxQuestion> Createasync(CheckBoxQuestion question);
+    public Task<CheckBoxQuestion> CreateAsync(CheckBoxQuestion question);
     public Task<CheckBoxQuestion> UpdateAsync(CheckBoxQuestion question);
     public bool DeleteAsync(Guid questionId);
     public IQueryable<CheckBoxQuestion> Get(Expression<Func<CheckBoxQuestion, bool>> predicate);

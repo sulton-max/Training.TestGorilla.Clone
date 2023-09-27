@@ -3,8 +3,9 @@ using System.Linq.Expressions;
 using TestGorilla.Data.Data;
 using TestGorilla.Domain.Models;
 using TestGorilla.Domain.Models.Question;
+using TestGorilla.Service.Services.Interfaces;
 
-namespace TestGroilla.Service;
+namespace TestGorilla.Service.Services;
 
 public class CheckBoxQuestionService : ICheckBoxQuestionService
 {
@@ -15,12 +16,10 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
     {
         _appDataContext = appDataContext;
     }
-
-
-    public async Task<CheckBoxQuestion> Createasync(CheckBoxQuestion question)
+    public async Task<CheckBoxQuestion> CreateAsync(CheckBoxQuestion question)
     {
         var existingCheckboxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x =>
-            x.Id == question.Id && DateTime.UtcNow - x.CratedTime > TimeSpan.FromMinutes(90));
+            x.Id == question.Id && DateTime.UtcNow - x.CreatedTime > TimeSpan.FromMinutes(90) && x.Answer.AnswerText == null);
         if (existingCheckboxQuestion != null)
         {
             throw new InvalidOperationException($"CheckboxQuestion {question.Id} already exists");
@@ -32,8 +31,8 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
 
     public async Task<CheckBoxQuestion> UpdateAsync(CheckBoxQuestion question)
     {
-        var UpdatingCheckBoxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x => x.Id == question.Id);
-        if (UpdatingCheckBoxQuestion == null)
+        var updatingCheckBoxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x => x.Id == question.Id);
+        if (updatingCheckBoxQuestion == null)
         {
             throw new NotImplementedException("This Question does not exist");
         }
@@ -41,7 +40,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         {
             Title = question.Title,
             Description = question.Description,
-            CratedTime = question.CratedTime,
+            CreatedTime = question.CreatedTime,
             UpdateTime = question.UpdateTime,
             Answer = question.Answer
         };
@@ -116,5 +115,5 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         return Task.FromResult(questionCategory);
     }
 
-   
+
 }
