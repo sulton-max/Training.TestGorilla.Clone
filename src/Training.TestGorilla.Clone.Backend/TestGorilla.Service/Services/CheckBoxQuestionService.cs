@@ -19,14 +19,14 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         _appDataContext = appDataContext;
         _validator = validator;
     }
-    public async Task<CheckBoxQuestion> CreateAsync(CheckBoxQuestion question)
+    public async Task<CheckBoxQuestion> CreateAsync(CheckBoxQuestion question, bool saveChanges = true)
     {
         if (!_validator.IsValidDescription(question.Description) || !_validator.IsValidTitle(question.Title))
         {
             throw new ArgumentException("Question is not valid!!");
         }
         var existingCheckboxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x =>
-            x.Id == question.Id && DateTime.UtcNow - x.CreatedTime > TimeSpan.FromMinutes(90) && x.Answer.AnswerText == null);
+            x.Id == question.Id && DateTime.UtcNow - x.CratedTime > TimeSpan.FromMinutes(90) && x.Answer.AnswerText == null);
         if (existingCheckboxQuestion != null)
         {
             throw new InvalidOperationException($"CheckboxQuestion {question.Id} already exists");
@@ -36,7 +36,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         return result;
     }
 
-    public async Task<CheckBoxQuestion> UpdateAsync(CheckBoxQuestion question)
+    public async Task<CheckBoxQuestion> UpdateAsync(CheckBoxQuestion question, bool saveChanges = true)
     {
         if(!_validator.IsValidTitle(question.Title) || !_validator.IsValidDescription(question.Description))
         {

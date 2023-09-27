@@ -6,8 +6,8 @@ namespace TestGorilla.Service.Services.Interfaces;
 
 public interface ICheckBoxQuestionService
 {
-    public Task<CheckBoxQuestion> CreateAsync(CheckBoxQuestion question);
-    public Task<CheckBoxQuestion> UpdateAsync(CheckBoxQuestion question);
+    public Task<CheckBoxQuestion> CreateAsync(CheckBoxQuestion question, bool saveChanges = true);
+    public Task<CheckBoxQuestion> UpdateAsync(CheckBoxQuestion question, bool saveChanges = true);
     public bool DeleteAsync(Guid questionId);
     public IQueryable<CheckBoxQuestion> Get(Expression<Func<CheckBoxQuestion, bool>> predicate);
     public Task<PaginationResult<CheckBoxQuestion>> GetByQuestionIdAsync(Guid id, int PageToken, int PageSize);

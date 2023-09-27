@@ -17,14 +17,14 @@ namespace TestGorilla.Service.Services
             _appDataContext = appDataContext;
             _validator = validator;
         }
-        public async Task<MultipleChoiceQuestion> Createasync(MultipleChoiceQuestion question)
+        public async Task<MultipleChoiceQuestion> Createasync(MultipleChoiceQuestion question, bool saveChanges = true)
         {
             if(!_validator.IsValidTitle(question.Title) || !_validator.IsValidDescription(question.Description))
             {
                 throw new InvalidOperationException("This Question is not Valid!!");
             }
             var creatingMultipleChoceQuestion = _appDataContext.MultipleQuestions.FirstOrDefault(x =>
-                x.Id == question.Id && DateTime.UtcNow - x.CreatedTime > TimeSpan.FromMinutes(90) && x.Answer.AnswerText == null);
+                x.Id == question.Id && DateTime.UtcNow - x.CratedTime > TimeSpan.FromMinutes(90) && x.Answer.AnswerText == null);
             if (creatingMultipleChoceQuestion != null)
             {
                 throw new InvalidOperationException($"CheckboxQuestion {question.Id} already exists");
@@ -34,7 +34,7 @@ namespace TestGorilla.Service.Services
             return result;
         }
 
-        public async Task<MultipleChoiceQuestion> UpdateAsync(MultipleChoiceQuestion question)
+        public async Task<MultipleChoiceQuestion> UpdateAsync(MultipleChoiceQuestion question, bool saveChanges = true)
         {
             if (!_validator.IsValidTitle(question.Title) || !_validator.IsValidDescription(question.Description))
             {
@@ -61,7 +61,7 @@ namespace TestGorilla.Service.Services
             }
         }
 
-        public bool DeleteAsync(Guid questionId)
+        public bool DeleteAsync(Guid questionId,CancellationToken cancellationToken = default, bool saveChanges = true)
         {
             var deletedMultipleChoiceQuestion =
                 _appDataContext.MultipleQuestions.FirstOrDefault(x => x.Id == questionId);
@@ -74,12 +74,12 @@ namespace TestGorilla.Service.Services
             return false;
         }
 
-        public IQueryable<MultipleChoiceQuestion> Get(Expression<Func<MultipleChoiceQuestion, bool>> predicate)
+        public IQueryable<MultipleChoiceQuestion> Get(Expression<Func<MultipleChoiceQuestion, bool>> predicate, CancellationToken cancellationToken = default, bool saveChanges = true)
         {
             return _appDataContext.MultipleQuestions.Where(predicate.Compile()).AsQueryable();
         }
 
-        public async Task<PaginationResult<MultipleChoiceQuestion>> GetByQuestionIdAsync(Guid id, int PageToken, int PageSize)
+        public async Task<PaginationResult<MultipleChoiceQuestion>> GetByQuestionIdAsync(Guid id, int PageToken, int PageSize, CancellationToken cancellationToken = default, bool saveChanges = true)
         {
             var query = _appDataContext.MultipleQuestions
                 .Where(question => question.Id == id).AsQueryable();
@@ -104,7 +104,7 @@ namespace TestGorilla.Service.Services
             return paginationResult;
         }
 
-        public async Task<MultipleChoiceQuestion> GetByQuestionTitleAsync(string Title)
+        public async Task<MultipleChoiceQuestion> GetByQuestionTitleAsync(string Title, CancellationToken cancellationToken = default, bool saveChanges = true)
         {
             var searchingQuestionWithTitle = _appDataContext.MultipleQuestions.FirstOrDefault(c => c.Title == Title);
             if (searchingQuestionWithTitle == null)
@@ -113,7 +113,7 @@ namespace TestGorilla.Service.Services
             }
             return searchingQuestionWithTitle;
         }
-        public Task<IEnumerable<MultipleChoiceQuestion>> GetByQuestionCategoryAsync(string category)
+        public Task<IEnumerable<MultipleChoiceQuestion>> GetByQuestionCategoryAsync(string category, CancellationToken cancellationToken = default, bool saveChanges = true)
         {
             
             var existingCategory =
