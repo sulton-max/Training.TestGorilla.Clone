@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
 using TestGorilla.Data.Data;
 using TestGorilla.Domain.Models;
 using TestGorilla.Service.Helpers;
@@ -19,39 +20,95 @@ public class UserCredentialsService : IUserCredentialsService
         _validatorService = validatorService;
     }
 
-    public ValueTask<UserCredentials> CreateAsync(UserCredentials userCredentials, bool saveChanges = true, CancellationToken cancellation = default)
+    public async ValueTask<UserCredentials> CreateAsync(UserCredentials userCredentials, bool saveChanges = true, CancellationToken cancellation = default)
     {
-        throw new NotImplementedException();
+        if (!IsValidToCreate(userCredentials))
+        {
+            throw new ValidationException("Invalid Credentials to create");
+        }
+
+        userCredentials.Password = _passwordHasher.Hash(userCredentials.Password);
+        await _appDataContext.UserCredentials.AddAsync(userCredentials);
+
+        if (saveChanges)
+            await _appDataContext.UserCredentials.SaveChangesAsync();
+
+        return userCredentials;
     }
 
-    public ValueTask<UserCredentials> DeleteAsync(UserCredentials userCredentials, bool saveChanges = true, CancellationToken cancellation = default)
+    public async ValueTask<UserCredentials> DeleteAsync(UserCredentials userCredentials, bool saveChanges = true, CancellationToken cancellation = default)
     {
-        throw new NotImplementedException();
+        var deleted = await GetById(userCredentials.Id);
+        
+        if (deleted is null)
+        {
+            throw new ValidationException("Credentials not exists");
+        }
+
+        deleted.IsDeleted = true;
+        deleted.DeletedDate = DateTime.UtcNow;
+
+        if (saveChanges)
+            await _appDataContext.UserCredentials.SaveChangesAsync();
+
+        return deleted;
     }
 
-    public ValueTask<UserCredentials> DeleteAsync(Guid id, bool saveChanges = true, CancellationToken cancellation = default)
+    public async ValueTask<UserCredentials> DeleteAsync(Guid id, bool saveChanges = true, CancellationToken cancellation = default)
     {
-        throw new NotImplementedException();
+        var deleted = await GetById(id);
+        if (deleted is null)
+        {
+            throw new ValidationException("Credentials is not found");
+        }
+
+        deleted.IsDeleted = true;
+        deleted.DeletedDate = DateTime.UtcNow;
+
+        if (saveChanges)
+            await _appDataContext.UserCredentials.SaveChangesAsync();
+
+        return deleted;
     }
 
     public IQueryable<UserCredentials> Get(Expression<Func<UserCredentials, bool>> expression)
     {
-        throw new NotImplementedException();
+        return _appDataContext.UserCredentials.Where(expression.Compile()).AsQueryable();
     }
 
     public ValueTask<ICollection<UserCredentials>> Get(IEnumerable<Guid> ids)
     {
-        throw new NotImplementedException();
+        return new ValueTask<ICollection<UserCredentials>>(_appDataContext.UserCredentials.Where(item => ids.Contains(item.Id) && !item.IsDeleted).ToList());
     }
 
-    public ValueTask<UserCredentials> GetById(Guid id)
+    public async ValueTask<UserCredentials> GetById(Guid id)
     {
-        throw new NotImplementedException();
+        var credentials = await _appDataContext.UserCredentials.FindAsync(id);
+        if (credentials is null || credentials.IsDeleted)
+        {
+            throw new ArgumentNullException("Credential that this id, is not found");
+        }
+
+        return credentials;
     }
 
-    public ValueTask<UserCredentials> UpdateAsync(UserCredentials userCredentials, bool saveChanges = true, CancellationToken cancellation = default)
+    public async ValueTask<UserCredentials> UpdateAsync(string oldPassword, UserCredentials userCredentials, bool saveChanges = true, CancellationToken cancellation = default)
     {
-        throw new NotImplementedException();
+        IsValidToUpdate(userCredentials);
+
+        var oldCredentials = await GetById(userCredentials.Id);
+        if (!_passwordHasher.Verify(oldPassword, oldCredentials.Password))
+        {
+            throw new ArgumentOutOfRangeException("Incorrect oldpasword");
+        }
+
+        oldCredentials.Password = _passwordHasher.Hash(userCredentials.Password);
+        oldCredentials.UpdatedTime = DateTime.UtcNow;
+
+        if (saveChanges)
+            await _appDataContext.UserCredentials.SaveChangesAsync();
+
+        return oldCredentials;
     }
 
     private bool IsExistsUserCredentials(Guid id)
@@ -86,8 +143,7 @@ public class UserCredentialsService : IUserCredentialsService
 
     private void IsValidPassword(string password)
     {
-        Validator valid = new Validator();
-        if (valid.IsValidPassword(password))
+        if (!_validatorService.IsValidPassword(password))
         {
             throw new InvalidOperationException("Password is not available");
         }

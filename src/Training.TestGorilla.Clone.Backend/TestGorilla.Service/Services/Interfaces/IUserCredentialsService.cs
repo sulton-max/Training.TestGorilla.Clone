@@ -13,7 +13,7 @@ public interface IUserCredentialsService
     
     ValueTask<UserCredentials> CreateAsync(UserCredentials userCredentials, bool saveChanges = true, CancellationToken cancellation = default);
     
-    ValueTask<UserCredentials> UpdateAsync(UserCredentials userCredentials, bool saveChanges = true, CancellationToken cancellation = default);
+    ValueTask<UserCredentials> UpdateAsync(string password, UserCredentials userCredentials, bool saveChanges = true, CancellationToken cancellation = default);
     
     ValueTask<UserCredentials> DeleteAsync(UserCredentials userCredentials, bool saveChanges = true, CancellationToken cancellation = default);
     
