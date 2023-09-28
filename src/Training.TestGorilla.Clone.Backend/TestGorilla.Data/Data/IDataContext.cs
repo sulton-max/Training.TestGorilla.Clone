@@ -15,7 +15,7 @@ namespace TestGorilla.Data.Data
         IFileSet<Answer, Guid> Answers { get; }
         IFileSet<Category, Guid> Categories { get; }
         IFileSet<Exam, Guid> Exams { get; }
-        IFileSet<Result, Guid> Result { get; }
+        IFileSet<Result, Guid> Results { get; }
         IFileSet<Test, Guid> Tests { get; }
         IFileSet<User, Guid> Users { get; }
         IFileSet<UserCredentials, Guid> UserCredentials { get; }
