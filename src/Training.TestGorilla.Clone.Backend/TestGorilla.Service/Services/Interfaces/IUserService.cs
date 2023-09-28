@@ -1,4 +1,4 @@
-﻿using System.Linq.Expressions;
+using System.Linq.Expressions;
 using TestGorilla.Domain.Models;
 
 namespace TestGorilla.Service.Services.Interfaces;

@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace TestGorilla.Service.Helpers;
 
-public class Validator
+public class Validator : IValidatorService
 {
     /// <summary> ///
     /// This regexs matches user data
