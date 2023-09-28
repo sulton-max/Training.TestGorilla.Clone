@@ -22,15 +22,14 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
     public async Task<CheckBoxQuestion> CreateAsync(CheckBoxQuestion question, CancellationToken cancellationToken, bool saveChanges = true)
     {
         if (!_validator.IsValidDescription(question.Description) || !_validator.IsValidTitle(question.Title))
-        {
             throw new ArgumentException("Question is not valid!!");
-        }
+        
         var existingCheckboxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x =>
             x.Id == question.Id && DateTime.UtcNow - x.CreatedTime > TimeSpan.FromMinutes(90) && x.Answer.AnswerText == null);
+        
         if (existingCheckboxQuestion != null)
-        {
             throw new InvalidOperationException($"CheckboxQuestion {question.Id} already exists");
-        }
+        
         CheckBoxQuestion result = (await _appDataContext.CheckboxQuestions.AddAsync(question)).Entity;
         await _appDataContext.SaveChangesAsync();
         return result;
@@ -39,14 +38,13 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
     public async Task<CheckBoxQuestion> UpdateAsync(CheckBoxQuestion question, CancellationToken cancellationToken, bool saveChanges = true)
     {
         if(!_validator.IsValidTitle(question.Title) || !_validator.IsValidDescription(question.Description))
-        {
             throw new ArgumentException("Updated Question is not valid!!");
-        }
+        
         var updatingCheckBoxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x => x.Id == question.Id);
+
         if (updatingCheckBoxQuestion == null)
-        {
-            throw new NotImplementedException("This Question does not exist");
-        }
+            throw new ArgumentNullException($"{updatingCheckBoxQuestion}", "Question type is not valid!");
+                            
         var newCheckboxQuestion = new CheckBoxQuestion()
         {
             Title = question.Title,
@@ -54,6 +52,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
             UpdatedTime = DateTime.UtcNow,
             Answer = question.Answer
         };
+        
         CheckBoxQuestion result = (await _appDataContext.CheckboxQuestions.AddAsync(newCheckboxQuestion)).Entity;
         await _appDataContext.SaveChangesAsync();
         return result;
@@ -82,10 +81,14 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         var query = _appDataContext.CheckboxQuestions
             .Where(question => question.Id == id).AsQueryable();
 
-        // Umumiy elementlar sonini hisoblash
+        /// <summary>
+        /// Calculating count of checkBoxQuestions
+        /// </summary>
         var totalItems = await query.CountAsync();
 
-        // Sahifalash uchun ishlatilgan skip() va take() metodlarini qo'llash
+        /// <summary>
+        /// Pagination of checkBoxQuestions
+        /// </summary>
         var questions = await query
             .Skip((PageToken - 1) * PageSize)
             .Take(PageSize)
@@ -104,26 +107,24 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
 
     public async Task<CheckBoxQuestion> GetByQuestionTitleAsync(string Title, CancellationToken cancellationToken, bool saveChanges = true)
     {
+        
         var searchingQuestionWithTitle = _appDataContext.CheckboxQuestions.FirstOrDefault(c => c.Title == Title);
+        
         if (searchingQuestionWithTitle == null)
-        {
-            throw new NotImplementedException("This Title not using!!");
-        }
+            throw new ArgumentNullException($"{Title}", "Question with this title is not exist!");
+                            
         return searchingQuestionWithTitle;
     }
     public Task<IEnumerable<CheckBoxQuestion>> GetByQuestionCategoryAsync(string category ,CancellationToken cancellationToken, bool saveChanges = true)
     {
-        var existingCategory =
-            _appDataContext.Categories.FirstOrDefault(x => x.Name.Equals(category, StringComparison.OrdinalIgnoreCase));
+        var existingCategory = 
+                        _appDataContext.Categories.FirstOrDefault(x => x.Name.Equals(category, StringComparison.OrdinalIgnoreCase));
+
         if (existingCategory == null)
-        {
-            throw new NotImplementedException("This Category not using!!");
-        }
+            throw new ArgumentNullException($"{category}", "Question with this category does not exist");
 
         var questionCategory =
             _appDataContext.CheckboxQuestions.Where(question => question.Category.Id == existingCategory.Id);
         return Task.FromResult(questionCategory);
     }
-
-
 }
