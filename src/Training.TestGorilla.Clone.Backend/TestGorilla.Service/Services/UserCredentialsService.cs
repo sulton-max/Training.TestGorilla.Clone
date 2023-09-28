@@ -22,7 +22,6 @@ public class UserCredentialsService : IUserCredentialsService
     public ValueTask<UserCredentials> CreateAsync(UserCredentials userCredentials, bool saveChanges = true, CancellationToken cancellation = default)
     {
         throw new NotImplementedException();
-
     }
 
     public ValueTask<UserCredentials> DeleteAsync(UserCredentials userCredentials, bool saveChanges = true, CancellationToken cancellation = default)
@@ -66,10 +65,10 @@ public class UserCredentialsService : IUserCredentialsService
     {
         if (IsExistsUserCredentials(userCredentials.Id))
             throw new InvalidOperationException("User Credentials already exists");
-        
+
         if (_appDataContext.UserCredentials.Any(userCreadential => userCreadential.UserId == userCredentials.UserId))
             throw new InvalidOperationException("The given user already has Creadentials");
-        
+
         IsValidPassword(userCredentials.Password);
 
         return true;
@@ -77,7 +76,7 @@ public class UserCredentialsService : IUserCredentialsService
 
     private bool IsValidToUpdate(UserCredentials userCredentials)
     {
-        if(!IsExistsUserCredentials(userCredentials.Id))
+        if (!IsExistsUserCredentials(userCredentials.Id))
             throw new InvalidOperationException("User Credentials doesn't exists");
 
         IsValidPassword(userCredentials.Password);
