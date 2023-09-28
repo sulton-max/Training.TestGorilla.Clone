@@ -20,7 +20,7 @@ public class AppFileContext : FileContext ,IDataContext
 
     public IFileSet<Exam, Guid> Exams => Set<Exam>(nameof(Exams));
 
-    public IFileSet<Result, Guid> Result => Set<Result>(nameof(Result));
+    public IFileSet<Result, Guid> Results => Set<Result>(nameof(Result));
 
     public IFileSet<Test, Guid> Tests => Set<Test>(nameof(Tests));
 
