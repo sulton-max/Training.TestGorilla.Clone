@@ -29,7 +29,7 @@ public class Validator
     
     public bool IsValidPassword(string password) =>
              !string.IsNullOrEmpty(password) && Regex.IsMatch(password, PasswordValidatorRegex);
-    
+
     public bool IsValidTitle(string title) => 
              !string.IsNullOrEmpty(title) && Regex.IsMatch(title, TitleValidatorRegex);
     
