@@ -20,7 +20,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
     public async Task<CheckBoxQuestion> Createasync(CheckBoxQuestion question)
     {
         var existingCheckboxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x =>
-            x.Id == question.Id && DateTime.UtcNow - x.CratedTime > TimeSpan.FromMinutes(90));
+            x.Id == question.Id && DateTime.UtcNow - x.CreatedTime > TimeSpan.FromMinutes(90));
         if (existingCheckboxQuestion != null)
         {
             throw new InvalidOperationException($"CheckboxQuestion {question.Id} already exists");
@@ -41,8 +41,8 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         {
             Title = question.Title,
             Description = question.Description,
-            CratedTime = question.CratedTime,
-            UpdateTime = question.UpdateTime,
+            CreatedTime = question.CreatedTime,
+            UpdatedTime = question.UpdatedTime,
             Answer = question.Answer
         };
         CheckBoxQuestion result = (await _appDataContext.CheckboxQuestions.AddAsync(newCheckboxQuestion)).Entity;
@@ -53,7 +53,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
 
     public bool DeleteAsync(Guid questionId)
     {
-        var DeleteCheckBoxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x => x.Id == questionId);
+        var DeleteCheckBoxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x => x.Id == questionId); 
         if (DeleteCheckBoxQuestion != null)
         {
             _appDataContext.CheckboxQuestions.RemoveAsync(DeleteCheckBoxQuestion);
