@@ -10,7 +10,7 @@ namespace TestGorilla.Domain.Models
         public Guid CategoryId { get; set; }
         public decimal TestResult { get; set; }
         public decimal ExamResult { get; set;}
-        public bool IsDelete { get; set; }
+        public bool IsDeleted { get; set; }
         public Result()
         {
             

@@ -27,6 +27,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         var existingCheckboxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x =>
             x.Id == question.Id && DateTime.UtcNow - x.CreatedTime > TimeSpan.FromMinutes(90) && x.Answer.AnswerText == null);
         
+
         if (existingCheckboxQuestion != null)
             throw new InvalidOperationException($"CheckboxQuestion {question.Id} already exists");
         
@@ -49,7 +50,8 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         {
             Title = question.Title,
             Description = question.Description,
-            UpdatedTime = DateTime.UtcNow,
+            CreatedTime = question.CreatedTime,
+            UpdatedTime = question.UpdatedTime,
             Answer = question.Answer
         };
         
@@ -61,7 +63,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
 
     public bool DeleteAsync(Guid questionId, CancellationToken cancellationToken, bool saveChanges = true)
     {
-        var DeleteCheckBoxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x => x.Id == questionId);
+        var DeleteCheckBoxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x => x.Id == questionId); 
         if (DeleteCheckBoxQuestion != null)
         {
             _appDataContext.CheckboxQuestions.RemoveAsync(DeleteCheckBoxQuestion);
