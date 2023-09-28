@@ -19,19 +19,19 @@ public class Validator : IValidatorService
     private const string DescriptionValidatorRegex = @"^.{100,500}$";
     
     public bool IsValidName(string name) =>
-                    !string.IsNullOrEmpty(name) && Regex.IsMatch(name, NameValidatorRegex);
+             !string.IsNullOrEmpty(name) && Regex.IsMatch(name, NameValidatorRegex);
     
     public bool IsValidEmail(string emailAddress) =>
-                    !string.IsNullOrEmpty(emailAddress) && Regex.IsMatch(emailAddress, EmailAddressValidatorRegex);
+             !string.IsNullOrEmpty(emailAddress) && Regex.IsMatch(emailAddress, EmailAddressValidatorRegex);
     
     public bool IsValidPhoneNumber(string phoneNumber) => 
-                    !string.IsNullOrEmpty(phoneNumber) && Regex.IsMatch(phoneNumber, PhoneNumberValidatorRegex);
+             !string.IsNullOrEmpty(phoneNumber) && Regex.IsMatch(phoneNumber, PhoneNumberValidatorRegex);
     
     public bool IsValidPassword(string password) =>
-                    !string.IsNullOrEmpty(password) && Regex.IsMatch(password, PasswordValidatorRegex);
-    
+             !string.IsNullOrEmpty(password) && Regex.IsMatch(password, PasswordValidatorRegex);
+
     public bool IsValidTitle(string title) => 
-                    !string.IsNullOrEmpty(title) && Regex.IsMatch(title, TitleValidatorRegex);
+             !string.IsNullOrEmpty(title) && Regex.IsMatch(title, TitleValidatorRegex);
     
     public bool IsValidDescription(string description) =>
                     !string.IsNullOrEmpty(description) && Regex.IsMatch(description, DescriptionValidatorRegex);
