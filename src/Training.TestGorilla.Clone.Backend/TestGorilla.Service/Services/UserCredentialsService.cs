@@ -39,6 +39,7 @@ public class UserCredentialsService : IUserCredentialsService
     public async ValueTask<UserCredentials> DeleteAsync(UserCredentials userCredentials, bool saveChanges = true, CancellationToken cancellation = default)
     {
         var deleted = await GetById(userCredentials.Id);
+        
         if (deleted is null)
         {
             throw new ValidationException("Credentials not exists");
