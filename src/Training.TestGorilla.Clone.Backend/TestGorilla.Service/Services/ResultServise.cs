@@ -1,9 +1,9 @@
 ﻿using System.Linq.Expressions;
 using TestGorilla.Data.Data;
 using TestGorilla.Domain.Models;
-using TestGorilla.Service.Interface;
+using TestGorilla.Service.Services.Interfaces;
 
-namespace TestGorilla.Service.ResultServise;
+namespace TestGorilla.Service.Services;
 
 public class ResultServise : IResultSrvise
 {
