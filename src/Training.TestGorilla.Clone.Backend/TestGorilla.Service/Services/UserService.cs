@@ -19,7 +19,7 @@ public class UserService : IUserService
 
     public async ValueTask<User> CreateAsync(User user, bool saveChanges = true)
     {
-        await _appDateContext.SaveChangesAsync();
+        await _appDateContext.Users.AddAsync(user);
         if (saveChanges)
             await _appDateContext.SaveChangesAsync();
         return user;
