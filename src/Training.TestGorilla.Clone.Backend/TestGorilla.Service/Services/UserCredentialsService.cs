@@ -53,4 +53,19 @@ public class UserCredentialsService : IUserCredentialsService
     {
         throw new NotImplementedException();
     }
+
+    private bool IsExistsUserCredentials(UserCredentials userCredentials)
+    {
+        return true;
+    }
+
+    private bool IsValidToCreate(UserCredentials userCredentials)
+    {
+        return true;
+    }
+
+    private bool IsValidToUpdate(UserCredentials userCredentials)
+    {
+        return true;
+    }
 }

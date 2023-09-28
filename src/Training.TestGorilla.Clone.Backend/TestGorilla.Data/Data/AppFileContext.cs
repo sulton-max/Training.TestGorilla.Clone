@@ -26,6 +26,8 @@ public class AppFileContext : FileContext ,IDataContext
 
     public IFileSet<User, Guid> Users => Set<User>(nameof(Users));
 
+    public IFileSet<UserCredentials, Guid> UserCredentials => Set<UserCredentials>(nameof(UserCredentials));
+
     public IFileSet<CheckBoxQuestion, Guid> CheckboxQuestions => Set<CheckBoxQuestion>(nameof(CheckboxQuestions));
 
     public IFileSet<MultipleChoiceQuestion, Guid> MultipleQuestions => Set<MultipleChoiceQuestion>(nameof(MultipleQuestions));
