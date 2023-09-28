@@ -19,7 +19,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         _appDataContext = appDataContext;
         _validator = validator;
     }
-    public async Task<CheckBoxQuestion> CreateAsync(CheckBoxQuestion question, bool saveChanges = true)
+    public async Task<CheckBoxQuestion> CreateAsync(CheckBoxQuestion question, CancellationToken cancellationToken, bool saveChanges = true)
     {
         if (!_validator.IsValidDescription(question.Description) || !_validator.IsValidTitle(question.Title))
         {
@@ -36,7 +36,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         return result;
     }
 
-    public async Task<CheckBoxQuestion> UpdateAsync(CheckBoxQuestion question, bool saveChanges = true)
+    public async Task<CheckBoxQuestion> UpdateAsync(CheckBoxQuestion question, CancellationToken cancellationToken, bool saveChanges = true)
     {
         if(!_validator.IsValidTitle(question.Title) || !_validator.IsValidDescription(question.Description))
         {
@@ -60,7 +60,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
 
     }
 
-    public bool DeleteAsync(Guid questionId)
+    public bool DeleteAsync(Guid questionId, CancellationToken cancellationToken, bool saveChanges = true)
     {
         var DeleteCheckBoxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x => x.Id == questionId);
         if (DeleteCheckBoxQuestion != null)
@@ -72,12 +72,12 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         return false;
     }
 
-    public IQueryable<CheckBoxQuestion> Get(Expression<Func<CheckBoxQuestion, bool>> predicate)
+    public IQueryable<CheckBoxQuestion> Get(Expression<Func<CheckBoxQuestion, bool>> predicate, CancellationToken cancellationToken, bool saveChanges = true)
     {
         return _appDataContext.CheckboxQuestions.Where(predicate.Compile()).AsQueryable();
     }
 
-    public async Task<PaginationResult<CheckBoxQuestion>> GetByQuestionIdAsync(Guid id, int PageToken, int PageSize)
+    public async Task<PaginationResult<CheckBoxQuestion>> GetByQuestionIdAsync(Guid id, int PageToken, int PageSize, CancellationToken cancellationToken, bool saveChanges = true)
     {
         var query = _appDataContext.CheckboxQuestions
             .Where(question => question.Id == id).AsQueryable();
@@ -102,7 +102,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         return paginationResult;
     }
 
-    public async Task<CheckBoxQuestion> GetByQuestionTitleAsync(string Title)
+    public async Task<CheckBoxQuestion> GetByQuestionTitleAsync(string Title, CancellationToken cancellationToken, bool saveChanges = true)
     {
         var searchingQuestionWithTitle = _appDataContext.CheckboxQuestions.FirstOrDefault(c => c.Title == Title);
         if (searchingQuestionWithTitle == null)
@@ -111,7 +111,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         }
         return searchingQuestionWithTitle;
     }
-    public Task<IEnumerable<CheckBoxQuestion>> GetByQuestionCategoryAsync(string category)
+    public Task<IEnumerable<CheckBoxQuestion>> GetByQuestionCategoryAsync(string category ,CancellationToken cancellationToken, bool saveChanges = true)
     {
         var existingCategory =
             _appDataContext.Categories.FirstOrDefault(x => x.Name.Equals(category, StringComparison.OrdinalIgnoreCase));
