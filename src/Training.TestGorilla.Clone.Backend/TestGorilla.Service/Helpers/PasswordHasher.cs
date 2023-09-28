@@ -1,10 +1,10 @@
 namespace TestGorilla.Service.Helpers;
 
-public static class PasswordHasher
+public class PasswordHasher: IPasswordHasherService
 {
-    public static string Hash(this string password) =>
+    public string Hash(string password) =>
                     BCrypt.Net.BCrypt.HashPassword(password);
     
-    public static bool Verify(this string password, string hashedPassword) => 
+    public bool Verify(string password, string hashedPassword) => 
                     BCrypt.Net.BCrypt.Verify(password, hashedPassword);
 }

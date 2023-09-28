@@ -3,22 +3,28 @@ using System.Linq.Expressions;
 using TestGorilla.Data.Data;
 using TestGorilla.Domain.Models;
 using TestGorilla.Domain.Models.Question;
+using TestGorilla.Service.Helpers;
+using TestGorilla.Service.Services.Interfaces;
 
-namespace TestGroilla.Service;
+namespace TestGorilla.Service.Services;
 
 public class CheckBoxQuestionService : ICheckBoxQuestionService
 {
     private readonly IDataContext _appDataContext;
     private ICheckBoxQuestionService _checkBoxQuestionServiceImplementation;
+    private readonly Validator _validator;
 
-    public CheckBoxQuestionService(IDataContext appDataContext)
+    public CheckBoxQuestionService(IDataContext appDataContext, Validator validator)
     {
         _appDataContext = appDataContext;
+        _validator = validator;
     }
-
-
-    public async Task<CheckBoxQuestion> Createasync(CheckBoxQuestion question)
+    public async Task<CheckBoxQuestion> CreateAsync(CheckBoxQuestion question, CancellationToken cancellationToken, bool saveChanges = true)
     {
+        if (!_validator.IsValidDescription(question.Description) || !_validator.IsValidTitle(question.Title))
+        {
+            throw new ArgumentException("Question is not valid!!");
+        }
         var existingCheckboxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x =>
             x.Id == question.Id && DateTime.UtcNow - x.CreatedTime > TimeSpan.FromMinutes(90));
         if (existingCheckboxQuestion != null)
@@ -30,10 +36,14 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         return result;
     }
 
-    public async Task<CheckBoxQuestion> UpdateAsync(CheckBoxQuestion question)
+    public async Task<CheckBoxQuestion> UpdateAsync(CheckBoxQuestion question, CancellationToken cancellationToken, bool saveChanges = true)
     {
-        var UpdatingCheckBoxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x => x.Id == question.Id);
-        if (UpdatingCheckBoxQuestion == null)
+        if(!_validator.IsValidTitle(question.Title) || !_validator.IsValidDescription(question.Description))
+        {
+            throw new ArgumentException("Updated Question is not valid!!");
+        }
+        var updatingCheckBoxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x => x.Id == question.Id);
+        if (updatingCheckBoxQuestion == null)
         {
             throw new NotImplementedException("This Question does not exist");
         }
@@ -51,7 +61,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
 
     }
 
-    public bool DeleteAsync(Guid questionId)
+    public bool DeleteAsync(Guid questionId, CancellationToken cancellationToken, bool saveChanges = true)
     {
         var DeleteCheckBoxQuestion = _appDataContext.CheckboxQuestions.FirstOrDefault(x => x.Id == questionId); 
         if (DeleteCheckBoxQuestion != null)
@@ -63,12 +73,12 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         return false;
     }
 
-    public IQueryable<CheckBoxQuestion> Get(Expression<Func<CheckBoxQuestion, bool>> predicate)
+    public IQueryable<CheckBoxQuestion> Get(Expression<Func<CheckBoxQuestion, bool>> predicate, CancellationToken cancellationToken, bool saveChanges = true)
     {
         return _appDataContext.CheckboxQuestions.Where(predicate.Compile()).AsQueryable();
     }
 
-    public async Task<PaginationResult<CheckBoxQuestion>> GetByQuestionIdAsync(Guid id, int PageToken, int PageSize)
+    public async Task<PaginationResult<CheckBoxQuestion>> GetByQuestionIdAsync(Guid id, int PageToken, int PageSize, CancellationToken cancellationToken, bool saveChanges = true)
     {
         var query = _appDataContext.CheckboxQuestions
             .Where(question => question.Id == id).AsQueryable();
@@ -93,7 +103,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         return paginationResult;
     }
 
-    public async Task<CheckBoxQuestion> GetByQuestionTitleAsync(string Title)
+    public async Task<CheckBoxQuestion> GetByQuestionTitleAsync(string Title, CancellationToken cancellationToken, bool saveChanges = true)
     {
         var searchingQuestionWithTitle = _appDataContext.CheckboxQuestions.FirstOrDefault(c => c.Title == Title);
         if (searchingQuestionWithTitle == null)
@@ -102,7 +112,7 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         }
         return searchingQuestionWithTitle;
     }
-    public Task<IEnumerable<CheckBoxQuestion>> GetByQuestionCategoryAsync(string category)
+    public Task<IEnumerable<CheckBoxQuestion>> GetByQuestionCategoryAsync(string category ,CancellationToken cancellationToken, bool saveChanges = true)
     {
         var existingCategory =
             _appDataContext.Categories.FirstOrDefault(x => x.Name.Equals(category, StringComparison.OrdinalIgnoreCase));
@@ -116,5 +126,5 @@ public class CheckBoxQuestionService : ICheckBoxQuestionService
         return Task.FromResult(questionCategory);
     }
 
-   
+
 }
