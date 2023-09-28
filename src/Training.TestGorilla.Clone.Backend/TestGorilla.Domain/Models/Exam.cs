@@ -13,8 +13,12 @@ public class Exam : Auditable, IEntity
     public bool IsActive { get; set; } = false;
     public bool IsDeleted { get; set; }
 
-    public Exam(string title, string description, TimeSpan duration)
+    public Exam(string title, string description, TimeSpan duration, Guid examinatorId,Guid creatorId)
     {
-
+        Title = title;
+        Description = description;
+        Duration = duration;
+        ExaminatorId = examinatorId;
+        CreatorId = creatorId;
     }
 }
