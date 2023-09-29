@@ -1,5 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+<<<<<<< HEAD
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Extensions\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BCrypt.Net" Version="0.1.0" />
+      <PackageReference Include="Max.FileBaseContext.Context" Version="0.0.4" />
+    </ItemGroup>
+=======
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -7,11 +23,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
+    <ProjectReference Include="..\TestGorilla.Data\TestGorilla.Data.csproj" />
   </ItemGroup>
 
+
   <ItemGroup>
-    <ProjectReference Include="..\TestGorilla.DataAccess\TestGorilla.DataAccess.csproj" />
+    <PackageReference Include="BCrypt.Net" Version="0.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
   </ItemGroup>
+>>>>>>> bfa2f0906d5c70b03208bc389a3a53826ace22df
 
 </Project>

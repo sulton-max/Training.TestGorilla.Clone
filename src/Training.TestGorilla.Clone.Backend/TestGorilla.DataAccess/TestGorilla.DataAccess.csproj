@@ -11,8 +11,4 @@
       <PackageReference Include="Max.FileBaseContext.Context" Version="0.0.4" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\TestGorilla.Domain\TestGorilla.Domain.csproj" />
-    </ItemGroup>
-
 </Project>
