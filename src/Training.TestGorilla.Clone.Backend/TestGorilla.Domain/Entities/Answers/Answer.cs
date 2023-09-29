@@ -1,7 +1,6 @@
 ﻿namespace TestGorilla.Domain.Entities.Answers;
-public class Answer
+public class Answer : Auditable
 {
-    public Guid Id {  get; set; }
     public Guid QuestionId { get; set; }
     public bool IsCorrect { get; set; }
 }
