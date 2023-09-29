@@ -1,8 +1,8 @@
 namespace TestGorilla.Domain.Commons;
 
-public abstract class Auditable
+public abstract class Auditable : IEntity
 {
-    public Guid Id {get;}
-    public DateTime CreatedTime { get;}
-    public DateTime UpdatedTime { get;}
+    public Guid Id { get; set; }
+    public DateTime CreatedTime { get; set; }
+    public DateTime UpdatedTime { get;set;}
 }
