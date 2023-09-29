@@ -17,6 +17,8 @@ public class User : Auditable
     
     public string PhoneNumber { get; set; }
     
+    public DateTime CreatedTime { get; set; }
+    
     public DateTime DeletedTime { get; set; }
     
     public bool IsDeleted { get; set; }
