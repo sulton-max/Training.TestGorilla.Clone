@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGorilla.Data", "TestGorilla.Data\TestGorilla.Data.csproj", "{6DBC526B-A2A5-46D1-BB18-0B275BA7ECB8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGorilla.DataAccess", "TestGorilla.DataAccess\TestGorilla.DataAccess.csproj", "{6DBC526B-A2A5-46D1-BB18-0B275BA7ECB8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGorilla.Domain", "TestGorilla.Domain\TestGorilla.Domain.csproj", "{5B273755-A31C-49A6-8D03-460CBA9FAF00}"
 EndProject
