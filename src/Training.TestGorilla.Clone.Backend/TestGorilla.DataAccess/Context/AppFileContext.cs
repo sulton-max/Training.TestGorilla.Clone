@@ -29,7 +29,7 @@ public class AppFileContext : FileContext, IDataContext
 
     public IFileSet<UserAnswers, Guid> UserAnswers => Set<UserAnswers>(nameof(UserAnswers));
 
-    public IFileSet<UserCredential, Guid> UserCredentials => Set<UserCredential>(nameof(UserCredentials));
+    public IFileSet<UserCredentials, Guid> UserCredentials => Set<UserCredentials>(nameof(UserCredentials));
 
     public IFileSet<Category, Guid> Categories => Set<Category>(nameof(Categories));
 
