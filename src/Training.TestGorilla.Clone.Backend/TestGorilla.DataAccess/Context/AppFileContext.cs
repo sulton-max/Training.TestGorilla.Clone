@@ -21,7 +21,7 @@ public class AppFileContext : FileContext, IDataContext
 
     public IFileSet<CheckBoxQuestion, Guid> CheckBoxQuestions => Set<CheckBoxQuestion>(nameof(CheckBoxQuestions));
 
-    public IFileSet<MultipleChoiceQuestion, Guid> MultipleChoiceQuestions => Set<MultipleChoiceQuestion>(nameof(CheckBoxQuestions));
+    public IFileSet<MultipleChoiceQuestion, Guid> MultipleChoiceQuestions => Set<MultipleChoiceQuestion>(nameof(MultipleChoiceQuestions));
 
     public IFileSet<ShortAnswerTypeQuestion, Guid> ShortAnswerTypeQuestions => Set<ShortAnswerTypeQuestion>(nameof(ShortAnswerTypeQuestions));
 
