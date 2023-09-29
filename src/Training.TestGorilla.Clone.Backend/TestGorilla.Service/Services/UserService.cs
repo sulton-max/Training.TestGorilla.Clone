@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+namespace TestGorilla.Service.Services;
+
+public class UserService
+{
+    
+}
+=======
 ﻿using System.Linq.Expressions;
 using TestGorilla.Data.Data;
 using TestGorilla.Domain.Models;
@@ -73,3 +81,4 @@ public class UserService : IUserService
         return existUser;
     }
 }
+>>>>>>> bfa2f0906d5c70b03208bc389a3a53826ace22df

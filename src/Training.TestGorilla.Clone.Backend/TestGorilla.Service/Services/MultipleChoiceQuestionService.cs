@@ -24,7 +24,11 @@ namespace TestGorilla.Service.Services
                 throw new InvalidOperationException("This Question is not Valid!!");
             }
             var creatingMultipleChoceQuestion = _appDataContext.MultipleQuestions.FirstOrDefault(x =>
+<<<<<<< HEAD
+                x.Id == question.Id && DateTime.UtcNow - x.Duration > TimeSpan.FromMinutes(90) && x.Answer.AnswerText == null);
+=======
                 x.Id == question.Id && DateTime.UtcNow - x.CreatedTime > TimeSpan.FromMinutes(90) && x.Answer.AnswerText == null);
+>>>>>>> bfa2f0906d5c70b03208bc389a3a53826ace22df
             if (creatingMultipleChoceQuestion != null)
             {
                 throw new InvalidOperationException($"CheckboxQuestion {question.Id} already exists");

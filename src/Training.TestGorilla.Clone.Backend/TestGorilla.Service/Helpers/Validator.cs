@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+namespace TestGorilla.Service.Helpers;
+
+public class Validator
+{
+    
+=======
 using System.Text.RegularExpressions;
 
 namespace TestGorilla.Service.Helpers;
@@ -35,4 +42,5 @@ public class Validator : IValidatorService
     
     public bool IsValidDescription(string description) =>
                     !string.IsNullOrEmpty(description) && Regex.IsMatch(description, DescriptionValidatorRegex);
+>>>>>>> bfa2f0906d5c70b03208bc389a3a53826ace22df
 }
