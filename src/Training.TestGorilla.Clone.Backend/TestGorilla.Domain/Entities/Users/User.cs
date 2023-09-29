@@ -17,8 +17,6 @@ public class User : Auditable
     
     public string PhoneNumber { get; set; }
     
-    public DateTime DeletedTime { get; set; }
-    
     public bool IsDeleted { get; set; }
 
     public User(Guid id, string firstName, string lastName, string emailAddress, UserRole role, DateTime dateOfBirth, string phoneNumber)
@@ -31,7 +29,7 @@ public class User : Auditable
         DateOfBirth = dateOfBirth;
         PhoneNumber = phoneNumber;
         CreatedTime = DateTime.UtcNow;
-        DeletedTime = default(DateTime);
+        UpdatedTime = default(DateTime);
         IsDeleted = false;
     }
 
