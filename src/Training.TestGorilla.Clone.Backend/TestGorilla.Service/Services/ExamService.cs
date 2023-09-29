@@ -2,9 +2,9 @@
 using System.Linq.Expressions;
 using TestGorilla.Data.Data;
 using TestGorilla.Domain.Models;
-using TestGorilla.Service;
+using TestGorilla.Service.Services.Interfaces;
 
-namespace TestGorilla.Servickee;
+namespace TestGorilla.Service.Services;
 
 public class ExamService : IExamService
 {

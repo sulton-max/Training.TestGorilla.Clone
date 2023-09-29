@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using TestGorilla.Domain.Models;
 
-namespace TestGorilla.Service
+namespace TestGorilla.Service.Services.Interfaces
 {
     public interface IExamService
     {

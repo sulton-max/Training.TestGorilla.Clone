@@ -7,7 +7,7 @@ using TestGorilla.Domain.Models.Question;
 using TestGorilla.Domain.Models.Questions;
 
 namespace TestGorilla.Data.Data;
-public class AppFileContext : FileContext ,IDataContext
+public class AppFileContext : FileContext, IDataContext
 {
     public AppFileContext(IFileContextOptions<AppFileContext> fileContextOptions) : base(fileContextOptions)
     {
