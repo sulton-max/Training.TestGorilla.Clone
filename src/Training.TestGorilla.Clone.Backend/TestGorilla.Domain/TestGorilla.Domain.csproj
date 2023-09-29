@@ -10,4 +10,8 @@
       <Folder Include="Entities\Users\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Max.FileBaseContext.Context" Version="0.0.4" />
+    </ItemGroup>
+
 </Project>
