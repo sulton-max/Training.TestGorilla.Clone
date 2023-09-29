@@ -24,4 +24,8 @@
     <PackageReference Include="Max.FileBaseContext.Context" Version="0.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Constans\" />
+  </ItemGroup>
+
 </Project>
