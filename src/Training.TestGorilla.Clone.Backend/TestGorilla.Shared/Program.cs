@@ -1,3 +1,2 @@
-﻿// See https://aka.ms/new-console-template for more information
-
+﻿// Newer push codes which you write here
 Console.WriteLine("Hello, World!");
