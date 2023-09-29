@@ -1,7 +1,5 @@
-﻿namespace TestGorilla.Domain
-{
-    public class Class1
-    {
+﻿namespace TestGorilla.Domain;
 
-    }
+public class Class1
+{
 }

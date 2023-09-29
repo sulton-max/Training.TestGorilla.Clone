@@ -1,7 +1,5 @@
-﻿namespace TestGorilla.Data
-{
-    public class Class1
-    {
+﻿namespace TestGorilla.Data;
 
-    }
+public class Class1
+{
 }
