@@ -10,4 +10,5 @@ public class UserAnswers : Auditable
     public Guid AssessmentId { get; set; }
     public ICollection<IQuestion>? Questions { get; set; }
     public ICollection<Answer>? Answer { get; set; }
+    
 }
