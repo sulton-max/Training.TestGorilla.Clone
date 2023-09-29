@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="BCrypt.Net" Version="0.1.0" />
       <PackageReference Include="Max.FileBaseContext.Context" Version="0.0.4" />
     </ItemGroup>
 
