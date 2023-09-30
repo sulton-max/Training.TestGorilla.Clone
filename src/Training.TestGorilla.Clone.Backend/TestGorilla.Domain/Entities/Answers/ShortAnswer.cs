@@ -15,6 +15,6 @@ public class ShortAnswer : Auditable
         QuestionId = questionId;
         AnswerText = answerText;
         IsCorrect = false;
-        IsChecked = false;
+        IsChecked = false; 
     }
 }
