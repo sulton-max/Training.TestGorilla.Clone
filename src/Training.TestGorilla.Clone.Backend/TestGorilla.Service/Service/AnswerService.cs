@@ -1,4 +1,4 @@
-﻿using TestGorilla.Domain.Entities.Answers;
+using TestGorilla.Domain.Entities.Answers;
 using TestGorilla.Service.Interface;
 using TestGorilla.Service.Helpers;
 using TestGorilla.DataAccess.Context;
@@ -44,8 +44,8 @@ public class AnswerService : IAnswerService
             return answer;
         });
 
-        if(QuestionsAnswers.Count == 0)
-            throw new InvalidOperationException();
+        if (QuestionsAnswers.Count == 0)
+            throw new InvalidOperationException("");
 
         return new ValueTask<ICollection<Answer>>(QuestionsAnswers);
     }
@@ -59,7 +59,7 @@ public class AnswerService : IAnswerService
             .FirstOrDefault(a => a.AnswerText == answer.AnswerText && a.Id == answer.Id && a.QuestionId == answer.QuestionId);
         
         if (isUniqueText == null)
-            throw new DuplicateNameException();
+            throw new DuplicateNameException("No answers based on the question's answers.");
 
         _appDataContext.Answers.AddAsync(answer);
 
@@ -70,7 +70,7 @@ public class AnswerService : IAnswerService
         var searchingAnswer = _appDataContext.Answers.FirstOrDefault(a => a.Id == answer.Id);
 
         if (searchingAnswer == null)
-            throw new InvalidOperationException();
+            throw new InvalidOperationException("Answer is not exist.");
         searchingAnswer.AnswerText = answer.AnswerText;
         searchingAnswer.UpdatedTime = DateTime.UtcNow;
         searchingAnswer.IsCorrect = answer.IsCorrect;
@@ -83,7 +83,7 @@ public class AnswerService : IAnswerService
         var searchingAnswer = _appDataContext.Answers.FirstOrDefault(a => a.Id == answeId);
         
         if (searchingAnswer == null)
-            throw new InvalidOperationException();
+            throw new InvalidOperationException("Answer is not exists in this question.");
 
         searchingAnswer.IsDeleted = true;
         searchingAnswer.DeletedDate = DateTime.UtcNow;
