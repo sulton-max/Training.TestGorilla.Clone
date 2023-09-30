@@ -14,6 +14,6 @@ public interface IDataContext : IAsyncDisposable
     IFileSet<ShortAnswerTypeQuestion, Guid> ShortAnswerTypeQuestions { get;}
     IFileSet<User, Guid> Users { get;}
     IFileSet<UserAnswers, Guid> UserAnswers { get;}
-    IFileSet<UserCredential, Guid> UserCredentials { get;}
+    IFileSet<UserCredentials, Guid> UserCredentials { get;}
     IFileSet<Category, Guid> Categories { get;}
 }
