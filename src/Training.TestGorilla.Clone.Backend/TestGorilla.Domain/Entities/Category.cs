@@ -7,4 +7,13 @@ namespace TestGorilla.Domain.Entities;
 public abstract class Category : Auditable, IEntity
 {
     public string? CategoryName { get; set; }
+
+    public Category()
+    {
+    }
+
+    protected Category(string? categoryName)
+    {
+        CategoryName = categoryName;
+    }
 }
