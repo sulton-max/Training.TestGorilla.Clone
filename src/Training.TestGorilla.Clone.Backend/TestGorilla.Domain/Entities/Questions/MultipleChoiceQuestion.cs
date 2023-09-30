@@ -1,4 +1,5 @@
 using TestGorilla.Domain.Commons;
+using TestGorilla.Domain.Entities.Answers;
 
 namespace TestGorilla.Domain.Entities.Questions;
 
