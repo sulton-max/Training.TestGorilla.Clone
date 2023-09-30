@@ -59,9 +59,14 @@ public class ShortAnswerService : IShortAnswerService
 
         if (searchingAnswer == null)
             throw new InvalidOperationException("Answer does not exist.");
+
+        if (answer.IsChecked != true && answer.IsCorrect != false)
+            throw new InvalidOperationException("Answer modification not allowed if unchecked.");
+
         searchingAnswer.AnswerText = answer.AnswerText;
-        searchingAnswer.UpdatedTime = DateTime.UtcNow;
         searchingAnswer.IsCorrect = answer.IsCorrect;
+        searchingAnswer.IsChecked = answer.IsChecked;
+        searchingAnswer.UpdatedTime = DateTime.UtcNow;
 
         if (saveChanges)
             _appDataContext.ShortAnswers.SaveChangesAsync(cancellationToken);
