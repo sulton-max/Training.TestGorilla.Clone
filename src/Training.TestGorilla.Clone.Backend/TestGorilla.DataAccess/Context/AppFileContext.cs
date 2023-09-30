@@ -24,6 +24,8 @@ public class AppFileContext : FileContext, IDataContext
     public IFileSet<MultipleChoiceQuestion, Guid> MultipleChoiceQuestions => Set<MultipleChoiceQuestion>(nameof(MultipleChoiceQuestions));
 
     public IFileSet<ShortAnswerTypeQuestion, Guid> ShortAnswerTypeQuestions => Set<ShortAnswerTypeQuestion>(nameof(ShortAnswerTypeQuestions));
+   
+    public IFileSet<ShortAnswer, Guid> ShortAnswers => Set<ShortAnswer>(nameof(ShortAnswers));
 
     public IFileSet<User, Guid> Users => Set<User>(nameof(Users));
 
