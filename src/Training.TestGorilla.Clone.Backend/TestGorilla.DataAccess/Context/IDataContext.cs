@@ -12,6 +12,7 @@ public interface IDataContext : IAsyncDisposable
     IFileSet<CheckBoxQuestion, Guid> CheckBoxQuestions { get;}
     IFileSet<MultipleChoiceQuestion, Guid> MultipleChoiceQuestions { get;}
     IFileSet<ShortAnswerTypeQuestion, Guid> ShortAnswerTypeQuestions { get;}
+    IFileSet<ShortAnswer, Guid> ShortAnswers { get;}
     IFileSet<User, Guid> Users { get;}
     IFileSet<UserAnswers, Guid> UserAnswers { get;}
     IFileSet<UserCredentials, Guid> UserCredentials { get;}
