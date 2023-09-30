@@ -3,9 +3,7 @@ using TestGorilla.Service.Interface;
 using TestGorilla.Service.Helpers;
 using TestGorilla.DataAccess.Context;
 using System.Data;
-using System.Runtime.Serialization;
 using System.Linq.Expressions;
-using System;
 
 namespace TestGorilla.Service.Service;
 public class AnswerService : IAnswerService
@@ -15,8 +13,8 @@ public class AnswerService : IAnswerService
 
     public AnswerService(IDataContext appDataContext, Validator validator)
     {
-        _validator = validator;
         _appDataContext = appDataContext;
+        _validator = validator;
     }
 
     public IQueryable<Answer> Get(Expression<Func<Answer, bool>> predicate)
@@ -74,6 +72,7 @@ public class AnswerService : IAnswerService
 
         if (searchingAnswer == null)
             throw new InvalidOperationException("Answer is not exist.");
+
         searchingAnswer.AnswerText = answer.AnswerText;
         searchingAnswer.UpdatedTime = DateTime.UtcNow;
         searchingAnswer.IsCorrect = answer.IsCorrect;
