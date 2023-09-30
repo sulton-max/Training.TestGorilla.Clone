@@ -3,20 +3,18 @@ using TestGorilla.Service.Interface;
 using TestGorilla.Service.Helpers;
 using TestGorilla.DataAccess.Context;
 using System.Data;
-using System.Runtime.Serialization;
 using System.Linq.Expressions;
-using System;
 
 namespace TestGorilla.Service.Service;
 public class AnswerService : IAnswerService
 {
     private readonly IDataContext _appDataContext;
-    private Validator _validator;
+    private readonly Validator _validator;
 
     public AnswerService(IDataContext appDataContext, Validator validator)
     {
-        _validator = validator;
         _appDataContext = appDataContext;
+        _validator = validator;
     }
 
     public IQueryable<Answer> Get(Expression<Func<Answer, bool>> predicate)
@@ -35,22 +33,22 @@ public class AnswerService : IAnswerService
 
     public ValueTask<ICollection<Answer>> GetByQuestionIdAsync(Guid questionId)
     {
-        ICollection<Answer> QuestionsAnswers = new List<Answer>();
+        ICollection<Answer> questionsAnswers = new List<Answer>();
         
         _appDataContext.Answers.Select(answer =>
         {
             if (answer.QuestionId == questionId)
-                QuestionsAnswers.Add(answer);
+                questionsAnswers.Add(answer);
             return answer;
         });
 
-        if (QuestionsAnswers.Count == 0)
+        if (questionsAnswers.Count == 0)
             throw new InvalidOperationException("No answers based on the question's answers.");
 
-        return new ValueTask<ICollection<Answer>>(QuestionsAnswers);
+        return new ValueTask<ICollection<Answer>>(questionsAnswers);
     }
 
-    public ValueTask<Answer> CreateAsync(Answer answer)
+    public ValueTask<Answer> CreateAsync(Answer answer, bool saveChanges = true, CancellationToken cancellationToken = default)
     {
         if (_validator.IsValidTitle(answer.AnswerText) == false)
             throw new Exception();
@@ -63,30 +61,40 @@ public class AnswerService : IAnswerService
 
         _appDataContext.Answers.AddAsync(answer);
 
+        if (saveChanges)
+            _appDataContext.Answers.SaveChangesAsync(cancellationToken);
+
         return new ValueTask<Answer>(answer);
     }
-    public ValueTask<Answer> UpdateAsync(Answer answer)
+    public ValueTask<Answer> UpdateAsync(Answer answer, bool saveChanges = true, CancellationToken cancellationToken = default)
     {
         var searchingAnswer = _appDataContext.Answers.FirstOrDefault(a => a.Id == answer.Id);
 
         if (searchingAnswer == null)
             throw new InvalidOperationException("Answer is not exist.");
+
         searchingAnswer.AnswerText = answer.AnswerText;
         searchingAnswer.UpdatedTime = DateTime.UtcNow;
         searchingAnswer.IsCorrect = answer.IsCorrect;
 
+        if (saveChanges)
+            _appDataContext.Answers.SaveChangesAsync(cancellationToken);
+
         return new ValueTask<Answer>(answer);
     }
 
-    public ValueTask<Answer> DeleteAsync(Guid answeId)
+    public ValueTask<Answer> DeleteAsync(Guid answerId, bool saveChanges = true, CancellationToken cancellationToken = default)
     {
-        var searchingAnswer = _appDataContext.Answers.FirstOrDefault(a => a.Id == answeId);
+        var searchingAnswer = _appDataContext.Answers.FirstOrDefault(a => a.Id == answerId);
         
         if (searchingAnswer == null)
             throw new InvalidOperationException("Answer is not exists in this question.");
 
         searchingAnswer.IsDeleted = true;
         searchingAnswer.DeletedDate = DateTime.UtcNow;
+
+        if (saveChanges)
+            _appDataContext.Answers.SaveChangesAsync(cancellationToken);
 
         return new ValueTask<Answer>(searchingAnswer);
     }
