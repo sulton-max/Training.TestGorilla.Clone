@@ -8,8 +8,8 @@ public interface IAnswerService
 {
     IQueryable<Answer> Get(Expression<Func<Answer, bool>> predicate);
     ValueTask<Answer> GetByIdAsync(Guid id);
-    ValueTask<Answer> CreateAsync(Answer answer);
-    ValueTask<Answer> UpdateAsync(Answer answer);
-    ValueTask<Answer> DeleteAsync(Guid answeId);
-    ValueTask<ICollection<Answer>> GetByQuestionIdAsync(Guid questionId);
+    ValueTask<ICollection<Answer>> GetByQuestionIdAsync(Guid questionId); 
+    ValueTask<Answer> CreateAsync(Answer answer, bool saveChanges = true, CancellationToken cancellationToken = default);
+    ValueTask<Answer> UpdateAsync(Answer answer, bool saveChanges = true, CancellationToken cancellationToken = default);
+    ValueTask<Answer> DeleteAsync(Guid answeId, bool saveChanges = true, CancellationToken cancellationToken = default);
 }
