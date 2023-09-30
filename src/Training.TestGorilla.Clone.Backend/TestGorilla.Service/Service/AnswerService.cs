@@ -45,7 +45,7 @@ public class AnswerService : IAnswerService
         });
 
         if (QuestionsAnswers.Count == 0)
-            throw new InvalidOperationException("");
+            throw new InvalidOperationException("No answers based on the question's answers.");
 
         return new ValueTask<ICollection<Answer>>(QuestionsAnswers);
     }
@@ -59,7 +59,7 @@ public class AnswerService : IAnswerService
             .FirstOrDefault(a => a.AnswerText == answer.AnswerText && a.Id == answer.Id && a.QuestionId == answer.QuestionId);
         
         if (isUniqueText == null)
-            throw new DuplicateNameException("No answers based on the question's answers.");
+            throw new DuplicateNameException("Data of this object is a duplicate of existing data in this question's answers.");
 
         _appDataContext.Answers.AddAsync(answer);
 
