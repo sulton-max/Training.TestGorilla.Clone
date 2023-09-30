@@ -14,8 +14,8 @@ public class ShortAnswerService : IShortAnswerService
 
     public ShortAnswerService(IDataContext appDataContext, Validator validator)
     {
-        _validator = validator;
         _appDataContext = appDataContext;
+        _validator = validator;
     }
 
     public IQueryable<ShortAnswer> Get(Expression<Func<ShortAnswer, bool>> predicate)
@@ -32,7 +32,6 @@ public class ShortAnswerService : IShortAnswerService
 
         return new ValueTask<ShortAnswer>(searchingAnswer);
     }
-
 
     public ValueTask<ShortAnswer> CreateAsync(ShortAnswer answer, bool saveChanges = true, CancellationToken cancellationToken = default)
     {
