@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 using TestGorilla.DataAccess.Context;
 using TestGorilla.Domain.Entities.Answers;
 using TestGorilla.Service.Helpers;
@@ -89,5 +88,4 @@ public class ShortAnswerService : IShortAnswerService
 
         return new ValueTask<ShortAnswer>(searchingAnswer);
     }
-
 }
