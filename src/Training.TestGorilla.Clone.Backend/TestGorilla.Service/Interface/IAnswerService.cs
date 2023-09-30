@@ -10,5 +10,5 @@ public interface IAnswerService
     ValueTask<ICollection<Answer>> GetByQuestionIdAsync(Guid questionId); 
     ValueTask<Answer> CreateAsync(Answer answer, bool saveChanges = true, CancellationToken cancellationToken = default);
     ValueTask<Answer> UpdateAsync(Answer answer, bool saveChanges = true, CancellationToken cancellationToken = default);
-    ValueTask<Answer> DeleteAsync(Guid answeId, bool saveChanges = true, CancellationToken cancellationToken = default);
+    ValueTask<Answer> DeleteAsync(Guid answerId, bool saveChanges = true, CancellationToken cancellationToken = default);
 }

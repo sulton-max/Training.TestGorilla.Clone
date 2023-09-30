@@ -9,7 +9,7 @@ namespace TestGorilla.Service.Service;
 public class AnswerService : IAnswerService
 {
     private readonly IDataContext _appDataContext;
-    private Validator _validator;
+    private readonly Validator _validator;
 
     public AnswerService(IDataContext appDataContext, Validator validator)
     {
@@ -33,19 +33,19 @@ public class AnswerService : IAnswerService
 
     public ValueTask<ICollection<Answer>> GetByQuestionIdAsync(Guid questionId)
     {
-        ICollection<Answer> QuestionsAnswers = new List<Answer>();
+        ICollection<Answer> questionsAnswers = new List<Answer>();
         
         _appDataContext.Answers.Select(answer =>
         {
             if (answer.QuestionId == questionId)
-                QuestionsAnswers.Add(answer);
+                questionsAnswers.Add(answer);
             return answer;
         });
 
-        if (QuestionsAnswers.Count == 0)
+        if (questionsAnswers.Count == 0)
             throw new InvalidOperationException("No answers based on the question's answers.");
 
-        return new ValueTask<ICollection<Answer>>(QuestionsAnswers);
+        return new ValueTask<ICollection<Answer>>(questionsAnswers);
     }
 
     public ValueTask<Answer> CreateAsync(Answer answer, bool saveChanges = true, CancellationToken cancellationToken = default)
