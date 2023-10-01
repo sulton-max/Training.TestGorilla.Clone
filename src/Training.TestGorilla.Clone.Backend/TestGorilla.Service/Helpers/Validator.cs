@@ -3,19 +3,24 @@ using TestGorilla.Domain.Constans;
 
 namespace TestGorilla.Service.Helpers;
 
-public class Validator 
+public class ValidationService
 {
     /// <summary>
     /// Regex validation for exam, test and question
     /// </summary>
     private const string TitleValidationRegex = @"^.{10,50}$";
+    
     private const string DescriptionValidationRegex = @"^.{40,500}$";
+    
     /// <summary>
     /// Regex for user information
     /// </summary>
     private const string NameValidationRegex = @"^[A-Za-z ]{3,20}$";
+    
     private const string EmailValidationRegex = @"^[\w-\.]+@([\w-]+\.)+[\w-]{8,32}$";
+    
     private const string PasswordValidationRegex = @"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$";
+    
     private const string PhoneNumberValidationRegex = @"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]{7,20}$";
 
     public bool IsValidTitle(string text) =>
@@ -36,4 +41,5 @@ public class Validator
     
     public bool IsValidPhoneNumber(string phoneNumber) => 
              !string.IsNullOrWhiteSpace(phoneNumber) && Regex.IsMatch(phoneNumber, PhoneNumberValidationRegex);
+
 }
