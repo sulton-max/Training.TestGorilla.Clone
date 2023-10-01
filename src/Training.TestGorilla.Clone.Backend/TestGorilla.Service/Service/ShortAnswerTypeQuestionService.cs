@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using TestGorilla.DataAccess.Context;
 using TestGorilla.Domain.Entities;
 using TestGorilla.Domain.Entities.Questions;
@@ -79,10 +80,41 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
 
     }
 
-    public Task<PaginationResult<ShortAnswerTypeQuestion>> GetAsync(ShortAnswerTypeQuestion question, int PageToken, int PageSize, CancellationToken cancellationToken,
+    public async Task<PaginationResult<ShortAnswerTypeQuestion>> GetAsync(ShortAnswerTypeQuestion question, int PageToken, int PageSize, CancellationToken cancellationToken,
         bool saveChanges = true)
     {
-        throw new NotImplementedException();
+        if (PageToken < 1)
+        {
+            throw new ArgumentException("PageToken must be greater than or equal to 1");
+        }
+
+        if (PageSize < 1)
+        {
+            throw new ArgumentException("PageSize must be greater than or equal to 1");
+        }
+        
+        var query = _appDataContext.MultipleChoiceQuestions.AsQueryable();
+        
+        if (!string.IsNullOrEmpty(question.Title))
+        {
+            query = query.Where(q => q.Title.Contains(question.Title));
+        }
+       
+        query = query.Skip((PageToken - 1) * PageSize).Take(PageSize);
+
+        var questions = await query.ToListAsync(cancellationToken);
+
+        
+        var totalItem = await query.CountAsync(cancellationToken);
+
+        var paginationResult = new PaginationResult<ShortAnswerTypeQuestion>
+        {
+            TotalItems = totalItem,
+            PageToken = PageToken,
+            PageSize = PageSize
+        };
+
+        return paginationResult;
     }
 
     public Task<ShortAnswerTypeQuestion> GetByIdAsync(Guid id, CancellationToken cancellationToken, bool saveChanges = true)
