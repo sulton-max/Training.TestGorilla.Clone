@@ -18,7 +18,7 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
         _validator = validator;
         _appDataContext = appDataContext;  
     }
-    public async Task<CheckBoxQuestion> CreateAsync(CheckBoxQuestion question, CancellationToken cancellationToken, bool saveChanges = true)
+    public async Task<CheckBoxQuestion> CreateAsync(CheckBoxQuestion question, CancellationToken cancellationToken , bool saveChanges = true)
     {
         if (isValidCreated(question))
         {
