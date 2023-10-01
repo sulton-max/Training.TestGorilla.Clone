@@ -9,12 +9,12 @@ namespace TestGorilla.Service.Service;
 public class AnswerService : IAnswerService
 {
     private readonly IDataContext _appDataContext;
-    private readonly Validator _validator;
+    private readonly ValidationService _validatorService;
 
-    public AnswerService(IDataContext appDataContext, Validator validator)
+    public AnswerService(IDataContext appDataContext, ValidationService validatorService)
     {
         _appDataContext = appDataContext;
-        _validator = validator;
+        _validatorService = validatorService;
     }
 
     public IQueryable<Answer> Get(Expression<Func<Answer, bool>> predicate)
@@ -50,7 +50,7 @@ public class AnswerService : IAnswerService
 
     public ValueTask<Answer> CreateAsync(Answer answer, bool saveChanges = true, CancellationToken cancellationToken = default)
     {
-        if (_validator.IsValidTitle(answer.AnswerText) == false)
+        if (_validatorService.IsValidTitle(answer.AnswerText) == false)
             throw new Exception();
 
         var isUniqueText = _appDataContext.Answers

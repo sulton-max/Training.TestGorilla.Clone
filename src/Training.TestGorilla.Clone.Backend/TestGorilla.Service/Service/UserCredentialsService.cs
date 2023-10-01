@@ -4,19 +4,18 @@ using TestGorilla.DataAccess.Context;
 using TestGorilla.Domain.Entities.Users;
 using TestGorilla.Service.Helpers;
 using TestGorilla.Service.Interface;
-using Validator = TestGorilla.Service.Helpers.Validator;
 
 namespace TestGorilla.Service.Service;
 
 public class UserCredentialsService : IUserCredentialsService
 {
     private readonly IDataContext _appDataContext;
-    public readonly Validator _validator;
+    private readonly ValidationService _validationService;
 
-    public UserCredentialsService(IDataContext appDataContext, Validator validator)
+    public UserCredentialsService(IDataContext appDataContext, ValidationService validationService)
     {
         _appDataContext = appDataContext;
-        _validator = validator;
+        _validationService = validationService;
     }
 
     public async ValueTask<UserCredentials> CreateAsync(UserCredentials userCredentials, bool saveChanges = true, CancellationToken cancellation = default)
@@ -122,8 +121,8 @@ public class UserCredentialsService : IUserCredentialsService
         if (IsExistsUserCredentials(userCredentials.Id))
             throw new InvalidOperationException("User Credentials already exists");
 
-        if (_appDataContext.UserCredentials.Any(userCreadential => userCreadential.UserId == userCredentials.UserId))
-            throw new InvalidOperationException("The given user already has Creadentials");
+        if (_appDataContext.UserCredentials.Any(userCredential => userCredential.UserId == userCredentials.UserId))
+            throw new InvalidOperationException("The given user already has Credentials");
 
         IsValidPassword(userCredentials.Password);
 
@@ -142,7 +141,7 @@ public class UserCredentialsService : IUserCredentialsService
 
     private void IsValidPassword(string password)
     {
-        if (_validator.IsValidPassword(password))
+        if (_validationService.IsValidPassword(password))
         {
             throw new InvalidOperationException("Password is not available");
         }
