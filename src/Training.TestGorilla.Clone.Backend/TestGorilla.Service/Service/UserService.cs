@@ -27,7 +27,7 @@ public class UserService : IUserService
         ;
         var foundUser = await _appDataContext.Users.FindAsync(user.Id);
 
-        if (foundUser == null)
+        if (foundUser != null)
             throw new InvalidOperationException("User already exists");
 
         await _appDataContext.Users.AddAsync(user);
