@@ -195,6 +195,11 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
             return false;
         }
 
+        if (_appDataContext.MultipleChoiceQuestions.Any(x => x.IsDeleted == false))
+        {
+            return false;
+        }
+
         return true;
     }
 }

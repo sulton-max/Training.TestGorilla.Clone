@@ -17,14 +17,44 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
         _appDataContext = appDataContext;
         _validationService = validationService;
     }
-    public Task<ShortAnswerTypeQuestion> CreateAsync(ShortAnswerTypeQuestion question, CancellationToken cancellationToken, bool saveChanges = true)
+    public async Task<ShortAnswerTypeQuestion> CreateAsync(ShortAnswerTypeQuestion question, CancellationToken cancellationToken, bool saveChanges = true)
     {
-        throw new NotImplementedException();
+        if (!isValidCreate(question))
+        {
+            throw new InvalidOperationException("This is not a valid question");
+        }
+
+        _appDataContext.ShortAnswerTypeQuestions.AddAsync(question);
+        if (saveChanges)
+        {
+            await _appDataContext.ShortAnswerTypeQuestions.SaveChangesAsync(cancellationToken);
+        }
+        return question;
     }
 
-    public Task<ShortAnswerTypeQuestion> UpdateAsync(ShortAnswerTypeQuestion question, CancellationToken cancellationToken, bool saveChanges = true)
+    public async Task<ShortAnswerTypeQuestion> UpdateAsync(ShortAnswerTypeQuestion question, CancellationToken cancellationToken, bool saveChanges = true)
     {
-        throw new NotImplementedException();
+        if (!isValidUpdate(question))
+        {
+            throw new ArgumentException("This question not found");
+        }
+
+        var existingQuestion = await _appDataContext.ShortAnswerTypeQuestions.FindAsync(question.Id);
+        if (existingQuestion == null)
+        {
+            throw new ArgumentException("This question is not found");
+        }
+        existingQuestion.Title = question.Title;
+        existingQuestion.Description = question.Description;
+        existingQuestion.Duration = question.Duration;
+        existingQuestion.Category = question.Category;
+        existingQuestion.UpdatedTime = DateTime.UtcNow;
+        if (saveChanges)
+        {
+            await _appDataContext.ShortAnswerTypeQuestions.SaveChangesAsync(cancellationToken);
+        }
+
+        return existingQuestion;
     }
 
     public Task<bool> DeleteAsync(Guid questionId, CancellationToken cancellationToken, bool saveChanges = true)
@@ -56,5 +86,58 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
     public Task<IEnumerable<ShortAnswerTypeQuestion>> GetByCategoryAsync(Category category, CancellationToken cancellationToken, bool saveChanges = true)
     {
         throw new NotImplementedException();
+    }
+    public bool isValidCreate(ShortAnswerTypeQuestion question)
+    {
+        if (_appDataContext.ShortAnswerTypeQuestions.Any(x => x.Answer.AnswerText == null))
+        {
+            return false;
+        }
+
+        if (_appDataContext.ShortAnswerTypeQuestions.Any(x => x.Title == question.Title))
+        {
+            return false;
+        }
+
+        if (!_validationService.IsValidTitle(question.Title))
+        {
+            return false;
+        }
+
+        if (!_validationService.IsValidDescription(question.Description))
+        {
+            return false;
+        }
+
+        if (question.Duration >= TimeSpan.FromMinutes(90))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public bool isValidUpdate(ShortAnswerTypeQuestion question)
+    {
+        if (_appDataContext.ShortAnswerTypeQuestions.Any(x => x.Id != question.Id))
+        {
+            return false;
+        }
+
+        if (!_validationService.IsValidTitle(question.Title))
+        {
+            return false;
+        }
+
+        if (!_validationService.IsValidDescription(question.Description))
+        {
+            return false;
+        }
+
+        if (question.Duration >= TimeSpan.FromMinutes(90))
+        {
+            return false;
+        }
+
+        return true;
     }
 }
