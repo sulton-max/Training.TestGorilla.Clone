@@ -57,9 +57,19 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
         return existingQuestion;
     }
 
-    public Task<bool> DeleteAsync(Guid questionId, CancellationToken cancellationToken, bool saveChanges = true)
+    public async Task<bool> DeleteAsync(Guid questionId, CancellationToken cancellationToken, bool saveChanges = true)
     {
-        throw new NotImplementedException();
+        var deletingQuestion = await _appDataContext.ShortAnswerTypeQuestions.FindAsync(questionId);
+        if (deletingQuestion == null)
+        {
+            return false;
+        }
+
+        await _appDataContext.ShortAnswerTypeQuestions.RemoveAsync(deletingQuestion);
+        if (saveChanges)
+        {
+            await _appDataContext.ShortAnswerTypeQuestions.SaveChangesAsync(cancellationToken);
+        }
     }
 
     public IQueryable<ShortAnswerTypeQuestion> Get(Expression<Func<ShortAnswerTypeQuestion, bool>> predicate, CancellationToken cancellationToken, bool saveChanges = true)
