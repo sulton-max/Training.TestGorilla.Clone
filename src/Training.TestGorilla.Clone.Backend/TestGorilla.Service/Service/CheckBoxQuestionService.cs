@@ -11,9 +11,9 @@ namespace TestGorilla.Service.Service;
 public class CheckBoxQuestionService : ICheckboxQuestionService
 {
     private readonly IDataContext _appDataContext;
-    private readonly Validator _validator;
+    private readonly ValidationService _validator;
 
-    public CheckBoxQuestionService(IDataContext appDataContext, Validator validator)
+    public CheckBoxQuestionService(IDataContext appDataContext, ValidationService validator)
     {
         _validator = validator;
         _appDataContext = appDataContext;  
