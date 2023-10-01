@@ -1,0 +1,5 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/src/Training.TestGorilla.Clone.Backend/TestGorilla.Service/Interface/IMultipleChoiceQuestionService.cs
