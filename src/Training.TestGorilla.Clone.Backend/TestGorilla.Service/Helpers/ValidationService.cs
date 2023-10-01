@@ -3,7 +3,7 @@ using TestGorilla.Domain.Constans;
 
 namespace TestGorilla.Service.Helpers;
 
-public class Validator 
+public class ValidationService
 {
     /// <summary>
     /// Regex validation for exam, test and question
