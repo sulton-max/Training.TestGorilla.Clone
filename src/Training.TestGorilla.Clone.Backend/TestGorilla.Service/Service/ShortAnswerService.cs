@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using TestGorilla.DataAccess.Context;
 using TestGorilla.Domain.Entities.Answers;
 using TestGorilla.Service.Helpers;
@@ -9,12 +8,12 @@ namespace TestGorilla.Service.Service;
 public class ShortAnswerService : IShortAnswerService
 {
     private readonly IDataContext _appDataContext;
-    private Validator _validator;
+    private ValidationService _validationService;
 
-    public ShortAnswerService(IDataContext appDataContext, Validator validator)
+    public ShortAnswerService(IDataContext appDataContext, ValidationService validationService)
     {
         _appDataContext = appDataContext;
-        _validator = validator;
+        _validationService = validationService;
     }
 
     public IQueryable<ShortAnswer> Get(Expression<Func<ShortAnswer, bool>> predicate)
@@ -34,7 +33,7 @@ public class ShortAnswerService : IShortAnswerService
 
     public ValueTask<ShortAnswer> CreateAsync(ShortAnswer answer, bool saveChanges = true, CancellationToken cancellationToken = default)
     {
-        if (_validator.IsValidTitle(answer.AnswerText) == false)
+        if (_validationService.IsValidTitle(answer.AnswerText) == false)
             throw new Exception();
 
         var isUniqueAnswer = _appDataContext.ShortAnswers.Where(a => a.QuestionId == answer.QuestionId).Select(a => a).Count() > 0;
