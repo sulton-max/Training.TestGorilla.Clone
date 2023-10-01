@@ -7,9 +7,9 @@ public interface ICategoryService
 {
     IQueryable<Category> Get(Expression<Func<Category, bool>> expression);
 
-    ValueTask<ICollection<Category>> Get(IEnumerable<Guid> id);
+    ValueTask<ICollection<Category>> GetAsync(IEnumerable<Guid> id);
 
-    ValueTask<Category> GetById(Guid id);
+    ValueTask<Category?> GetById(Guid id);
 
     ValueTask<Category> CreateAsync(Category category, bool saveChanges = true, CancellationToken cancellation = default);
 
