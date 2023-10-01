@@ -117,10 +117,14 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
         return paginationResult;
     }
 
-    public Task<ShortAnswerTypeQuestion> GetByIdAsync(Guid id, CancellationToken cancellationToken, bool saveChanges = true)
+    public async Task<ShortAnswerTypeQuestion> GetByIdAsync(Guid id, CancellationToken cancellationToken, bool saveChanges = true)
     {
-        throw new NotImplementedException();
-    }
+        var existingQuestion = _appDataContext.ShortAnswerTypeQuestions.FindAsync(id);
+        if (existingQuestion != null)
+        {
+            return await existingQuestion;
+        }
+        throw new NullReferenceException("This is question is not found");    }
 
     public Task<IEnumerable<ShortAnswerTypeQuestion>> GetByTitleAsync(string Title, CancellationToken cancellationToken, bool saveChanges = true)
     {
