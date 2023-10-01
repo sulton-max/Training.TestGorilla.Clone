@@ -29,6 +29,8 @@ public class AppFileContext : FileContext, IDataContext
 
     public IFileSet<User, Guid> Users => Set<User>(nameof(Users));
 
+    public IFileSet<Test, Guid> Tests => Set<Test>(nameof(Tests));
+
     public IFileSet<UserAnswers, Guid> UserAnswers => Set<UserAnswers>(nameof(UserAnswers));
 
     public IFileSet<UserCredentials, Guid> UserCredentials => Set<UserCredentials>(nameof(UserCredentials));
