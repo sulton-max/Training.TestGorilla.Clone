@@ -138,9 +138,16 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
         throw new NullReferenceException("This is question is not found!!");
     }
 
-    public Task<IEnumerable<ShortAnswerTypeQuestion>> GetByCategoryAsync(Category category, CancellationToken cancellationToken, bool saveChanges = true)
+    public async Task<IEnumerable<ShortAnswerTypeQuestion>> GetByCategoryAsync(Category category, CancellationToken cancellationToken, bool saveChanges = true)
     {
-        throw new NotImplementedException();
+        var existingQuestion = _appDataContext.ShortAnswerTypeQuestions.Where(x => x.Category == category).AsQueryable();
+        if (existingQuestion != null)
+        {
+            var questionList = await existingQuestion.ToListAsync();
+            return questionList;
+        }
+
+        throw new ArgumentException("This Category is not found");
     }
     public bool isValidCreate(ShortAnswerTypeQuestion question)
     {
