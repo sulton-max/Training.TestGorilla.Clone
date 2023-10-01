@@ -1,17 +1,17 @@
 ﻿using System.Linq.Expressions;
 using TestGorilla.DataAccess.Context;
 using TestGorilla.Domain.Entities.Users;
+using TestGorilla.Service.Helpers;
 using TestGorilla.Service.Interface;
-using Validator = TestGorilla.Service.Helpers.Validator;
 
 namespace TestGorilla.Service.Service;
 
-public class UserService : IUserService 
+public class UserService : IUserService
 {
     private readonly IDataContext _appDataContext;
-    private readonly Validator _validator;
+    private readonly ValidationService _validator;
 
-    public UserService(IDataContext dataContext, Validator validator)
+    public UserService(IDataContext dataContext, ValidationService validator)
     {
         _appDataContext = dataContext;
         _validator = validator;
