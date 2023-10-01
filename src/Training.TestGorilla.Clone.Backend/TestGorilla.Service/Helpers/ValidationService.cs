@@ -3,7 +3,7 @@ using TestGorilla.Domain.Constans;
 
 namespace TestGorilla.Service.Helpers;
 
-public static class Validator 
+public class ValidationService
 {
     /// <summary>
     /// Regex validation for exam, test and question
@@ -18,22 +18,22 @@ public static class Validator
     private const string PasswordValidationRegex = @"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$";
     private const string PhoneNumberValidationRegex = @"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]{7,20}$";
 
-    public static bool IsValidTitle(string text) =>
+    public bool IsValidTitle(string text) =>
                     !string.IsNullOrEmpty(text) && Regex.IsMatch(text, TitleValidationRegex);
 
-    public static bool IsValidName(string name) =>
+    public bool IsValidName(string name) =>
                     !string.IsNullOrEmpty(name) && Regex.IsMatch(name, NameValidationRegex);
 
-    public static bool IsValidEmailAddress(string email) =>
+    public bool IsValidEmailAddress(string email) =>
                     !string.IsNullOrWhiteSpace(email) && Regex.IsMatch(email, EmailValidationRegex);
 
-    public static bool IsValidPassword(string password) =>
+    public bool IsValidPassword(string password) =>
                     !string.IsNullOrWhiteSpace(password) && Regex.IsMatch(password, PasswordValidationRegex);
 
 
-    public static bool IsValidDescription(string description) =>
+    public bool IsValidDescription(string description) =>
                     !string.IsNullOrEmpty(description) && Regex.IsMatch(description, DescriptionValidationRegex);
     
-    public static bool IsValidPhoneNumber(string phoneNumber) => 
+    public bool IsValidPhoneNumber(string phoneNumber) => 
                     !string.IsNullOrWhiteSpace(phoneNumber) && Regex.IsMatch(phoneNumber, PhoneNumberValidationRegex);
 }
