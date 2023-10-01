@@ -70,11 +70,13 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
         {
             await _appDataContext.ShortAnswerTypeQuestions.SaveChangesAsync(cancellationToken);
         }
+        return true;
     }
 
     public IQueryable<ShortAnswerTypeQuestion> Get(Expression<Func<ShortAnswerTypeQuestion, bool>> predicate, CancellationToken cancellationToken, bool saveChanges = true)
     {
-        throw new NotImplementedException();
+        return _appDataContext.ShortAnswerTypeQuestions.Where(predicate.Compile()).AsQueryable();
+
     }
 
     public Task<PaginationResult<ShortAnswerTypeQuestion>> GetAsync(ShortAnswerTypeQuestion question, int PageToken, int PageSize, CancellationToken cancellationToken,
