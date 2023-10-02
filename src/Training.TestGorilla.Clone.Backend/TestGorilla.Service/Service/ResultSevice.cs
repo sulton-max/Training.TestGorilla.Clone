@@ -88,7 +88,7 @@ public class ResultSevice
         if (entity == null)
             throw new Exception();
 
-        entity.UpdateTime = DateTime.UtcNow;
+        entity.UpdatedTime = DateTime.UtcNow;
         entity.TestResult = result.TestResult;
         entity.ExamResult = result.ExamResult;
         entity.CategoryId = result.CategoryId;
