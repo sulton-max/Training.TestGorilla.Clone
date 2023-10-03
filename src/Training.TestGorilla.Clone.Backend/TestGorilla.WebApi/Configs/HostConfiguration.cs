@@ -5,6 +5,7 @@
         //Bu qismiga hech kim tegmasin
         public static WebApplicationBuilder Configure(this WebApplicationBuilder builder)
         {
+            builder.AddAutoMapper();
             builder.AddDataContext();
             builder.Services();
             builder.AddDevTools();
