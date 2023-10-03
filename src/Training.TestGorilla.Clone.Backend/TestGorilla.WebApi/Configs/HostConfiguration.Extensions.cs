@@ -24,8 +24,13 @@ namespace TestGorilla.Api.Configs
             });
             return builder;
         }
-        
-        
+        public static WebApplicationBuilder Services(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<IUserService, UserService>();
+            return builder;
+        }
+
+
 
     }
 }
