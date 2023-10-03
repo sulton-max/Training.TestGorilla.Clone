@@ -16,6 +16,7 @@
         public static async ValueTask<WebApplication> ConfigureAsync(this WebApplication app)
         {
             app.UseDevTools();
+            app.MapControllers();
             return app;
         }
     }

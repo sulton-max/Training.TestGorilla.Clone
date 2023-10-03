@@ -14,7 +14,7 @@ public class ValidationService
     /// Regex for user information
     /// </summary>
     private const string NameValidationRegex = @"^[A-Za-z ]{3,20}$";
-    private const string EmailValidationRegex = @"^[\w-\.]+@([\w-]+\.)+[\w-]{8,32}$";
+    private const string EmailValidationRegex = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
     private const string PasswordValidationRegex = @"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$";
     private const string PhoneNumberValidationRegex = @"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]{7,20}$";
 

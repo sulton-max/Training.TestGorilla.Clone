@@ -13,6 +13,11 @@ namespace TestGorilla.Service.DTOs.Users
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
         public string PhoneNumber { get; set; }
+
+        public UserDto()
+        {
+        }
+
         public UserDto(string firstname, string lastName, string email, string phoneNumber)
         {
             Id = Guid.NewGuid();

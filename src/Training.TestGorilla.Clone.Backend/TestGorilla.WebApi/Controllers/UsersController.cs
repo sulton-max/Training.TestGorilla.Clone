@@ -17,6 +17,7 @@ namespace TestGorilla.Api.Controllers
             _userService = userService;
             _mapper = mapper;
         }
+
         [HttpGet("{userId:guid}")]
         public async ValueTask<IActionResult> GetById([FromRoute] Guid userId)
         {
@@ -24,7 +25,8 @@ namespace TestGorilla.Api.Controllers
             var result = _mapper.Map<UserDto>(value);
             return Ok(result);
         }
-        [HttpPost("api/Users")]
+
+        [HttpPost]
         public async ValueTask<IActionResult> CreateUser([FromBody] UserDto user)
         {
             var value = await _userService.CreateAsync(_mapper.Map<User>(user));
@@ -32,7 +34,7 @@ namespace TestGorilla.Api.Controllers
             return CreatedAtAction(nameof(GetById),
                 new
                 {
-                    id = result.Id
+                    userId = result.Id
                 },
                 result);
         }
