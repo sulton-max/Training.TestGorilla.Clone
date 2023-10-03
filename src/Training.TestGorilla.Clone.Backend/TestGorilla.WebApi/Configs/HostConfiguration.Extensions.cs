@@ -7,7 +7,7 @@ using TestGorilla.Service.Service;
 
 namespace TestGorilla.Api.Configs
 {
-    public static class HostConfiguration
+    public static partial class HostConfiguration
     {
         public static WebApplicationBuilder AddDataContext(this WebApplicationBuilder builder)
         {
