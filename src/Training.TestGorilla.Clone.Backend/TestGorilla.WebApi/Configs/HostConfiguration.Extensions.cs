@@ -13,7 +13,7 @@ namespace TestGorilla.Api.Configs
         // Bu qismida Biz Data Contextni Registratsiyadan O'tkazdik  
         public static WebApplicationBuilder AddDataContext(this WebApplicationBuilder builder)
         {
-            var fileContextOptions = new FileContextOptions<AppFileContext>(Path.Combine(builder.Environment.ContentRootPath, "Data/Storage"));
+            var fileContextOptions = new FileContextOptions<AppFileContext>(Path.Combine(builder.Environment.ContentRootPath, "Storage"));
 
             builder.Services.AddSingleton(fileContextOptions); // Remove generic type parameter
             builder.Services.AddScoped<IDataContext, AppFileContext>(provider =>
