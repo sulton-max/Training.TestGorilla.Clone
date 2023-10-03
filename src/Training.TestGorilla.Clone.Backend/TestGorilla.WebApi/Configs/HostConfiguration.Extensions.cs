@@ -45,6 +45,7 @@ namespace TestGorilla.Api.Configs
         {
             builder.Services.AddControllers();
             builder.Services.AddRouting();
+            return builder;
         }
     }
 }
