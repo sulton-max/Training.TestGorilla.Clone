@@ -41,8 +41,9 @@ namespace TestGorilla.Api.Configs
             app.UseSwaggerUI();
             return app;
         }
-
-
-
+        public static WebApplicationBuilder AddExposers(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddControllers();
+        }
     }
 }
