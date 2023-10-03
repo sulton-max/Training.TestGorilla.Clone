@@ -29,6 +29,12 @@ namespace TestGorilla.Api.Configs
             builder.Services.AddScoped<IUserService, UserService>();
             return builder;
         }
+        public static WebApplicationBuilder AddDevTools(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddSwaggerGen();
+            builder.Services.AddEndpointsApiExplorer();
+            return builder;
+        }
 
 
 
