@@ -16,4 +16,8 @@
     <ProjectReference Include="..\TestGorilla.Service\TestGorilla.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>
