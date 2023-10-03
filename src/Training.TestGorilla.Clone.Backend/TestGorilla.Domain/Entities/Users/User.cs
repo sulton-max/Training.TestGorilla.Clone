@@ -19,6 +19,11 @@ public class User : Auditable
     
     public bool IsDeleted { get; set; }
 
+    public User()
+    {
+        
+    }
+
     public User(Guid id, string firstName, string lastName, string emailAddress, UserRole role, DateTime dateOfBirth, string phoneNumber)
     {
         Id = id;

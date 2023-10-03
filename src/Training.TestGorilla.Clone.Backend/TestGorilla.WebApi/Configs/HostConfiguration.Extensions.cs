@@ -1,6 +1,9 @@
-﻿using FileBaseContext.Context.Models.Configurations;
+﻿using AutoMapper;
+using FileBaseContext.Context.Models.Configurations;
 using TestGorilla.DataAccess.Context;
+using TestGorilla.Service.Helpers;
 using TestGorilla.Service.Interface;
+using TestGorilla.Service.Mappers;
 using TestGorilla.Service.Service;
 
 namespace TestGorilla.Api.Configs
@@ -10,9 +13,9 @@ namespace TestGorilla.Api.Configs
         // Bu qismida Biz Data Contextni Registratsiyadan O'tkazdik  
         public static WebApplicationBuilder AddDataContext(this WebApplicationBuilder builder)
         {
-            var fileContextOptions = new FileContextOptions<AppFileContext>(Path.Combine(builder.Environment.ContentRootPath, "Data/Storage"));
+            var fileContextOptions = new FileContextOptions<AppFileContext>(Path.Combine(builder.Environment.ContentRootPath, "Storage"));
 
-            builder.Services.AddSingleton(fileContextOptions); // Remove generic type parameter
+            builder.Services.AddSingleton<IFileContextOptions<AppFileContext>>(fileContextOptions); // Remove generic type parameter
             builder.Services.AddScoped<IDataContext, AppFileContext>(provider =>
             {
                 var options = provider.GetRequiredService<IFileContextOptions<AppFileContext>>(); // Change this line
@@ -27,6 +30,7 @@ namespace TestGorilla.Api.Configs
         public static WebApplicationBuilder Services(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ValidationService>();
             return builder;
         }
         // Bu qismida Developerga kerak bo'ladigan narsalar registratsiyadan o'tdi
@@ -53,5 +57,14 @@ namespace TestGorilla.Api.Configs
         //C# API'da, Route atributi bir so'rovni qaysi URL yo'lining va HTTP usuliga mos kelishini aniqlash uchun ishlatiladi
         // Route manabu narsa     [Route("api/[controller]")]
         // Http usuli deganda u Masalan [HttpGet],[HttpPost],va boshqalar nazarda tutuladi 
+        public static WebApplicationBuilder AddAutoMapper(this WebApplicationBuilder builder)
+        {
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+            builder.Services.AddSingleton<IMapper>(sp => mappingConfig.CreateMapper());
+            return builder;
+        }
     }
 }
