@@ -44,6 +44,7 @@ namespace TestGorilla.Api.Configs
         public static WebApplicationBuilder AddExposers(this WebApplicationBuilder builder)
         {
             builder.Services.AddControllers();
+            builder.Services.AddRouting();
         }
     }
 }
