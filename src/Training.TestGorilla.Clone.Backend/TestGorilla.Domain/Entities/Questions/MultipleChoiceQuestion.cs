@@ -10,6 +10,10 @@ public class MultipleChoiceQuestion : Auditable, IQuestion
     public TimeSpan Duration { get; set; }
     public ICollection<Answer> Answers { get; set ; }
     public Category Category { get; set; }
+    public MultipleChoiceQuestion()
+    {
+        
+    }
     public MultipleChoiceQuestion(string title, string description, TimeSpan duration, ICollection<Answer> answers, Category category)
     {
         Title = title;
