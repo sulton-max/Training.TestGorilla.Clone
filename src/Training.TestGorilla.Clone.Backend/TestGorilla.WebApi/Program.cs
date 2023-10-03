@@ -1,5 +1,5 @@
 using TestGorilla.Api.Configs;
-
+// Bu qismgaham Tegmanglar!!
 var builder = WebApplication.CreateBuilder(args);
 builder.Configure();
 
