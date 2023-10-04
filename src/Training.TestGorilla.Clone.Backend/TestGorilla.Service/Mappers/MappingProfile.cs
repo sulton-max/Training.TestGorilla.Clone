@@ -19,15 +19,22 @@ namespace TestGorilla.Service.Mappers
         {
             CreateMap<UserDto, User>();
             CreateMap<User, UserDto>();
+
             // Categoryni mapperdan o'tqazyabmiz 
             CreateMap<CategoriesDTOs, Category>();
             CreateMap<Category, CategoriesDTOs>();
+
             //MultipleChoice Questionni mapperdan o'tkazamiz
-            CreateMap<MultipleChoiceDTOs, MultipleChoiceQuestion>();
-            CreateMap<MultipleChoiceQuestion, MultipleChoiceDTOs>();
+            CreateMap<MultipleChoiceDTOs, MultipleChoiceQuestion>()
+                .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => TimeSpan.FromMinutes(src.DurationInMinutes)));
+
+            CreateMap<MultipleChoiceQuestion, MultipleChoiceDTOs>()
+                .ForMember(dest => dest.DurationInMinutes, opt => opt.MapFrom(src => src.Duration.TotalMinutes));
+
             //Checkbox Questionni mapperdan o'tkazamiz
             CreateMap<CheckboxDTOs, CheckBoxQuestion>();
             CreateMap<CheckBoxQuestion, CheckboxDTOs>();
+
             //Short answer type questionni mapperdan o'tkazamiz
             CreateMap<ShortAnswerTypeDTOs, ShortAnswerTypeQuestion>();
             CreateMap<ShortAnswerTypeQuestion, ShortAnswerTypeDTOs>();

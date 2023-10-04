@@ -8,8 +8,7 @@ public class ValidationService
     /// <summary>
     /// Regex validation for exam, test and question
     /// </summary>
-    private const string TitleValidationRegex = @"^.{1,256}$
-";
+    private const string TitleValidationRegex = @"^.{1,256}$";
     /// <summary>
     /// Regex for user information
     /// </summary>
@@ -37,11 +36,11 @@ public class ValidationService
         {
             return false;
         }
-        if(!string.IsNullOrWhiteSpace(description))
+        if(string.IsNullOrWhiteSpace(description))
         {
             return false;
         }
-        if (!string.IsNullOrEmpty(description))
+        if (string.IsNullOrEmpty(description))
         {
             return false;
         }

@@ -8,9 +8,10 @@ namespace TestGorilla.Service.DTOs.Questions
 {
     public class MultipleChoiceDTOs
     {
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public TimeSpan Duration { get; set; }
+        public int DurationInMinutes { get; set; }
         public MultipleChoiceDTOs()
         {
             

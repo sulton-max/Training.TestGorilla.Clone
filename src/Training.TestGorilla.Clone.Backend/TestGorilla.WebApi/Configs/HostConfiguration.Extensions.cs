@@ -32,6 +32,9 @@ namespace TestGorilla.Api.Configs
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ValidationService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IMultipleChoiceQuestionService, MultipleChoiceQuestionService>();
+            builder.Services.AddScoped<ICheckboxQuestionService, CheckBoxQuestionService>();
+            builder.Services.AddScoped<IShortAnswerTypeQuestionService, ShortAnswerTypeQuestionService>();
             return builder;
         }
         // Bu qismida Developerga kerak bo'ladigan narsalar registratsiyadan o'tdi

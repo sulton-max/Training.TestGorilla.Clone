@@ -81,7 +81,7 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
         return _appDataContext.MultipleChoiceQuestions.Where(predicate.Compile()).AsQueryable();
     }
 
-    public async Task<PaginationResult<MultipleChoiceQuestion>> GetAsync(MultipleChoiceQuestion question, int PageToken, int PageSize, CancellationToken cancellationToken,
+    public async Task<PaginationResult<MultipleChoiceQuestion>> GetAsync(MultipleChoiceQuestion question, int PageToken, int PageSize, CancellationToken cancellationToken = default,
         bool saveChanges = true)
     {
         if (PageToken < 1)
@@ -120,7 +120,7 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
 
     }
 
-    public async Task<MultipleChoiceQuestion> GetByIdAsync(Guid id, CancellationToken cancellationToken, bool saveChanges = true)
+    public async Task<MultipleChoiceQuestion> GetByIdAsync(Guid id)
     {
         var existingQuestion = _appDataContext.MultipleChoiceQuestions.FindAsync(id);
         if (existingQuestion != null)
@@ -161,12 +161,12 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
             return false;
         }
 
-        if (!_validator.IsValidTitle(question.Title))
+        if (question.Title == null || string.IsNullOrWhiteSpace(question.Title))
         {
             return false;
         }
 
-        if (!_validator.IsValidDescription(question.Description))
+        if (question.Description == null || string.IsNullOrWhiteSpace(question.Description))
         {
             return false;
         }
