@@ -17,7 +17,7 @@ public interface IMultipleChoiceQuestionService
     public Task<PaginationResult<MultipleChoiceQuestion>> GetAsync(MultipleChoiceQuestion question, int PageToken, int PageSize,
         CancellationToken cancellationToken, bool saveChanges = true);
     
-    public Task<MultipleChoiceQuestion> GetByIdAsync(Guid id, CancellationToken cancellationToken, bool saveChanges = true);
+    public Task<MultipleChoiceQuestion> GetByIdAsync(Guid id);
     
     public Task<IEnumerable<MultipleChoiceQuestion>> GetByTitleAsync(string Title, CancellationToken cancellationToken, bool saveChanges = true);
     

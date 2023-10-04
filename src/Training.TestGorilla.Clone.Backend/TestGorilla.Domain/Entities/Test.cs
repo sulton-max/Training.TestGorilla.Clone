@@ -11,9 +11,9 @@ public class Test : Auditable
 
     public QuestionLevel QuestionLevel { get; set; }
 
-    public TimeSpan Duration { get; set; }
+    public int DurationInMinute { get; set; }
 
-    public Test(Guid id,string title, string description, QuestionLevel questionLevel, DateTime createdTime, DateTime updatedTime, TimeSpan duration)
+   /* public Test(Guid id,string title, string description, QuestionLevel questionLevel, DateTime createdTime, DateTime updatedTime, TimeSpan duration)
     {
         Id = id;    
         Title = title;
@@ -22,10 +22,10 @@ public class Test : Auditable
         CreatedTime = createdTime;
         UpdatedTime = default(DateTime);
         Duration = duration;
-    }
+    }*/
 
     public override string ToString()
     {
-        return $"Title : {Title}, Description : {Description}, Question Level : {QuestionLevel}, Duration : {Duration}";
+        return $"Title : {Title}, Description : {Description}, Question Level : {QuestionLevel}, Duration : {DurationInMinute}";
     }
 }

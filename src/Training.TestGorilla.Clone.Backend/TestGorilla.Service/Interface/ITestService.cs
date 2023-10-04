@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using TestGorilla.Domain.Entities;
+using TestGorilla.Service.DTOs.Tests;
 
 namespace TestGorilla.Service.Interface;
 

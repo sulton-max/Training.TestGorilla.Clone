@@ -18,7 +18,7 @@ namespace TestGorilla.Api.Controllers
             _categoryservice = categoryService;
             _mapper = mapper;
         }
-        [HttpGet("categoryId:Guid")]
+        [HttpGet("{categoryId:guid}")]
         public async ValueTask<IActionResult> GetById(Guid categoryId)
         {
             var value = await _categoryservice.GetById(categoryId);
@@ -63,7 +63,7 @@ namespace TestGorilla.Api.Controllers
             var updateCategoryDTOs = _mapper.Map<CategoriesDTOs>(updateResult);
             return Ok("SuccessFully");  
         }
-        [HttpDelete("{categoryId:guid}")]
+        [HttpDelete("{categoryId:Guid}")]
         public async ValueTask<IActionResult> DeleteCategory([FromRoute] Guid categoryId)
         {
           var deltingCategory = await _categoryservice.GetById(categoryId);
