@@ -21,7 +21,8 @@ namespace TestGorilla.Api.Controllers
         [HttpGet]
         public async ValueTask<IActionResult> GetAll([FromQuery] int PageSize, [FromQuery]int PageToken)
         {
-            var result = await _userService.Get(user => true, PageToken, PageSize);
+            var value = await _userService.Get(user => true, PageToken, PageSize);
+            var result = _mapper.Map<UserDto>(value);
 
             if(result is null)
                 return NotFound();
