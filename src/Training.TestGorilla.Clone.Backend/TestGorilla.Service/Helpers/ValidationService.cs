@@ -5,13 +5,7 @@ namespace TestGorilla.Service.Helpers;
 
 public class ValidationService
 {
-    /// <summary>
-    /// Regex validation for exam, test and question
-    /// </summary>
-    private const string TitleValidationRegex = @"^.{1,256}$";
-    /// <summary>
-    /// Regex for user information
-    /// </summary>
+    private const string TitleValidationRegex = @"^[A-Za-z0-9\s\-,'.!?]+$";
     private const string NameValidationRegex = @"^[a-zA-Z0-9][a-zA-Z0-9.,'\-_ ]*[a-zA-Z0-9]$";
     private const string EmailValidationRegex = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
     private const string PasswordValidationRegex = @"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$";
