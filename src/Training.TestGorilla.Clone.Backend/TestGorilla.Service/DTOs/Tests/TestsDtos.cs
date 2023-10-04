@@ -6,7 +6,24 @@ using System.Threading.Tasks;
 
 namespace TestGorilla.Service.DTOs.Tests
 {
-    internal class TestsDtos
+    public class TestsDtos
     {
+        public Guid Id { get; set; }
+        public string Tittle { get; set; }
+        public string Description { get; set; }
+        public TimeSpan Duration { get; set; }
+
+        public TestsDtos()
+        {
+
+        }
+
+        public TestsDtos(Guid id, string tittle, string description, TimeSpan duration)
+        {
+            Id = id;
+            Tittle = tittle;
+            Description = description;
+            Duration = duration;
+        }
     }
 }
