@@ -2,10 +2,11 @@
 using TestGorilla.DataAccess.Context;
 using TestGorilla.Domain.Entities;
 using TestGorilla.Service.Helpers;
+using TestGorilla.Service.Interface;
 
 namespace TestGorilla.Service.Service;
 
-public class TestService
+public class TestService : ITestService
 {
     private readonly IDataContext _appDataContext;
     private readonly ValidationService _validator;
