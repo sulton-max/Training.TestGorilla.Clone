@@ -21,5 +21,7 @@ namespace TestGorilla.Api.Controllers
             _shortAnswerTypeQuestionService = shortAnswerTypeQuestionService;
             _mapper = mapper;
         }
+        [HttpGet("multiplechoiceId:Guid")]
+        
     }
 }

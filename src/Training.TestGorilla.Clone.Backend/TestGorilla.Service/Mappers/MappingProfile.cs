@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestGorilla.Domain.Entities;
+using TestGorilla.Domain.Entities.Questions;
 using TestGorilla.Domain.Entities.Users;
 using TestGorilla.Service.DTOs.Categories;
+using TestGorilla.Service.DTOs.Questions;
 using TestGorilla.Service.DTOs.Users;
 
 namespace TestGorilla.Service.Mappers
@@ -20,6 +22,9 @@ namespace TestGorilla.Service.Mappers
             // Categoryni mapperdan o'tqazyabmiz 
             CreateMap<CategoriesDTOs, Category>();
             CreateMap<Category, CategoriesDTOs>();
+            //MultipleChoice Questionni mapperdan o'tkazamiz
+            CreateMap<MultipleChoiceDTOs, MultipleChoiceQuestion>();
+            CreateMap<MultipleChoiceQuestion, MultipleChoiceDTOs>();
         }
     }
 }
