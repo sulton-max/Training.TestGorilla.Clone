@@ -30,6 +30,7 @@ namespace TestGorilla.Api.Configs
         public static WebApplicationBuilder Services(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IAnswerService, AnswerService>();
             builder.Services.AddScoped<ValidationService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             return builder;
