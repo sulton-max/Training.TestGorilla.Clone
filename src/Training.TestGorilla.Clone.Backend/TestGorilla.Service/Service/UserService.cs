@@ -21,6 +21,9 @@ public class UserService : IUserService
 
     public async ValueTask<User> CreateAsync(User user, bool saveChanges = true, CancellationToken cancellationToken = default)
     {
+        if(user.Role is Domain.Enums.UserRole.Candidate)
+            throw new InvalidOperationException("Only Admin can create user");
+
         if (!_validator.IsValidEmailAddress(user.EmailAddress))
             throw new ArgumentException("invalid email address");
 

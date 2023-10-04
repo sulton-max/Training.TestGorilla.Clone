@@ -5,7 +5,7 @@ namespace TestGorilla.Service.Interface;
 
 public interface IUserService
 {
-    IQueryable<User> Get(Expression<Func<User, bool>> predicate);
+    Task<PaginationResult<User>> Get(Expression<Func<User, bool>> predicate, int PageToken, int PageSize);
 
     ValueTask<User> GetByIdAsync(Guid id);
 
