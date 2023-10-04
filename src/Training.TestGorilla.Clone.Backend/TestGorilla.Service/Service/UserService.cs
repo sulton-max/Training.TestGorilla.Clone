@@ -26,7 +26,7 @@ public class UserService : IUserService
 
         if (!_validator.IsValidName(user.FirstName) || !_validator.IsValidName(user.LastName))
             throw new ArgumentException("Invalid firstname or lastname");
-        ;
+        
         var foundUser = await _appDataContext.Users.FindAsync(user.Id);
 
         if (foundUser != null)
