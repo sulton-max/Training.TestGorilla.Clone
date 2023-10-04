@@ -4,7 +4,7 @@ namespace TestGorilla.Domain.Entities;
 /// <summary>
 /// Category use in test, questions ans answers
 /// </summary>
-public abstract class Category : Auditable, IEntity
+public class Category : Auditable, IEntity
 {
     public string? CategoryName { get; set; }
 

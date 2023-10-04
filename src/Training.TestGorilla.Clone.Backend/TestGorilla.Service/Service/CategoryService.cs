@@ -27,12 +27,17 @@ public class CategoryService : ICategoryService
         return new ValueTask<ICollection<Category>>(categories.ToList());
     }
 
-    public ValueTask<Category?> GetById(Guid id) =>
-                    new ValueTask<Category?>(_appDataContext.Categories.FirstOrDefault(category => category.Id == id));
+    public async ValueTask<Category> GetById(Guid id)
+    {
+        var result = await _appDataContext.Categories.FindAsync(id);
+
+        return result;
+
+    }
     
     public async ValueTask<Category> CreateAsync(Category category, bool saveChanges = true, CancellationToken cancellation = default)
     {
-        if (!_validationService.IsValidTitle(category.CategoryName!))
+        if (category is null)
             throw new AggregateException("Category name is not valid!");
 
         await _appDataContext.Categories.AddAsync(category,cancellation);
@@ -44,7 +49,7 @@ public class CategoryService : ICategoryService
     }
 
     
-    public async ValueTask<Category> UpdateAsync(string password, Category category, bool saveChanges = true, CancellationToken cancellation = default)
+    public async ValueTask<Category> UpdateAsync( Category category, bool saveChanges = true, CancellationToken cancellation = default)
     {
 
         var existingCategory = (await _appDataContext.Categories.FindAsync(category.Id, cancellation));
@@ -58,20 +63,7 @@ public class CategoryService : ICategoryService
         await _appDataContext.SaveChangesAsync();
         
         return category;
-    }
-
-    public async ValueTask<Category> DeleteAsync(Category category, bool saveChanges = true, CancellationToken cancellation = default)
-    {
-        var foundCategory = await GetById(category.Id);
-        if (foundCategory is null)
-            throw new InvalidOperationException("Category not found!");
-        
-        foundCategory.IsDeleted = true;
-        await _appDataContext.SaveChangesAsync();
-        return foundCategory;
-    }
-
-    
+    }    
     public async ValueTask<Category> DeleteAsync(Guid id, bool saveChanges = true, CancellationToken cancellation = default)
     {
         var foundCategory = await GetById(id);
