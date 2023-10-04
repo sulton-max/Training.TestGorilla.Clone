@@ -8,12 +8,12 @@ public class ValidationService
     /// <summary>
     /// Regex validation for exam, test and question
     /// </summary>
-    private const string TitleValidationRegex = @"^.{10,50}$";
-    private const string DescriptionValidationRegex = @"^.{40,500}$";
+    private const string TitleValidationRegex = @"^.{1,256}$
+";
     /// <summary>
     /// Regex for user information
     /// </summary>
-    private const string NameValidationRegex = @"^[A-Za-z ]{3,20}$";
+    private const string NameValidationRegex = @"^[a-zA-Z0-9][a-zA-Z0-9.,'\-_ ]*[a-zA-Z0-9]$";
     private const string EmailValidationRegex = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
     private const string PasswordValidationRegex = @"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$";
     private const string PhoneNumberValidationRegex = @"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]{7,20}$";
@@ -31,8 +31,22 @@ public class ValidationService
                     !string.IsNullOrWhiteSpace(password) && Regex.IsMatch(password, PasswordValidationRegex);
 
 
-    public bool IsValidDescription(string description) =>
-                    !string.IsNullOrEmpty(description) && Regex.IsMatch(description, DescriptionValidationRegex);
+    public bool IsValidDescription(string description)
+    {
+        if(description == null)
+        {
+            return false;
+        }
+        if(!string.IsNullOrWhiteSpace(description))
+        {
+            return false;
+        }
+        if (!string.IsNullOrEmpty(description))
+        {
+            return false;
+        }
+        return true;
+    }
     
     public bool IsValidPhoneNumber(string phoneNumber) => 
                     !string.IsNullOrWhiteSpace(phoneNumber) && Regex.IsMatch(phoneNumber, PhoneNumberValidationRegex);
