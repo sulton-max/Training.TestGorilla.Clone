@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TestGorilla.Domain.Entities;
+using TestGorilla.Service.DTOs.Tests;
 using TestGorilla.Service.Interface;
 
 namespace TestGorilla.Api.Controllers;
@@ -37,11 +38,11 @@ public class TestsController : ControllerBase
     }
 
     [HttpPost]
-    public async ValueTask<IActionResult> CreateTest([FromBody] Test test)
+    public async ValueTask<IActionResult> CreateTest([FromBody] TestsDtos testDto)
     {
         try
         {
-            var createdTestDto = await _testService.CreateAsync(test);
+            var createdTestDto = await _testService.CreateAsync((Test)testDto);
             return CreatedAtAction(nameof(GetById), new { testId = createdTestDto.Id }, createdTestDto);
         }
         catch (ArgumentException ex)

@@ -36,7 +36,7 @@ public class TestService : ITestService
         await _appDataContext.Tests.AddAsync(test);
 
         if (saveChanges)
-            await _appDataContext.Tests.SaveChangesAsync(cancellationToken);
+            await _appDataContext.SaveChangesAsync();
 
         return test;
     }
@@ -95,7 +95,7 @@ public class TestService : ITestService
         existTest.Title = test.Title;
         existTest.Description = test.Description;
         existTest.QuestionLevel = test.QuestionLevel;
-        existTest.DurationInMinute = test.DurationInMinute;
+        existTest.Duration = test.Duration;
         existTest.IsDeleted = test.IsDeleted;
         existTest.UpdatedTime = DateTime.UtcNow;
 

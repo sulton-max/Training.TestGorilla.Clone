@@ -11,7 +11,7 @@ public class Test : Auditable
 
     public QuestionLevel QuestionLevel { get; set; }
 
-    public int DurationInMinute { get; set; }
+    public int Duration { get; set; }
 
    /* public Test(Guid id,string title, string description, QuestionLevel questionLevel, DateTime createdTime, DateTime updatedTime, TimeSpan duration)
     {
@@ -26,6 +26,6 @@ public class Test : Auditable
 
     public override string ToString()
     {
-        return $"Title : {Title}, Description : {Description}, Question Level : {QuestionLevel}, Duration : {DurationInMinute}";
+        return $"Title : {Title}, Description : {Description}, Question Level : {QuestionLevel}, Duration : {Duration}";
     }
 }
