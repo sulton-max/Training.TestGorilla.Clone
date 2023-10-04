@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TestGorilla.Domain.Entities;
-using TestGorilla.Service.DTOs.Tests;
 using TestGorilla.Service.Interface;
 
 namespace TestGorilla.Api.Controllers;
