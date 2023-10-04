@@ -1,5 +1,7 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using TestGorilla.DataAccess.Context;
+using TestGorilla.Domain.Entities;
 using TestGorilla.Domain.Entities.Users;
 using TestGorilla.Service.Helpers;
 using TestGorilla.Service.Interface;
@@ -45,14 +47,34 @@ public class UserService : IUserService
         if (foundUser == null)
             throw new InvalidOperationException("User does not exists");
 
+        if (foundUser.Role == Domain.Enums.UserRole.Candidate)
+            throw new InvalidOperationException("Only Admin can delete user");
+        
         await _appDataContext.Users.RemoveAsync(foundUser);
 
         return foundUser;
     }
 
-    public IQueryable<User> Get(Expression<Func<User, bool>> predicate)
+    public async Task<PaginationResult<User>> Get(Expression<Func<User, bool>> predicate, int PageToken, int PageSize)
     {
-        return _appDataContext.Users.Where(predicate.Compile()).AsQueryable();
+        var query = _appDataContext.Users.Where(predicate.Compile()).AsQueryable();
+        var length = await query.CountAsync();
+
+        var users = await query
+       .Skip((PageToken - 1) * PageSize)
+       .Take(PageSize)
+       .ToListAsync();
+
+        var paginationResult = new PaginationResult<User>
+        {
+            Items = users,
+            TotalItems = length,
+            PageToken = PageToken,
+            PageSize = PageSize
+        };
+
+        return paginationResult;
+       
     }
 
     public async ValueTask<User> GetByIdAsync(Guid id)
