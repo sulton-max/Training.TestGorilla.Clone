@@ -15,7 +15,6 @@ public interface ICategoryService
 
     ValueTask<Category> UpdateAsync(Category category, bool saveChanges = true, CancellationToken cancellation = default);
 
-    ValueTask<Category> DeleteAsync(Category category, bool saveChanges = true, CancellationToken cancellation = default);
-
     ValueTask<Category> DeleteAsync(Guid id, bool saveChanges = true, CancellationToken cancellation = default);
+
 }

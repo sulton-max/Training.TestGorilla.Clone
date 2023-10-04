@@ -60,23 +60,10 @@ public class CategoryService : ICategoryService
         existingCategory.CategoryName = category.CategoryName;
         existingCategory.UpdatedTime = DateTime.UtcNow;
 
-        await _appDataContext.SaveChangesAsync(;
+        await _appDataContext.SaveChangesAsync();
         
         return category;
-    }
-
-    public async ValueTask<Category> DeleteAsync(Category category, bool saveChanges = true, CancellationToken cancellation = default)
-    {
-        var foundCategory = await GetById(category.Id);
-        if (foundCategory is null)
-            throw new InvalidOperationException("Category not found!");
-        
-        foundCategory.IsDeleted = true;
-        await _appDataContext.SaveChangesAsync();
-        return foundCategory;
-    }
-
-    
+    }    
     public async ValueTask<Category> DeleteAsync(Guid id, bool saveChanges = true, CancellationToken cancellation = default)
     {
         var foundCategory = await GetById(id);
