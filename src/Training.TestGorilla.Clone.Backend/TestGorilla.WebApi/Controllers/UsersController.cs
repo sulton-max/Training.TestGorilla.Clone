@@ -18,6 +18,17 @@ namespace TestGorilla.Api.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet]
+        public async ValueTask<IActionResult> GetAll([FromQuery] int PageSize, [FromQuery]int PageToken)
+        {
+            var result = await _userService.Get(user => true, PageToken, PageSize);
+
+            if(result is null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
         [HttpGet("{userId:guid}")]
         public async ValueTask<IActionResult> GetById([FromRoute] Guid userId)
         {
@@ -38,5 +49,7 @@ namespace TestGorilla.Api.Controllers
                 },
                 result);
         }
+
+
     }
 }

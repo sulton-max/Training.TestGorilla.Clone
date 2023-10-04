@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using TestGorilla.Domain.Entities;
 using TestGorilla.Domain.Entities.Users;
 
 namespace TestGorilla.Service.Interface;

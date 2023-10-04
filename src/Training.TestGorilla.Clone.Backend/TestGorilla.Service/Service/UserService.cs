@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using TestGorilla.DataAccess.Context;
 using TestGorilla.Domain.Entities;
 using TestGorilla.Domain.Entities.Users;
@@ -60,13 +59,13 @@ public class UserService : IUserService
 
     public async Task<PaginationResult<User>> Get(Expression<Func<User, bool>> predicate, int PageToken, int PageSize)
     {
-        var query = _appDataContext.Users.Where(predicate.Compile()).AsQueryable();
-        var length = await query.CountAsync();
+        var query =  _appDataContext.Users.Where(predicate.Compile()).AsQueryable();
+        var length =  query.Count();
 
-        var users = await query
+        var users =  query
        .Skip((PageToken - 1) * PageSize)
        .Take(PageSize)
-       .ToListAsync();
+       .ToList();
 
         var paginationResult = new PaginationResult<User>
         {
