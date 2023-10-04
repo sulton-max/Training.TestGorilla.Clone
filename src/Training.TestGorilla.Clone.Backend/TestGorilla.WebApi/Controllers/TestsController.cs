@@ -33,10 +33,11 @@ public class TestsController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult Get()
+    public IActionResult Get([FromQuery] int page, [FromQuery] int pageSize)
     {
         var tests = _testService.Get(test => true);
-        return Ok(tests);
+        var testsPagination = tests.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+        return Ok(testsPagination);
     }
 
     [HttpPost]
