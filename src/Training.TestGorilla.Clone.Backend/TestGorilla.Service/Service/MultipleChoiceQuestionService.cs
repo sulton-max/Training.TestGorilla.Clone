@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
 using TestGorilla.DataAccess.Context;
 using TestGorilla.Domain.Entities;
 using TestGorilla.Domain.Entities.Questions;
@@ -24,7 +23,7 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
             throw new InvalidOperationException("This question has already been created!!");
         }
 
-        _appDataContext.MultipleChoiceQuestions.AddAsync(question);
+        await _appDataContext.MultipleChoiceQuestions.AddAsync(question);
         if (saveChanges)
         {
             await _appDataContext.MultipleChoiceQuestions.SaveChangesAsync(cancellationToken);
@@ -103,10 +102,10 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
        
         query = query.Skip((PageToken - 1) * PageSize).Take(PageSize);
 
-        var questions = await query.ToListAsync(cancellationToken);
+        var questions =  query.ToList();
 
         
-        var totalItem = await query.CountAsync(cancellationToken);
+        var totalItem = query.Count();
 
         var paginationResult = new PaginationResult<MultipleChoiceQuestion>
         {
@@ -122,10 +121,10 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
 
     public async Task<MultipleChoiceQuestion> GetByIdAsync(Guid id, CancellationToken cancellationToken, bool saveChanges = true)
     {
-        var existingQuestion = _appDataContext.MultipleChoiceQuestions.FindAsync(id);
+        var existingQuestion = await _appDataContext.MultipleChoiceQuestions.FindAsync(id);
         if (existingQuestion != null)
         {
-            return await existingQuestion;
+            return existingQuestion;
         }
         throw new NullReferenceException("This is question is not found");
     }
@@ -135,7 +134,7 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
         var existingQuestion = _appDataContext.MultipleChoiceQuestions.Where(x => x.Title.Equals(Title)).AsQueryable();
         if (existingQuestion != null)
         {
-            var questionList = await existingQuestion.ToListAsync();
+            var questionList = existingQuestion.ToList();
             return questionList;
         }
 
@@ -147,7 +146,7 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
         var existingQuestion = _appDataContext.MultipleChoiceQuestions.Where(x => x.Category == category).AsQueryable();
         if (existingQuestion != null)
         {
-            var questionList = await existingQuestion.ToListAsync();
+            var questionList = existingQuestion.ToList();
             return questionList;
         }
 

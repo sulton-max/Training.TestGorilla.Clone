@@ -71,7 +71,7 @@ namespace TestGorilla.Api.Controllers
             {
                 return NotFound();
             }
-            var delete = await _categoryservice.DeleteAsync(deltingCategory);
+            var delete = await _categoryservice.DeleteAsync(deltingCategory.Id);
             if (delete == null)
             {
                 return BadRequest("Not found!!");

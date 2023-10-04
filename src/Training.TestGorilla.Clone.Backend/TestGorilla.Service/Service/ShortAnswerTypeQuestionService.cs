@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
 using TestGorilla.DataAccess.Context;
 using TestGorilla.Domain.Entities;
 using TestGorilla.Domain.Entities.Questions;
@@ -25,7 +24,7 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
             throw new InvalidOperationException("This is not a valid question");
         }
 
-        _appDataContext.ShortAnswerTypeQuestions.AddAsync(question);
+        await _appDataContext.ShortAnswerTypeQuestions.AddAsync(question);
         if (saveChanges)
         {
             await _appDataContext.ShortAnswerTypeQuestions.SaveChangesAsync(cancellationToken);
@@ -102,10 +101,10 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
        
         query = query.Skip((PageToken - 1) * PageSize).Take(PageSize);
 
-        var questions = await query.ToListAsync(cancellationToken);
+        var questions = query.ToList();
 
         
-        var totalItem = await query.CountAsync(cancellationToken);
+        var totalItem = query.Count();
 
         var paginationResult = new PaginationResult<ShortAnswerTypeQuestion>
         {
@@ -119,10 +118,10 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
 
     public async Task<ShortAnswerTypeQuestion> GetByIdAsync(Guid id, CancellationToken cancellationToken, bool saveChanges = true)
     {
-        var existingQuestion = _appDataContext.ShortAnswerTypeQuestions.FindAsync(id);
+        var existingQuestion = await _appDataContext.ShortAnswerTypeQuestions.FindAsync(id);
         if (existingQuestion != null)
         {
-            return await existingQuestion;
+            return existingQuestion;
         }
         throw new NullReferenceException("This is question is not found");    }
 
@@ -131,7 +130,7 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
         var existingQuestion = _appDataContext.ShortAnswerTypeQuestions.Where(x => x.Title.Equals(Title)).AsQueryable();
         if (existingQuestion != null)
         {
-            var questionList = await existingQuestion.ToListAsync();
+            var questionList = existingQuestion.ToList();
             return questionList;
         }
 
@@ -143,7 +142,7 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
         var existingQuestion = _appDataContext.ShortAnswerTypeQuestions.Where(x => x.Category == category).AsQueryable();
         if (existingQuestion != null)
         {
-            var questionList = await existingQuestion.ToListAsync();
+            var questionList = existingQuestion.ToList();
             return questionList;
         }
 
