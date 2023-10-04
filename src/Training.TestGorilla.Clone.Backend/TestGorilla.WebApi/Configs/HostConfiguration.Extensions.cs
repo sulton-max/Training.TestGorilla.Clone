@@ -33,6 +33,9 @@ namespace TestGorilla.Api.Configs
             builder.Services.AddScoped<IAnswerService, AnswerService>();
             builder.Services.AddScoped<ValidationService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IMultipleChoiceQuestionService, MultipleChoiceQuestionService>();
+            builder.Services.AddScoped<ICheckboxQuestionService, CheckBoxQuestionService>();
+            builder.Services.AddScoped<IShortAnswerTypeQuestionService, ShortAnswerTypeQuestionService>();
             builder.Services.AddScoped<ITestService, TestService>();
             return builder;
         }
