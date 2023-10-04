@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
 using TestGorilla.DataAccess.Context;
 using TestGorilla.Domain.Entities;
 using TestGorilla.Domain.Entities.Questions;
@@ -66,7 +65,7 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
             return false;
         }
 
-        _appDataContext.CheckBoxQuestions.RemoveAsync(deletingQuestion);
+        await _appDataContext.CheckBoxQuestions.RemoveAsync(deletingQuestion);
         if (saveChanges)
         {
             await _appDataContext.CheckBoxQuestions.SaveChangesAsync();
@@ -97,7 +96,7 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
             .OrderBy(question => question.Id)
             .Skip(itemsToSkip)
             .Take(PageSize).AsQueryable();
-        var paginationQuestions = await query.ToListAsync();
+        var paginationQuestions = query.ToList();
         int totalCount =  _appDataContext.CheckBoxQuestions.Count();
         var result = new PaginationResult<CheckBoxQuestion>
         {
@@ -109,10 +108,10 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
 
     public async Task<CheckBoxQuestion> GetByIdAsync(Guid id, CancellationToken cancellationToken, bool saveChanges = true)
     {
-        var existingQuestion = _appDataContext.CheckBoxQuestions.FindAsync(id);
+        var existingQuestion = await _appDataContext.CheckBoxQuestions.FindAsync(id);
         if (existingQuestion != null)
         {
-            return await existingQuestion;
+            return existingQuestion;
         }
 
         throw new Exception("This question is not found");
@@ -123,7 +122,7 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
         var question = _appDataContext.CheckBoxQuestions.Where(x => x.Title == Title).AsQueryable();
         if (question != null)
         {
-            var questionList = await question.ToListAsync();
+            var questionList = question.ToList();
             return questionList;
         }
         throw new Exception("This question is not found");
@@ -134,7 +133,7 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
         var question = _appDataContext.CheckBoxQuestions.Where(x => x.Category == category).AsQueryable();
         if (question != null)
         {
-            var questionList = await question.ToListAsync();
+            var questionList = question.ToList();
             return questionList;
         }
 
