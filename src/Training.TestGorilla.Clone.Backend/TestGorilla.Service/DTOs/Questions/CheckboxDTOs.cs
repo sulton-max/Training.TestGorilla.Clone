@@ -8,5 +8,12 @@ namespace TestGorilla.Service.DTOs.Questions
 {
     public class CheckboxDTOs
     {
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public TimeSpan Duration { get; set; }
+        public CheckboxDTOs()
+        {
+            
+        }
     }
 }
