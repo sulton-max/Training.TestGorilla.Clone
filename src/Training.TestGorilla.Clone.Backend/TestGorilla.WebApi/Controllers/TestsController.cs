@@ -15,7 +15,6 @@ public class TestsController : ControllerBase
     public TestsController(ITestService testService)
     {
         _testService = testService;
-        
     }
 
     [HttpGet("{testId:guid}")]
@@ -33,11 +32,10 @@ public class TestsController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult Get([FromQuery] int page, [FromQuery] int pageSize)
+    public IActionResult Get([FromQuery] int pageToken, [FromQuery] int pageSize)
     {
-        var tests = _testService.Get(test => true);
-        var testsPagination = tests.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-        return Ok(testsPagination);
+        var tests = _testService.Get(test => true, pageToken, pageSize);
+        return Ok(tests);
     }
 
     [HttpPost]

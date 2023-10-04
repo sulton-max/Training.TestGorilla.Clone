@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using System.Linq;
 using System.Linq.Expressions;
 using TestGorilla.DataAccess.Context;
 using TestGorilla.Domain.Entities;
+using TestGorilla.Domain.Entities.Users;
 using TestGorilla.Service.DTOs.Tests;
 using TestGorilla.Service.Helpers;
 using TestGorilla.Service.Interface;
@@ -51,9 +53,26 @@ public class TestService : ITestService
         return existTest;
     }
 
-    public IQueryable<Test> Get(Expression<Func<Test, bool>> predicate)
+    public async Task<PaginationResult<Test>> Get(Expression<Func<Test, bool>> predicate, int PageToken, int PageSize)
     {
-        return _appDataContext.Tests.Where(predicate.Compile()).AsQueryable();
+        var query = _appDataContext.Tests.Where(predicate.Compile()).AsQueryable();
+        var length = query.Count();
+
+        var tests = query
+       .Skip((PageToken - 1) * PageSize)
+       .Take(PageSize)
+       .ToList();
+
+        var paginationResult = new PaginationResult<Test>
+        {
+            Items = tests,
+            TotalItems = length,
+            PageToken = PageToken,
+            PageSize = PageSize
+        };
+
+        return paginationResult;
+
     }
 
     public async ValueTask<Test> GetByIdAsync(Guid id)
