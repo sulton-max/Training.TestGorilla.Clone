@@ -11,12 +11,11 @@ namespace TestGorilla.Api.Controllers;
 public class TestsController : ControllerBase
 {
     private readonly ITestService _testService;
-    private readonly IMapper _mapper;
 
-    public TestsController(ITestService testService, IMapper mapper)
+    public TestsController(ITestService testService)
     {
         _testService = testService;
-        _mapper = mapper;
+        
     }
 
     [HttpGet("{testId:guid}")]
@@ -25,8 +24,7 @@ public class TestsController : ControllerBase
         try
         {
             var test = await _testService.GetByIdAsync(testId);
-            var testDto = _mapper.Map<TestsDtos>(test);
-            return Ok(testDto);
+            return Ok(test);
         }
         catch (InvalidOperationException ex)
         {
@@ -37,19 +35,16 @@ public class TestsController : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        var tests = _testService.Get(test => true); // Get all tests
-        var testDtos = _mapper.Map<IEnumerable<TestsDtos>>(tests);
-        return Ok(testDtos);
+        var tests = _testService.Get(test => true);
+        return Ok(tests);
     }
 
     [HttpPost]
-    public async ValueTask<IActionResult> CreateTest([FromBody] TestsDtos testDto)
+    public async ValueTask<IActionResult> CreateTest([FromBody] Test test)
     {
         try
         {
-            var test = _mapper.Map<Test>(testDto);
-            var createdTest = await _testService.CreateAsync(test);
-            var createdTestDto = _mapper.Map<TestsDtos>(createdTest);
+            var createdTestDto = await _testService.CreateAsync(test);
             return CreatedAtAction(nameof(GetById), new { testId = createdTestDto.Id }, createdTestDto);
         }
         catch (ArgumentException ex)
@@ -59,15 +54,13 @@ public class TestsController : ControllerBase
     }
 
     [HttpPut("{testId:guid}")]
-    public async ValueTask<IActionResult> UpdateTest([FromRoute] Guid testId, [FromBody] TestsDtos testDto)
+    public async ValueTask<IActionResult> UpdateTest([FromRoute] Guid testId, [FromBody] Test test)
     {
         try
         {
-            var test = _mapper.Map<Test>(testDto);
             test.Id = testId;
             var updatedTest = await _testService.UpdateAsync(test);
-            var updatedTestDto = _mapper.Map<TestsDtos>(updatedTest);
-            return Ok(updatedTestDto);
+            return Ok(updatedTest);
         }
         catch (InvalidOperationException ex)
         {
@@ -81,8 +74,7 @@ public class TestsController : ControllerBase
         try
         {
             var deletedTest = await _testService.DeleteAsync(testId);
-            var deletedTestDto = _mapper.Map<TestsDtos>(deletedTest);
-            return Ok(deletedTestDto);
+            return Ok();
         }
         catch (InvalidOperationException ex)
         {

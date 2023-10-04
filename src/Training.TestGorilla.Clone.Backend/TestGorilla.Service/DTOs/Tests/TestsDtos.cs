@@ -8,22 +8,19 @@ namespace TestGorilla.Service.DTOs.Tests
 {
     public class TestsDtos
     {
-        public Guid Id { get; set; }
-        public string Tittle { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public string Title { get; set; }
         public string Description { get; set; }
-        public TimeSpan Duration { get; set; }
 
-        public TestsDtos()
-        {
+        public int DurationInMinute { get; set; }
 
-        }
 
-        public TestsDtos(Guid id, string tittle, string description, TimeSpan duration)
+        /*public TestsDtos(Guid id, string tittle, string description,  )
         {
             Id = id;
             Tittle = tittle;
             Description = description;
-            Duration = duration;
-        }
+            Duration = Duration;
+        }*/
     }
 }

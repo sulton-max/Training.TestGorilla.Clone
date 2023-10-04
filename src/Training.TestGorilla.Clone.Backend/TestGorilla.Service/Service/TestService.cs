@@ -1,6 +1,8 @@
-﻿using System.Linq.Expressions;
+﻿using AutoMapper;
+using System.Linq.Expressions;
 using TestGorilla.DataAccess.Context;
 using TestGorilla.Domain.Entities;
+using TestGorilla.Service.DTOs.Tests;
 using TestGorilla.Service.Helpers;
 using TestGorilla.Service.Interface;
 
@@ -10,20 +12,19 @@ public class TestService : ITestService
 {
     private readonly IDataContext _appDataContext;
     private readonly ValidationService _validator;
+    private readonly IMapper _mapper;
 
-    public TestService(IDataContext dataContext, ValidationService validator)
+    public TestService(IDataContext dataContext, ValidationService validator, IMapper mapper)
     {
         _appDataContext = dataContext;
         _validator = validator;
+        _mapper = mapper;
     }
 
     public async ValueTask<Test> CreateAsync(Test test, bool saveChanges = true, CancellationToken cancellationToken = default)
     {
         if (!_validator.IsValidTitle(test.Title))
             throw new ArgumentException("Invalid Title");
-
-        if (!_validator.IsValidDescription(test.Description))
-            throw new ArgumentException("Invalid Description");
 
         var existTest = await _appDataContext.Tests.FindAsync(test.Id);
 
@@ -75,7 +76,7 @@ public class TestService : ITestService
         existTest.Title = test.Title;
         existTest.Description = test.Description;
         existTest.QuestionLevel = test.QuestionLevel;
-        existTest.Duration = test.Duration;
+        existTest.DurationInMinute = test.DurationInMinute;
         existTest.UpdatedTime = DateTime.UtcNow;
 
         if (saveChanges)

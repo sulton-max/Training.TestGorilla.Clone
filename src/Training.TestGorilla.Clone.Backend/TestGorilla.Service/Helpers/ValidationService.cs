@@ -8,8 +8,7 @@ public class ValidationService
     /// <summary>
     /// Regex validation for exam, test and question
     /// </summary>
-    private const string TitleValidationRegex = @"^.{1,256}$
-";
+    private const string TitleValidationRegex = @"^[A-Za-z0-9\s\-,'.!?]+$";
     /// <summary>
     /// Regex for user information
     /// </summary>
