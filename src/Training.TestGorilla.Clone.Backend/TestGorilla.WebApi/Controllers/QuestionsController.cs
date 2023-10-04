@@ -31,7 +31,7 @@ namespace TestGorilla.Api.Controllers
             var result = _mapper.Map<MultipleChoiceDTOs>(value);
             return Ok(result);
         }
-        [HttpGet("{title}")]
+        [HttpGet("{MultipleChoiceTitle}")]
         public async ValueTask<IActionResult> GetByTitle(string Title)
         {
             var value = await _multipleChoiceQuestionService.GetByTitleAsync(Title, cancellationToken: default);
@@ -39,7 +39,7 @@ namespace TestGorilla.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpPost("MultipleChoice")]
         public async ValueTask<IActionResult> CerateMultipleChoice([FromBody] MultipleChoiceDTOs question)
         {
             var value = await _multipleChoiceQuestionService.CreateAsync(_mapper.Map<MultipleChoiceQuestion>(question), cancellationToken: default);
