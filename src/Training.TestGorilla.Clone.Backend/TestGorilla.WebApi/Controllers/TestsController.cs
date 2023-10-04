@@ -19,7 +19,6 @@ public class TestsController : ControllerBase
         _mapper = mapper;
     }
 
-
     [HttpGet("{testId:guid}")]
     public async ValueTask<IActionResult> GetById([FromRoute] Guid testId)
     {
