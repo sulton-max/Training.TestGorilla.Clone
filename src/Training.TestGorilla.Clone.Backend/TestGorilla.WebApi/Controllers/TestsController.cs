@@ -62,60 +62,35 @@ namespace TestGorilla.Api.Controllers
             return Ok(testDtos);
         }
 
-        // POST: TestsController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        [HttpPut("{testId:guid}")]
+        public async ValueTask<IActionResult> UpdateTest([FromRoute] Guid testId, [FromBody] TestsDtos testDto)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var test = _mapper.Map<Test>(testDto);
+                test.Id = testId;
+                var updatedTest = await _testService.UpdateAsync(test);
+                var updatedTestDto = _mapper.Map<TestsDtos>(updatedTest);
+                return Ok(updatedTestDto);
             }
-            catch
+            catch (InvalidOperationException ex)
             {
-                return View();
+                return NotFound(ex.Message);
             }
         }
 
-        // GET: TestsController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: TestsController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [HttpDelete("{testId:guid}")]
+        public async ValueTask<IActionResult> DeleteTest([FromRoute] Guid testId)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var deletedTest = await _testService.DeleteAsync(testId);
+                var deletedTestDto = _mapper.Map<TestsDtos>(deletedTest);
+                return Ok(deletedTestDto);
             }
-            catch
+            catch (InvalidOperationException ex)
             {
-                return View();
-            }
-        }
-
-        // GET: TestsController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: TestsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
+                return NotFound(ex.Message);
             }
         }
     }
