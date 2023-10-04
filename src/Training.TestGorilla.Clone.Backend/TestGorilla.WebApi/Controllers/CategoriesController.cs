@@ -19,10 +19,11 @@ namespace TestGorilla.Api.Controllers
             _mapper = mapper;
         }
         [HttpGet("categoryId:Guid")]
-        public async ValueTask<IActionResult> GetById([FromRoute] Guid categoryId)
+        public async ValueTask<IActionResult> GetById(Guid categoryId)
         {
             var value = await _categoryservice.GetById(categoryId);
             var result = _mapper.Map<CategoriesDTOs>(value);
+            
             return Ok(result);
         }
         [HttpGet]
@@ -40,9 +41,27 @@ namespace TestGorilla.Api.Controllers
             return CreatedAtAction(nameof(GetById),
                 new
                 {
-                    categoryId = result.Id
+                    categoryId = result.Id,
+                    
                 },
                 result);
+        }
+        [HttpPut]
+        public async ValueTask<IActionResult> UpdateCtegory([FromBody] CategoriesDTOs categories)
+        {
+            var existingCategory = await _categoryservice.GetById(categories.Id);
+            if (existingCategory == null)
+            {
+                return NotFound();
+            }
+            existingCategory.CategoryName = categories.CategoryName;
+            var updateResult = await _categoryservice.UpdateAsync(existingCategory);
+            if(updateResult == null)
+            {
+                return BadRequest("Failed to update!!");
+            }
+            var updateCategoryDTOs = _mapper.Map<CategoriesDTOs>(updateResult);
+            return Ok(updateCategoryDTOs);  
         }
         
     }

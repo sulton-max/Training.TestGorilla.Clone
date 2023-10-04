@@ -13,7 +13,7 @@ public interface ICategoryService
 
     ValueTask<Category> CreateAsync(Category category, bool saveChanges = true, CancellationToken cancellation = default);
 
-    ValueTask<Category> UpdateAsync(string password, Category category, bool saveChanges = true, CancellationToken cancellation = default);
+    ValueTask<Category> UpdateAsync(Category category, bool saveChanges = true, CancellationToken cancellation = default);
 
     ValueTask<Category> DeleteAsync(Category category, bool saveChanges = true, CancellationToken cancellation = default);
 
