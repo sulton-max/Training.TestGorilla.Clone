@@ -77,6 +77,7 @@ public class TestService : ITestService
         existTest.Description = test.Description;
         existTest.QuestionLevel = test.QuestionLevel;
         existTest.DurationInMinute = test.DurationInMinute;
+        existTest.IsDeleted = test.IsDeleted;
         existTest.UpdatedTime = DateTime.UtcNow;
 
         if (saveChanges)
