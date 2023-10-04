@@ -6,7 +6,6 @@ namespace TestGorilla.Domain.Entities;
 /// </summary>
 public class Result : Auditable
 {
-
     public Guid UserId { get; set; }
 
     public Guid TestId { get; set; }
@@ -21,8 +20,9 @@ public class Result : Auditable
 
     public bool IsDeleted { get; set; }
 
-    public Result(Guid userId, Guid testId, Guid examId, Guid categoryId, decimal testResult, decimal examResult, bool isDeleted)
+    public Result(Guid id, Guid userId, Guid testId, Guid examId, Guid categoryId, decimal testResult, decimal examResult, bool isDeleted)
     {
+        Id = id;
         UserId = userId;
         TestId = testId;
         ExamId = examId;
