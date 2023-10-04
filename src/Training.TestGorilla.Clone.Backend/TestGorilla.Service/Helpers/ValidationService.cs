@@ -8,15 +8,15 @@ public class ValidationService
     /// <summary>
     /// Regex validation for exam, test and question
     /// </summary>
-    private const string TitleValidationRegex = @"^.{10,50}$";
-    private const string DescriptionValidationRegex = @"^.{40,500}$";
+    private const string TitleValidationRegex = @"";
+    private const string DescriptionValidationRegex = @"";
     /// <summary>
     /// Regex for user information
     /// </summary>
-    private const string NameValidationRegex = @"^[A-Za-z ]{3,20}$";
-    private const string EmailValidationRegex = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
-    private const string PasswordValidationRegex = @"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$";
-    private const string PhoneNumberValidationRegex = @"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]{7,20}$";
+    private const string NameValidationRegex = @"";
+    private const string EmailValidationRegex = @"";
+    private const string PasswordValidationRegex = @"";
+    private const string PhoneNumberValidationRegex = @"";
 
     public bool IsValidTitle(string text) =>
                     !string.IsNullOrEmpty(text) && Regex.IsMatch(text, TitleValidationRegex);
