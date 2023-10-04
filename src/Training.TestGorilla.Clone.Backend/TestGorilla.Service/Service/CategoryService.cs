@@ -60,7 +60,7 @@ public class CategoryService : ICategoryService
         existingCategory.CategoryName = category.CategoryName;
         existingCategory.UpdatedTime = DateTime.UtcNow;
 
-        await _appDataContext.SaveChangesAsync();
+        await _appDataContext.SaveChangesAsync(;
         
         return category;
     }

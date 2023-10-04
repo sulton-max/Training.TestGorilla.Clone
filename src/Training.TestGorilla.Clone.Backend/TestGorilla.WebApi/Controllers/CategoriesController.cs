@@ -61,7 +61,23 @@ namespace TestGorilla.Api.Controllers
                 return BadRequest("Failed to update!!");
             }
             var updateCategoryDTOs = _mapper.Map<CategoriesDTOs>(updateResult);
-            return Ok(updateCategoryDTOs);  
+            return Ok("SuccessFully");  
+        }
+        [HttpDelete("{categoryId:guid}")]
+        public async ValueTask<IActionResult> DeleteCategory([FromRoute] Guid categoryId)
+        {
+          var deltingCategory = await _categoryservice.GetById(categoryId);
+            if(deltingCategory == null)
+            {
+                return NotFound();
+            }
+            var delete = await _categoryservice.DeleteAsync(deltingCategory);
+            if (delete == null)
+            {
+                return BadRequest("Not found!!");
+            }
+            _mapper.Map<CategoriesDTOs>(delete);
+            return Ok("successFully!!");
         }
         
     }
