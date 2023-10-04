@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestGorilla.Domain.Entities;
 using TestGorilla.Domain.Entities.Answers;
 using TestGorilla.Domain.Entities.Users;
 using TestGorilla.Service.DTOs.Answers;
@@ -15,6 +16,8 @@ namespace TestGorilla.Service.Mappers
     {
         public MappingProfile()
         {
+            CreateMap(typeof(PaginationResult<>), typeof(PaginationResult<>));
+            //CreateMap<PaginationResult<>, PaginationResult<object>>();
             CreateMap<UserDto, User>();
             CreateMap<User, UserDto>();
             CreateMap<AnswerDto, Answer>();

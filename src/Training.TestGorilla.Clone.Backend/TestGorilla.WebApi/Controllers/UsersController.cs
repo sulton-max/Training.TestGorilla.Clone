@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using TestGorilla.Domain.Entities;
 using TestGorilla.Domain.Entities.Users;
 using TestGorilla.Service.DTOs.Users;
 using TestGorilla.Service.Interface;
@@ -22,7 +23,7 @@ namespace TestGorilla.Api.Controllers
         public async ValueTask<IActionResult> GetAll([FromQuery] int PageSize, [FromQuery]int PageToken)
         {
             var value = await _userService.Get(user => true, PageToken, PageSize);
-            var result = _mapper.Map<UserDto>(value);
+            var result = _mapper.Map<PaginationResult<UserDto>>(value);
 
             if(result is null)
                 return NotFound();
