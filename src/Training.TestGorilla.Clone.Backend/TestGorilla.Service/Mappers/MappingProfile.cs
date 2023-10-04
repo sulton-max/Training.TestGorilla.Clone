@@ -25,6 +25,9 @@ namespace TestGorilla.Service.Mappers
             //MultipleChoice Questionni mapperdan o'tkazamiz
             CreateMap<MultipleChoiceDTOs, MultipleChoiceQuestion>();
             CreateMap<MultipleChoiceQuestion, MultipleChoiceDTOs>();
+            //Checkbox Questionni mapperdan o'tkazamiz
+            CreateMap<CheckboxDTOs, CheckBoxQuestion>();
+            CreateMap<CheckBoxQuestion, CheckboxDTOs>();
         }
     }
 }
