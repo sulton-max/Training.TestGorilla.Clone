@@ -28,6 +28,9 @@ namespace TestGorilla.Service.Mappers
             //Checkbox Questionni mapperdan o'tkazamiz
             CreateMap<CheckboxDTOs, CheckBoxQuestion>();
             CreateMap<CheckBoxQuestion, CheckboxDTOs>();
+            //Short answer type questionni mapperdan o'tkazamiz
+            CreateMap<ShortAnswerTypeDTOs, ShortAnswerTypeQuestion>();
+            CreateMap<ShortAnswerTypeQuestion, ShortAnswerTypeDTOs>();
         }
     }
 }
