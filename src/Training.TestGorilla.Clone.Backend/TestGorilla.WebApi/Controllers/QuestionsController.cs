@@ -183,5 +183,11 @@ public class QuestionsController : ControllerBase
             },
             result);
     }
-  
+    [HttpPut("short-question")]
+    public async ValueTask<IActionResult> UpdateShortQuestion([FromBody] ShortAnswerTypeDTOs question)
+    {
+        var value = await _shortAnswerTypeQuestionService.UpdateAsync(_mapper.Map<ShortAnswerTypeQuestion>(question), cancellationToken: default);
+        var result = _mapper.Map<ShortAnswerTypeQuestion>(value);
+        return Ok("Successfully");
+    }
 }
