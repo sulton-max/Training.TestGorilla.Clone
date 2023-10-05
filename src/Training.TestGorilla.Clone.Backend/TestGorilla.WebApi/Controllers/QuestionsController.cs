@@ -100,7 +100,7 @@ namespace TestGorilla.Api.Controllers
             return Ok("successFully!!");
         }
         [HttpDelete("multi-choice/by-id/{Id:Guid}")]
-        public async ValueTask<IActionResult> DeleteQuestion(Guid Id)
+        public async ValueTask<IActionResult> DeleteQuestion([FromRoute]Guid Id)
         {
             await _multipleChoiceQuestionService.DeleteAsync(Id, cancellationToken: default);
             return Ok("SuccessFully!!");
@@ -129,5 +129,13 @@ namespace TestGorilla.Api.Controllers
                 },
                 result);
         }
+        [HttpPut("check-box")]
+        public async ValueTask<IActionResult> UpdateCheckbox([FromBody]CheckboxDTOs question)
+        {
+            var value = await _checkboxQuestionService.UpdateAsync(_mapper.Map<CheckBoxQuestion>(question), cancellationToken: default);
+            var result = _mapper.Map<CheckBoxQuestion>(value);
+            return Ok("Successfully!!");
+        }
+
     }
 }
