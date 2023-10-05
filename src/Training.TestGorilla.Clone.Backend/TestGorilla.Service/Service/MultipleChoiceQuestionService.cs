@@ -149,12 +149,12 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
             return false;
         }
 
-        if (question.Title == null || string.IsNullOrWhiteSpace(question.Title))
+        if (string.IsNullOrEmpty(question.Title) || string.IsNullOrWhiteSpace(question.Title))
         {
             return false;
         }
 
-        if (question.Description == null || string.IsNullOrWhiteSpace(question.Description))
+        if (string.IsNullOrEmpty(question.Title) || string.IsNullOrWhiteSpace(question.Description))
         {
             return false;
         }
@@ -173,17 +173,17 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
             return false;
         }
 
-        if (!_validator.IsValidTitle(question.Title))
+        if (string.IsNullOrEmpty(question.Title) || string.IsNullOrWhiteSpace(question.Title))
         {
             return false;
         }
 
-        if (!_validator.IsValidDescription(question.Description))
+        if (string.IsNullOrWhiteSpace(question.Description) || string.IsNullOrEmpty(question.Description))
         {
             return false;
         }
 
-        if (!_appDataContext.MultipleChoiceQuestions.Any(x => x.IsDeleted == false))
+        if (_appDataContext.MultipleChoiceQuestions.Any(x => x.IsDeleted == false))
         {
             return false;
         }

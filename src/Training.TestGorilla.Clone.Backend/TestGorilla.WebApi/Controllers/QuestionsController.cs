@@ -190,4 +190,10 @@ public class QuestionsController : ControllerBase
         var result = _mapper.Map<ShortAnswerTypeQuestion>(value);
         return Ok("Successfully");
     }
+    [HttpDelete("short-question/by-Id/{shortquestionId:Guid}")]
+    public async ValueTask<IActionResult> DeleteShortQuestionById([FromRoute]Guid shortquestionId)
+    {
+        var value = await _shortAnswerTypeQuestionService.DeleteAsync(shortquestionId, cancellationToken: default);
+        return Ok("Successfully");
+    }
 }

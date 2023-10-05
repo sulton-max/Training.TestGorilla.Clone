@@ -159,7 +159,7 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
             return false;
         }
 
-        if (_appDataContext.CheckBoxQuestions.Any(x => x.Duration >= TimeSpan.FromMinutes(90)))
+        if (question.Duration >= TimeSpan.FromMinutes(90))
         {
             return false;
         }
@@ -177,7 +177,7 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
         {
             return false;
         }
-        if (!_appDataContext.CheckBoxQuestions.Any(x => x.Duration >= TimeSpan.FromMinutes(90)))
+        if (question.Duration >= TimeSpan.FromMinutes(90))
         {
             return false;
         }

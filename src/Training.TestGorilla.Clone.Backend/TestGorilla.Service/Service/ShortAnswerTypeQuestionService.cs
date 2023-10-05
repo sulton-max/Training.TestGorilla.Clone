@@ -151,12 +151,12 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
             return false;
         }
 
-        if (!_validationService.IsValidTitle(question.Title))
+        if (string.IsNullOrEmpty(question.Title) || string.IsNullOrWhiteSpace(question.Title))
         {
             return false;
         }
 
-        if (!_validationService.IsValidDescription(question.Description))
+        if (string.IsNullOrEmpty(question.Title) || string.IsNullOrWhiteSpace(question.Description))
         {
             return false;
         }
@@ -170,17 +170,17 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
 
     public bool isValidUpdate(ShortAnswerTypeQuestion question)
     {
-        if (_appDataContext.ShortAnswerTypeQuestions.Any(x => x.Id != question.Id))
+        if (!_appDataContext.ShortAnswerTypeQuestions.Any(x => x.Id == question.Id))
         {
             return false;
         }
 
-        if (!_validationService.IsValidTitle(question.Title))
+        if (string.IsNullOrEmpty(question.Title) || string.IsNullOrWhiteSpace(question.Title))
         {
             return false;
         }
 
-        if (!_validationService.IsValidDescription(question.Description))
+        if (string.IsNullOrWhiteSpace(question.Description) || string.IsNullOrEmpty(question.Description))
         {
             return false;
         }
