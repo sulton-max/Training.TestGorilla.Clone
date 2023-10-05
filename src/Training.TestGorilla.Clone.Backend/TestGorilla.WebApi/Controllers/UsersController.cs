@@ -52,6 +52,12 @@ namespace TestGorilla.Api.Controllers
                 result);
         }
 
+        [HttpPut]
+        public async ValueTask<IActionResult> UpdateUser([FromBody] UserDto user)
+        {
+            await _userService.UpdateAsync(_mapper.Map<User>(user));
+            return Ok();
+        }
 
     }
 }
