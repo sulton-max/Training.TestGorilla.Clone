@@ -57,5 +57,11 @@ namespace TestGorilla.Api.Controllers
             return Ok();
         }
 
+        [HttpDelete("{userId:guid}")]
+        public async ValueTask<IActionResult> DeleteUser([FromRoute] Guid userId)
+        {
+            await _userService.DeleteAsync(userId);
+            return Ok();
+        }
     }
 }
