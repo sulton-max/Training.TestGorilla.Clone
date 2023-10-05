@@ -126,13 +126,13 @@ public class QuestionsController : ControllerBase
     {
         var value = await _multipleChoiceQuestionService.UpdateAsync(_mapper.Map<MultipleChoiceQuestion>(question), cancellationToken: default);
         var result = _mapper.Map<MultipleChoiceQuestion>(value);
-        return Ok("successFully!!");
+        return Ok();
     }
     [HttpDelete("multi-choice/by-id/{Id:Guid}")]
     public async ValueTask<IActionResult> DeleteQuestion([FromRoute] Guid Id)
     {
         await _multipleChoiceQuestionService.DeleteAsync(Id, cancellationToken: default);
-        return Ok("SuccessFully!!");
+        return Ok();
     }
     [HttpPost("multi-choice")]
     public async ValueTask<IActionResult> CerateMultipleChoice([FromBody] MultipleChoiceDTOs question)
@@ -163,13 +163,13 @@ public class QuestionsController : ControllerBase
     {
         var value = await _checkboxQuestionService.UpdateAsync(_mapper.Map<CheckBoxQuestion>(question), cancellationToken: default);
         var result = _mapper.Map<CheckBoxQuestion>(value);
-        return Ok("Successfully!!");
+        return Ok();
     }
     [HttpDelete("check-box/by-id/{checkboxId:Guid}")]
     public async ValueTask<IActionResult> DeleteCheckbox([FromRoute] Guid checkboxId)
     {
         var value = _checkboxQuestionService.DeleteAsync(checkboxId, cancellationToken: default);
-        return Ok("Successfully!!");
+        return Ok();
     }
     [HttpPost("short-question")]
     public async ValueTask<IActionResult> CreateShortQuestion([FromBody]ShortAnswerTypeDTOs question)
@@ -188,12 +188,12 @@ public class QuestionsController : ControllerBase
     {
         var value = await _shortAnswerTypeQuestionService.UpdateAsync(_mapper.Map<ShortAnswerTypeQuestion>(question), cancellationToken: default);
         var result = _mapper.Map<ShortAnswerTypeQuestion>(value);
-        return Ok("Successfully");
+        return Ok();
     }
     [HttpDelete("short-question/by-id/{shortquestionId:Guid}")]
     public async ValueTask<IActionResult> DeleteShortQuestionById([FromRoute]Guid shortquestionId)
     {
         var value = await _shortAnswerTypeQuestionService.DeleteAsync(shortquestionId, cancellationToken: default);
-        return Ok("Successfully");
+        return Ok();
     }
 }
