@@ -33,7 +33,13 @@ namespace TestGorilla.Api.Controllers
             var result = _mapper.Map<ShortAnswerTypeDTOs>(value);
             return Ok(result);
         }
-    
+        [HttpGet("short-answer/by-title{title}")]
+        public async ValueTask<IActionResult> GetByTitleShortQuestion(string title)
+        {
+            var value = await _shortAnswerTypeQuestionService.GetByTitleAsync(title, cancellationToken: default);
+            var result = _mapper.Map<ShortAnswerTypeDTOs>(value);
+            return Ok(result);
+        }
    
 
         [HttpGet("multi-choice/by-id/{questionId:Guid}")]
