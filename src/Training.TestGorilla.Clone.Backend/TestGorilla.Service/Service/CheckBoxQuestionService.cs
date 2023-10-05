@@ -57,8 +57,7 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
             existingQuestion.Category = question.Category;
             existingQuestion.UpdatedTime = DateTime.UtcNow;
         }
-
-        throw new Exception("Xatoo!!!");
+        return question;
     }
 
     public async Task<bool> DeleteAsync(Guid questionId, CancellationToken cancellationToken, bool saveChanges = true)
@@ -169,16 +168,16 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
 
     public bool isValidUpdated(CheckBoxQuestion question)
     {
-        if (!_validator.IsValidTitle(question.Title))
+        if (string.IsNullOrWhiteSpace(question.Title) || string.IsNullOrEmpty(question.Title))
         {
             return false;
         }
 
-        if (!_validator.IsValidDescription(question.Description))
+        if (string.IsNullOrWhiteSpace(question.Description) || string.IsNullOrEmpty(question.Description))
         {
             return false;
         }
-        if (_appDataContext.CheckBoxQuestions.Any(x => x.Duration >= TimeSpan.FromMinutes(90)))
+        if (!_appDataContext.CheckBoxQuestions.Any(x => x.Duration >= TimeSpan.FromMinutes(90)))
         {
             return false;
         }
