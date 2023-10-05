@@ -1,5 +1,4 @@
 using FileBaseContext.Abstractions.Models.Entity;
-using FileBaseContext.Abstractions.Models.FileContext;
 using FileBaseContext.Abstractions.Models.FileEntry;
 using FileBaseContext.Abstractions.Models.FileSet;
 using FileBaseContext.Context.Models.Configurations;
@@ -15,7 +14,7 @@ namespace TestGorilla.DataAccess.Context;
 public class AppFileContext : FileContext, IDataContext
 {
 
-  //  public IFileSet<User, Guid> Users => Set<User>(nameof(Users));
+    //  public IFileSet<User, Guid> Users => Set<User>(nameof(Users));
     public IFileSet<Answer, Guid> Answers => Set<Answer, Guid>(nameof(Answers));
 
     public IFileSet<CheckBoxQuestion, Guid> CheckBoxQuestions => Set<CheckBoxQuestion, Guid>(nameof(CheckBoxQuestions));
@@ -23,7 +22,7 @@ public class AppFileContext : FileContext, IDataContext
     public IFileSet<MultipleChoiceQuestion, Guid> MultipleChoiceQuestions => Set<MultipleChoiceQuestion, Guid>(nameof(MultipleChoiceQuestions));
 
     public IFileSet<ShortAnswerTypeQuestion, Guid> ShortAnswerTypeQuestions => Set<ShortAnswerTypeQuestion, Guid>(nameof(ShortAnswerTypeQuestions));
-   
+
     public IFileSet<ShortAnswer, Guid> ShortAnswers => Set<ShortAnswer, Guid>(nameof(ShortAnswers));
 
     public IFileSet<User, Guid> Users => Set<User, Guid>(nameof(Users));

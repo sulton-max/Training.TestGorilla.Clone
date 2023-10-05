@@ -72,7 +72,7 @@ public class TestsController : ControllerBase
         try
         {
             var deletedTest = await _testService.DeleteAsync(testId);
-            return Ok();
+            return Ok(deletedTest);
         }
         catch (InvalidOperationException ex)
         {

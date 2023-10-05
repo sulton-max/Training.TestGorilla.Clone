@@ -50,6 +50,9 @@ public class TestService : ITestService
 
         await _appDataContext.Tests.RemoveAsync(existTest);
 
+        if (saveChanges)
+            await _appDataContext.SaveChangesAsync();
+
         return existTest;
     }
 
@@ -70,16 +73,14 @@ public class TestService : ITestService
             PageToken = PageToken,
             PageSize = PageSize
         };
-
         return paginationResult;
-
     }
 
     public async ValueTask<Test> GetByIdAsync(Guid id)
     {
-        var existTest = await _appDataContext.Tests.FindAsync(id);
+        var existTest = _appDataContext.Tests.FirstOrDefault(x => x.Id == id);
 
-        if (existTest is null)
+        if (existTest is null || existTest.IsDeleted)
             throw new InvalidOperationException("Test does not exists");
 
         return existTest;
@@ -87,11 +88,12 @@ public class TestService : ITestService
 
     public async ValueTask<Test> UpdateAsync(Test test, bool saveChanges = true, CancellationToken cancellationToken = default)
     {
-        var existTest = _appDataContext.Tests.FirstOrDefault(test);
+        var existTest = _appDataContext.Tests.FirstOrDefault( result => result.Id == test.Id);
 
-        if (existTest == null)
+        if (existTest == null || existTest.IsDeleted)
             throw new InvalidOperationException("User does not exists");
 
+        existTest.Id = test.Id;
         existTest.Title = test.Title;
         existTest.Description = test.Description;
         existTest.QuestionLevel = test.QuestionLevel;
