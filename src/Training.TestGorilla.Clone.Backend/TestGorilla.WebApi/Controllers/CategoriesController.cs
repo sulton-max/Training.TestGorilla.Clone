@@ -8,20 +8,20 @@ using TestGorilla.Service.Interface;
 namespace TestGorilla.Api.Controllers
 {
     [ApiController]
-    [Route("api/controller")]
+    [Route("api/[controller]")]
     public class CategoriesController : ControllerBase
     {
-        private readonly ICategoryService _categoryservice;
+        private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
         public CategoriesController(ICategoryService categoryService, IMapper mapper)
         {
-            _categoryservice = categoryService;
+            _categoryService = categoryService;
             _mapper = mapper;
         }
         [HttpGet("{categoryId:guid}")]
         public async ValueTask<IActionResult> GetById(Guid categoryId)
         {
-            var value = await _categoryservice.GetById(categoryId);
+            var value = await _categoryService.GetById(categoryId);
             var result = _mapper.Map<CategoriesDTOs>(value);
             
             return Ok(result);
@@ -36,7 +36,7 @@ namespace TestGorilla.Api.Controllers
         [HttpPost]
         public async ValueTask<IActionResult> CreateCategory([FromBody] CategoriesDTOs category)
         {
-            var value = await _categoryservice.CreateAsync(_mapper.Map<Category>(category));
+            var value = await _categoryService.CreateAsync(_mapper.Map<Category>(category));
             var result = _mapper.Map<CategoriesDTOs>(value);
             return CreatedAtAction(nameof(GetById),
                 new
@@ -49,13 +49,13 @@ namespace TestGorilla.Api.Controllers
         [HttpPut]
         public async ValueTask<IActionResult> UpdateCtegory([FromBody] CategoriesDTOs categories)
         {
-            var existingCategory = await _categoryservice.GetById(categories.Id);
+            var existingCategory = await _categoryService.GetById(categories.Id);
             if (existingCategory == null)
             {
                 return NotFound();
             }
             existingCategory.CategoryName = categories.CategoryName;
-            var updateResult = await _categoryservice.UpdateAsync(existingCategory);
+            var updateResult = await _categoryService.UpdateAsync(existingCategory);
             if(updateResult == null)
             {
                 return BadRequest("Failed to update!!");
@@ -66,12 +66,12 @@ namespace TestGorilla.Api.Controllers
         [HttpDelete("{categoryId:Guid}")]
         public async ValueTask<IActionResult> DeleteCategory([FromRoute] Guid categoryId)
         {
-          var deltingCategory = await _categoryservice.GetById(categoryId);
+          var deltingCategory = await _categoryService.GetById(categoryId);
             if(deltingCategory == null)
             {
                 return NotFound();
             }
-            var delete = await _categoryservice.DeleteAsync(deltingCategory.Id);
+            var delete = await _categoryService.DeleteAsync(deltingCategory.Id);
             if (delete == null)
             {
                 return BadRequest("Not found!!");
