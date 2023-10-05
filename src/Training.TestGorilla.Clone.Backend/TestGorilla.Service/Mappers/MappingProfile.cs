@@ -11,6 +11,8 @@ using TestGorilla.Service.DTOs.Categories;
 using TestGorilla.Service.DTOs.Tests;
 using TestGorilla.Service.DTOs.Answers;
 using TestGorilla.Service.DTOs.Users;
+using TestGorilla.Domain.Entities.Questions;
+using TestGorilla.Service.DTOs.Questions;
 
 namespace TestGorilla.Service.Mappers
 {

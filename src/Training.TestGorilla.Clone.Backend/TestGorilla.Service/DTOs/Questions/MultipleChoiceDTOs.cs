@@ -11,6 +11,7 @@ namespace TestGorilla.Service.DTOs.Questions
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public Guid CategoryId { get; set; }
         public int DurationInMinutes { get; set; }
         public MultipleChoiceDTOs()
         {

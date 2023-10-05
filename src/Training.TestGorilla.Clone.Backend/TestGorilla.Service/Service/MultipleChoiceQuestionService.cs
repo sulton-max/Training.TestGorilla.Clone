@@ -141,9 +141,9 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
         throw new NullReferenceException("This is question is not found!!");
     }
 
-    public async Task<IEnumerable<MultipleChoiceQuestion>> GetByCategoryAsync(Category category, CancellationToken cancellationToken, bool saveChanges = true)
+    public async Task<IEnumerable<MultipleChoiceQuestion>> GetByCategoryAsync(string category, CancellationToken cancellationToken, bool saveChanges = true)
     {
-        var existingQuestion = _appDataContext.MultipleChoiceQuestions.Where(x => x.Category == category).AsQueryable();
+        var existingQuestion = _appDataContext.MultipleChoiceQuestions.Where(x => x.Category.CategoryName == category).AsQueryable();
         if (existingQuestion != null)
         {
             var questionList = existingQuestion.ToList();
@@ -179,7 +179,7 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
 
     public bool isValidUpdate(MultipleChoiceQuestion question)
     {
-        if (_appDataContext.MultipleChoiceQuestions.Any(x => x.Id != question.Id))
+        if (!_appDataContext.MultipleChoiceQuestions.Any(x => x.Id == question.Id))
         {
             return false;
         }
@@ -194,7 +194,7 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
             return false;
         }
 
-        if (_appDataContext.MultipleChoiceQuestions.Any(x => x.IsDeleted == false))
+        if (!_appDataContext.MultipleChoiceQuestions.Any(x => x.IsDeleted == false))
         {
             return false;
         }

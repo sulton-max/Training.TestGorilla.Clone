@@ -21,5 +21,5 @@ public interface IMultipleChoiceQuestionService
     
     public Task<IEnumerable<MultipleChoiceQuestion>> GetByTitleAsync(string Title, CancellationToken cancellationToken, bool saveChanges = true);
     
-    public Task<IEnumerable<MultipleChoiceQuestion>> GetByCategoryAsync(Category category, CancellationToken cancellationToken, bool saveChanges = true);
+    public Task<IEnumerable<MultipleChoiceQuestion>> GetByCategoryAsync(string category, CancellationToken cancellationToken, bool saveChanges = true);
 }

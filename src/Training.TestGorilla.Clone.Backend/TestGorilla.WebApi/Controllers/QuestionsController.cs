@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using TestGorilla.Domain.Entities;
 using TestGorilla.Domain.Entities.Questions;
 using TestGorilla.Service.DTOs.Categories;
 using TestGorilla.Service.DTOs.Questions;
@@ -24,18 +25,27 @@ namespace TestGorilla.Api.Controllers
             _shortAnswerTypeQuestionService = shortAnswerTypeQuestionService;
             _mapper = mapper;
         }
-        [HttpGet("{multipleChoiceId:Guid}")]
+
+        [HttpGet("multi-choice/{questionId:Guid}")]
         public async ValueTask<IActionResult> GetById(Guid multipleChoiceId)
         {
             var value = await _multipleChoiceQuestionService.GetByIdAsync(multipleChoiceId);
             var result = _mapper.Map<MultipleChoiceDTOs>(value);
             return Ok(result);
         }
-        [HttpGet("{MultipleChoiceTitle}")]
-        public async ValueTask<IActionResult> GetByTitle(string Title)
+
+        [HttpGet("{multipleChoicetitle}")]
+        public async ValueTask<IActionResult> GetByTitle(string MultipleChoiceTitle)
         {
-            var value = await _multipleChoiceQuestionService.GetByTitleAsync(Title, cancellationToken: default);
-            var result = _mapper.Map<MultipleChoiceDTOs>(value);
+            var value = await _multipleChoiceQuestionService.GetByTitleAsync(MultipleChoiceTitle, cancellationToken: default);
+            var result = _mapper.Map<IEnumerable<MultipleChoiceDTOs>>(value);
+            return Ok(result);
+        }
+        [HttpGet("{categoryName}")]
+        public async ValueTask<IActionResult> GetByCategory([FromRoute]string categoryName)
+        {
+            var value = await _multipleChoiceQuestionService.GetByCategoryAsync(categoryName, cancellationToken: default);
+            var result = _mapper.Map<IEnumerable<MultipleChoiceDTOs>>(value);
             return Ok(result);
         }
 
@@ -50,6 +60,19 @@ namespace TestGorilla.Api.Controllers
                     multipleChoiceId = result.Id
                 },
                 result);
+        }
+        [HttpPut("multiplechoice")]
+        public async ValueTask<IActionResult> UpdateMultipleChoice([FromBody] MultipleChoiceDTOs question)
+        {
+            var value = await _multipleChoiceQuestionService.UpdateAsync(_mapper.Map<MultipleChoiceQuestion>(question), cancellationToken: default);
+            var result = _mapper.Map<MultipleChoiceQuestion>(value);
+            return Ok("successFully!!");
+        }
+        [HttpDelete("{multiplechoiceId:Guid}")]
+        public async ValueTask<IActionResult> DeleteQuestion(Guid multiplechoiceId)
+        {
+            await _multipleChoiceQuestionService.DeleteAsync(multiplechoiceId, cancellationToken: default);
+            return Ok("SuccessFully!!");
         }
     }
 }
