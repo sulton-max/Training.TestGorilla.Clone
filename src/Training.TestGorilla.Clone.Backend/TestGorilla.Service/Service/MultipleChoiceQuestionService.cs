@@ -26,7 +26,7 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
         await _appDataContext.MultipleChoiceQuestions.AddAsync(question);
         if (saveChanges)
         {
-            await _appDataContext.MultipleChoiceQuestions.SaveChangesAsync();
+            await _appDataContext.SaveChangesAsync();
         }
 
         return question;
@@ -53,7 +53,7 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
         existingQuestion.Category = question.Category;
         if (saveChanges)
         {
-            await _appDataContext.MultipleChoiceQuestions.SaveChangesAsync();
+            await _appDataContext.SaveChangesAsync();
         }
 
         return existingQuestion;
@@ -70,12 +70,12 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
 
         if (saveChanges)
         {
-            await _appDataContext.MultipleChoiceQuestions.SaveChangesAsync();
+            await _appDataContext.SaveChangesAsync();
         }
         return true;
     }
-    
-    public IQueryable<MultipleChoiceQuestion> Get(Expression<Func<MultipleChoiceQuestion,bool>> predicate, CancellationToken cancellationToken, bool saveChanges = true)
+
+    public IQueryable<MultipleChoiceQuestion> Get(Expression<Func<MultipleChoiceQuestion, bool>> predicate, CancellationToken cancellationToken, bool saveChanges = true)
     {
         return _appDataContext.MultipleChoiceQuestions.Where(predicate.Compile()).AsQueryable();
     }

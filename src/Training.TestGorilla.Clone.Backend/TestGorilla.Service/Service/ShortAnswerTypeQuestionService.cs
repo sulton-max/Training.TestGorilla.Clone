@@ -51,7 +51,7 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
         existingQuestion.UpdatedTime = DateTime.UtcNow;
         if (saveChanges)
         {
-            await _appDataContext.ShortAnswerTypeQuestions.SaveChangesAsync();
+            await _appDataContext.SaveChangesAsync();
         }
 
         return existingQuestion;
@@ -68,7 +68,7 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
         await _appDataContext.ShortAnswerTypeQuestions.RemoveAsync(deletingQuestion);
         if (saveChanges)
         {
-            await _appDataContext.ShortAnswerTypeQuestions.SaveChangesAsync();
+            await _appDataContext.SaveChangesAsync();
         }
         return true;
     }
