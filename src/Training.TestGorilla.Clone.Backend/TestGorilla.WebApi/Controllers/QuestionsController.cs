@@ -136,6 +136,11 @@ namespace TestGorilla.Api.Controllers
             var result = _mapper.Map<CheckBoxQuestion>(value);
             return Ok("Successfully!!");
         }
-
+        [HttpDelete("check-box/by-id/{checkboxId:Guid}")]
+        public async ValueTask<IActionResult> DeleteCheckbox([FromRoute] Guid checkboxId)
+        {
+            var value = _checkboxQuestionService.DeleteAsync(checkboxId, cancellationToken: default);
+            return Ok("Successfully!!");
+        }
     }
 }
