@@ -37,11 +37,14 @@ namespace TestGorilla.Service.Mappers
             //Checkbox Questionni mapperdan o'tkazamiz
             CreateMap<CheckboxDTOs, CheckBoxQuestion>()
                 .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => TimeSpan.FromMinutes(src.DurationInMinutes)));
-            CreateMap<CheckBoxQuestion, CheckboxDTOs>();
+            CreateMap<CheckBoxQuestion, CheckboxDTOs>()
+                .ForMember(dest => dest.DurationInMinutes, opt => opt.MapFrom(src => src.Duration.TotalMinutes));
 
             //Short answer type questionni mapperdan o'tkazamiz
-            CreateMap<ShortAnswerTypeDTOs, ShortAnswerTypeQuestion>();
-            CreateMap<ShortAnswerTypeQuestion, ShortAnswerTypeDTOs>();
+            CreateMap<ShortAnswerTypeDTOs, ShortAnswerTypeQuestion>()
+                .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => TimeSpan.FromMinutes(src.DurationInMinutes)));
+            CreateMap<ShortAnswerTypeQuestion, ShortAnswerTypeDTOs>()
+                .ForMember(dest => dest.DurationInMinutes, opt => opt.MapFrom(src => src.Duration.TotalMinutes));
             // Testni mapperdan o'tqazamiz
             CreateMap<TestsDtos, Test>();
             CreateMap<Test, TestsDtos>();
