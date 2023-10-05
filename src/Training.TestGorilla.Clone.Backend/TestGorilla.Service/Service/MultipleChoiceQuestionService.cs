@@ -80,8 +80,8 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
         return _appDataContext.MultipleChoiceQuestions.Where(predicate.Compile()).AsQueryable();
     }
 
-    public async Task<PaginationResult<MultipleChoiceQuestion>> GetAsync(MultipleChoiceQuestion question, int PageToken, int PageSize, CancellationToken cancellationToken = default,
-        bool saveChanges = true)
+    public async Task<PaginationResult<MultipleChoiceQuestion>> GetAsync(Expression<Func<MultipleChoiceQuestion, bool>> predicate, int PageToken, int PageSize, CancellationToken cancellationToken,
+         bool saveChanges = true)
     {
         if (PageToken < 1)
         {
@@ -92,31 +92,20 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
         {
             throw new ArgumentException("PageSize must be greater than or equal to 1");
         }
-        
-        var query = _appDataContext.MultipleChoiceQuestions.AsQueryable();
-        
-        if (!string.IsNullOrEmpty(question.Title))
-        {
-            query = query.Where(q => q.Title.Contains(question.Title));
-        }
-       
-        query = query.Skip((PageToken - 1) * PageSize).Take(PageSize);
-
-        var questions =  query.ToList();
-
-        
-        var totalItem = query.Count();
-
+        var query = _appDataContext.MultipleChoiceQuestions.Where(predicate.Compile()).AsQueryable();
+        var length = query.Count();
+        var question = query
+            .Skip((PageToken - 1) * PageSize)
+            .Take(PageSize)
+            .ToList();
         var paginationResult = new PaginationResult<MultipleChoiceQuestion>
         {
-            Items = questions,
-            TotalItems = totalItem,
+            Items = question,
+            TotalItems = length,
             PageToken = PageToken,
-            PageSize = PageSize
+            PageSize = PageSize,
         };
-
         return paginationResult;
-
     }
 
     public async Task<MultipleChoiceQuestion> GetByIdAsync(Guid id)
@@ -141,9 +130,9 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
         throw new NullReferenceException("This is question is not found!!");
     }
 
-    public async Task<IEnumerable<MultipleChoiceQuestion>> GetByCategoryAsync(Category category, CancellationToken cancellationToken, bool saveChanges = true)
+    public async Task<IEnumerable<MultipleChoiceQuestion>> GetByCategoryAsync(string category, CancellationToken cancellationToken, bool saveChanges = true)
     {
-        var existingQuestion = _appDataContext.MultipleChoiceQuestions.Where(x => x.Category == category).AsQueryable();
+        var existingQuestion = _appDataContext.MultipleChoiceQuestions.Where(x => x.Category.CategoryName == category).AsQueryable();
         if (existingQuestion != null)
         {
             var questionList = existingQuestion.ToList();
@@ -160,12 +149,12 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
             return false;
         }
 
-        if (question.Title == null || string.IsNullOrWhiteSpace(question.Title))
+        if (string.IsNullOrEmpty(question.Title) || string.IsNullOrWhiteSpace(question.Title))
         {
             return false;
         }
 
-        if (question.Description == null || string.IsNullOrWhiteSpace(question.Description))
+        if (string.IsNullOrEmpty(question.Title) || string.IsNullOrWhiteSpace(question.Description))
         {
             return false;
         }
@@ -179,17 +168,17 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
 
     public bool isValidUpdate(MultipleChoiceQuestion question)
     {
-        if (_appDataContext.MultipleChoiceQuestions.Any(x => x.Id != question.Id))
+        if (!_appDataContext.MultipleChoiceQuestions.Any(x => x.Id == question.Id))
         {
             return false;
         }
 
-        if (!_validator.IsValidTitle(question.Title))
+        if (string.IsNullOrEmpty(question.Title) || string.IsNullOrWhiteSpace(question.Title))
         {
             return false;
         }
 
-        if (!_validator.IsValidDescription(question.Description))
+        if (string.IsNullOrWhiteSpace(question.Description) || string.IsNullOrEmpty(question.Description))
         {
             return false;
         }

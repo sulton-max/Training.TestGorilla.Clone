@@ -16,12 +16,12 @@ public interface ICheckboxQuestionService
     
     public IQueryable<CheckBoxQuestion> Get(Expression<Func<CheckBoxQuestion, bool>> predicate, CancellationToken cancellationToken, bool saveChanges = true);
 
-    public Task<PaginationResult<CheckBoxQuestion>> GetAsync(CheckBoxQuestion question, int PageToken, int PageSize,
+    public Task<PaginationResult<CheckBoxQuestion>> GetAsync(Expression<Func<CheckBoxQuestion, bool>> predicate, int PageToken, int PageSize,
         CancellationToken cancellationToken, bool saveChanges = true);
     
     public Task<CheckBoxQuestion> GetByIdAsync(Guid id, CancellationToken cancellationToken, bool saveChanges = true);
     
     public Task<IEnumerable<CheckBoxQuestion>> GetByTitleAsync(string Title, CancellationToken cancellationToken, bool saveChanges = true);
     
-    public Task<IEnumerable<CheckBoxQuestion>> GetByCategoryAsync(Category category, CancellationToken cancellationToken, bool saveChanges = true);
+    public Task<IEnumerable<CheckBoxQuestion>> GetByCategoryAsync(string category, CancellationToken cancellationToken, bool saveChanges = true);
 }
