@@ -58,7 +58,7 @@ public class CategoryService : ICategoryService
             throw new ArgumentNullException($"{existingCategory}", "Category not found");
 
         existingCategory.CategoryName = category.CategoryName;
-        existingCategory.UpdatedTime = DateTime.UtcNow;
+        await _appDataContext.Categories.UpdateAsync(existingCategory, cancellation);
 
         await _appDataContext.SaveChangesAsync();
         
