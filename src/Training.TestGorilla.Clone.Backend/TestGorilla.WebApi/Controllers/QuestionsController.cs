@@ -27,7 +27,7 @@ namespace TestGorilla.Api.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("multi-choice/{questionId:Guid}")]
+        [HttpGet("multi-choice/by-id/{questionId:Guid}")]
         public async ValueTask<IActionResult> GetById(Guid multipleChoiceId)
         {
             var value = await _multipleChoiceQuestionService.GetByIdAsync(multipleChoiceId);
@@ -35,21 +35,21 @@ namespace TestGorilla.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet("multi-choice/{title}")]
+        [HttpGet("multi-choice/by-title/{title}")]
         public async ValueTask<IActionResult> GetByTitle(string MultipleChoiceTitle)
         {
             var value = await _multipleChoiceQuestionService.GetByTitleAsync(MultipleChoiceTitle, cancellationToken: default);
             var result = _mapper.Map<IEnumerable<MultipleChoiceDTOs>>(value);
             return Ok(result);
         }
-        [HttpGet("multi-choice/{categoryName}")]
+        [HttpGet("multi-choice/by-category{categoryName}")]
         public async ValueTask<IActionResult> GetByCategory([FromRoute]string categoryName)
         {
             var value = await _multipleChoiceQuestionService.GetByCategoryAsync(categoryName, cancellationToken: default);
             var result = _mapper.Map<IEnumerable<MultipleChoiceDTOs>>(value);
             return Ok(result);
         }
-        [HttpGet("multi-choice")]
+        [HttpGet("multi-choice/all")]
         public async ValueTask<IActionResult> GetAll([FromQuery] int PageSize, [FromQuery] int PageToken)
         {
             var value = await _multipleChoiceQuestionService.GetAsync(question => true, PageToken, PageSize, cancellationToken: default);
@@ -60,21 +60,21 @@ namespace TestGorilla.Api.Controllers
             }
             return NotFound();
         }
-        [HttpGet("check-box/{Id-Guid}")]
-        public async ValueTask<IActionResult> GetByIdCheckBox(Guid Id)
+        [HttpGet("check-box/by-id/{checkboxquestionId:Guid}")]
+        public async ValueTask<IActionResult> GetByIdCheckBox(Guid checkboxquestionId)
         {
-            var value = await _checkboxQuestionService.GetByIdAsync(Id, cancellationToken: default);
+            var value = await _checkboxQuestionService.GetByIdAsync(checkboxquestionId, cancellationToken: default);
             var result = _mapper.Map<CheckboxDTOs>(value);
             return Ok(result);
         }
-        [HttpGet("check-box/{title}")]
+        [HttpGet("check-box/by-title/{title}")]
         public async ValueTask<IActionResult> GetByCheckboxTitle(string title)
         {
             var value = await _checkboxQuestionService.GetByTitleAsync(title, cancellationToken: default);
             var result = _mapper.Map<CheckboxDTOs>(value);
             return Ok(result);
         }
-        [HttpGet("check-box/{categoryName}")]
+        [HttpGet("check-box/by-category/{categoryName}")]
         public async ValueTask<IActionResult> GetByCheckboxCategory([FromRoute]string category)
         {
             var value = await _checkboxQuestionService.GetByCategoryAsync(category, cancellationToken: default);
@@ -92,14 +92,14 @@ namespace TestGorilla.Api.Controllers
             }
             return NotFound();
         }
-        [HttpPut("multiplechoice")]
+        [HttpPut("multi-choice")]
         public async ValueTask<IActionResult> UpdateMultipleChoice([FromBody] MultipleChoiceDTOs question)
         {
             var value = await _multipleChoiceQuestionService.UpdateAsync(_mapper.Map<MultipleChoiceQuestion>(question), cancellationToken: default);
             var result = _mapper.Map<MultipleChoiceQuestion>(value);
             return Ok("successFully!!");
         }
-        [HttpDelete("multi-choice/{Id:Guid}")]
+        [HttpDelete("multi-choice/by-id/{Id:Guid}")]
         public async ValueTask<IActionResult> DeleteQuestion(Guid Id)
         {
             await _multipleChoiceQuestionService.DeleteAsync(Id, cancellationToken: default);
@@ -122,10 +122,10 @@ namespace TestGorilla.Api.Controllers
         {
             var value = await _checkboxQuestionService.CreateAsync(_mapper.Map<CheckBoxQuestion>(question), cancellationToken: default);
             var result = _mapper.Map<CheckBoxQuestion>(value);
-            return CreatedAtAction(nameof(GetById),
+            return CreatedAtAction(nameof(GetByIdCheckBox),
                 new
                 {
-                   Id = result.Id 
+                    checkboxquestionId = result.Id
                 },
                 result);
         }

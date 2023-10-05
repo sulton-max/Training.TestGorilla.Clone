@@ -17,9 +17,9 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
         _validator = validator;
         _appDataContext = appDataContext;  
     }
-    public async Task<CheckBoxQuestion> CreateAsync(CheckBoxQuestion question, CancellationToken cancellationToken , bool saveChanges = true)
+    public async Task<CheckBoxQuestion> CreateAsync(CheckBoxQuestion question, CancellationToken cancellationToken, bool saveChanges = true)
     {
-        if (isValidCreated(question))
+        if (!isValidCreated(question))
         {
             throw new InvalidOperationException("The question invalid!!");
         }
@@ -28,7 +28,11 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
             CheckBoxQuestion result = (await _appDataContext.CheckBoxQuestions.AddAsync(question)).Entity;
             await _appDataContext.CheckBoxQuestions.SaveChangesAsync();
         }
-        throw new InvalidOperationException("The question is not valid!!");
+        else
+        {
+            throw new InvalidOperationException("Questio isnt Valid!!");
+        }
+        return question;
     }
 
     public async Task<CheckBoxQuestion> UpdateAsync(CheckBoxQuestion question, CancellationToken cancellationToken, bool saveChanges = true)
@@ -146,12 +150,12 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
         {
             return false;
         }
-        if(!_validator.IsValidTitle(question.Title))
+        if(string.IsNullOrWhiteSpace(question.Title) || string.IsNullOrEmpty(question.Title))
         {
             return false;
         }
 
-        if (!_validator.IsValidDescription(question.Description))
+        if (string.IsNullOrWhiteSpace(question.Description) || string.IsNullOrEmpty(question.Description))
         {
             return false;
         }
