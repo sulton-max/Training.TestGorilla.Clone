@@ -16,15 +16,6 @@ namespace TestGorilla.Service.DTOs.Tests
 
         public int DurationInMinute { get; set; }
 
-
-        /*public TestsDtos(Guid id, string tittle, string description,  )
-        {
-            Id = id;
-            Tittle = tittle;
-            Description = description;
-            Duration = Duration;
-        }*/
-
         public static explicit operator TestsDtos(Test entity)
         {
             return new TestsDtos
@@ -33,8 +24,6 @@ namespace TestGorilla.Service.DTOs.Tests
                 Title = entity.Title,
                 Description = entity.Description,
                 DurationInMinute = entity.Duration
-
-
             };
         }
 
@@ -46,7 +35,6 @@ namespace TestGorilla.Service.DTOs.Tests
                 Title = dto.Title,
                 Description = dto.Description,
                 Duration = dto.DurationInMinute
-
             };
         }
     }
