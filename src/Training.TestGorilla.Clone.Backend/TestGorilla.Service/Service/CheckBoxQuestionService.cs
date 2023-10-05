@@ -26,7 +26,7 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
         if (saveChanges)
         {
             CheckBoxQuestion result = (await _appDataContext.CheckBoxQuestions.AddAsync(question)).Entity;
-            await _appDataContext.CheckBoxQuestions.SaveChangesAsync();
+            await _appDataContext.SaveChangesAsync();
         }
         else
         {
@@ -37,7 +37,7 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
 
     public async Task<CheckBoxQuestion> UpdateAsync(CheckBoxQuestion question, CancellationToken cancellationToken, bool saveChanges = true)
     {
-        if (isValidUpdated(question))
+        if (!isValidUpdated(question))
         {
             throw new InvalidOperationException("The question is not valid upadet!!");
         }
@@ -71,7 +71,7 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
         await _appDataContext.CheckBoxQuestions.RemoveAsync(deletingQuestion);
         if (saveChanges)
         {
-            await _appDataContext.CheckBoxQuestions.SaveChangesAsync();
+            await _appDataContext.SaveChangesAsync();
         }
         return true;
     }

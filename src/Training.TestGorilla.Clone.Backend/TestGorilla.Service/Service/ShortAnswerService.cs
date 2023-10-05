@@ -46,8 +46,8 @@ public class ShortAnswerService : IShortAnswerService
         _appDataContext.ShortAnswers.AddAsync(answer);
 
         if (saveChanges)
-            _appDataContext.ShortAnswers.SaveChangesAsync(cancellationToken);
-
+            _appDataContext.ShortAnswers.SaveChangesAsync();
+            
         return new ValueTask<ShortAnswer>(answer);
     }
 
@@ -67,7 +67,7 @@ public class ShortAnswerService : IShortAnswerService
         searchingAnswer.UpdatedTime = DateTime.UtcNow;
 
         if (saveChanges)
-            _appDataContext.ShortAnswers.SaveChangesAsync(cancellationToken);
+            _appDataContext.ShortAnswers.SaveChangesAsync();
 
         return new ValueTask<ShortAnswer>(answer);
     }
@@ -83,7 +83,7 @@ public class ShortAnswerService : IShortAnswerService
         searchingAnswer.DeletedDate = DateTime.UtcNow;
 
         if (saveChanges)
-            _appDataContext.ShortAnswers.SaveChangesAsync(cancellationToken);
+            _appDataContext.ShortAnswers.SaveChangesAsync();
 
         return new ValueTask<ShortAnswer>(searchingAnswer);
     }

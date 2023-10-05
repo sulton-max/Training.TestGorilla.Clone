@@ -85,7 +85,7 @@ public class TestService : ITestService
         existTest.UpdatedTime = DateTime.UtcNow;
 
         if (saveChanges)
-            await _appDataContext.Tests.SaveChangesAsync(cancellationToken);
+            await _appDataContext.Tests.SaveChangesAsync();
 
         return existTest;
     }

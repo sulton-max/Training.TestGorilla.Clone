@@ -27,7 +27,7 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
         await _appDataContext.ShortAnswerTypeQuestions.AddAsync(question);
         if (saveChanges)
         {
-            await _appDataContext.ShortAnswerTypeQuestions.SaveChangesAsync(cancellationToken);
+            await _appDataContext.SaveChangesAsync();
         }
         return question;
     }
@@ -51,7 +51,7 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
         existingQuestion.UpdatedTime = DateTime.UtcNow;
         if (saveChanges)
         {
-            await _appDataContext.ShortAnswerTypeQuestions.SaveChangesAsync(cancellationToken);
+            await _appDataContext.SaveChangesAsync();
         }
 
         return existingQuestion;
@@ -68,7 +68,7 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
         await _appDataContext.ShortAnswerTypeQuestions.RemoveAsync(deletingQuestion);
         if (saveChanges)
         {
-            await _appDataContext.ShortAnswerTypeQuestions.SaveChangesAsync(cancellationToken);
+            await _appDataContext.SaveChangesAsync();
         }
         return true;
     }
@@ -140,11 +140,11 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
         throw new ArgumentException("This Category is not found");
     }
     public bool isValidCreate(ShortAnswerTypeQuestion question)
-    {
+    {/*
         if (_appDataContext.ShortAnswerTypeQuestions.Any(x => x.Answer.AnswerText == null))
         {
             return false;
-        }
+        }*/
 
         if (_appDataContext.ShortAnswerTypeQuestions.Any(x => x.Title == question.Title))
         {

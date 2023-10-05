@@ -19,6 +19,11 @@ public class MappingProfile : Profile
         //CreateMap<PaginationResult<>, PaginationResult<object>>();
         CreateMap<UserDto, User>();
         CreateMap<User, UserDto>();
+        //Multiple choice questionni mapperdan o'tkazamiz
+        CreateMap<MultipleChoiceDTOs, MultipleChoiceQuestion>()
+            .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => TimeSpan.FromMinutes(src.DurationInMinutes)));
+        CreateMap<MultipleChoiceQuestion, MultipleChoiceDTOs>()
+            .ForMember(dest => dest.DurationInMinutes, opt => opt.MapFrom(src => src.Duration.TotalMinutes));
             //Checkbox Questionni mapperdan o'tkazamiz
             CreateMap<CheckboxDTOs, CheckBoxQuestion>()
                 .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => TimeSpan.FromMinutes(src.DurationInMinutes)));

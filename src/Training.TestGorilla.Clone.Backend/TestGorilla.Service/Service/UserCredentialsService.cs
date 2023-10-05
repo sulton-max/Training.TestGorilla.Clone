@@ -29,7 +29,7 @@ public class UserCredentialsService : IUserCredentialsService
         await _appDataContext.UserCredentials.AddAsync(userCredentials);
 
         if (saveChanges)
-            await _appDataContext.UserCredentials.SaveChangesAsync();
+            await _appDataContext.SaveChangesAsync();
 
         return userCredentials;
     }
@@ -47,7 +47,7 @@ public class UserCredentialsService : IUserCredentialsService
         deleted.DeletedDate = DateTime.UtcNow;
 
         if (saveChanges)
-            await _appDataContext.UserCredentials.SaveChangesAsync();
+            await _appDataContext.SaveChangesAsync();
 
         return deleted;
     }
@@ -64,7 +64,7 @@ public class UserCredentialsService : IUserCredentialsService
         deleted.DeletedDate = DateTime.UtcNow;
 
         if (saveChanges)
-            await _appDataContext.UserCredentials.SaveChangesAsync();
+            await _appDataContext.SaveChangesAsync();
 
         return deleted;
     }
@@ -104,7 +104,7 @@ public class UserCredentialsService : IUserCredentialsService
         oldCredentials.UpdatedTime = DateTime.UtcNow;
 
         if (saveChanges)
-            await _appDataContext.UserCredentials.SaveChangesAsync();
+            await _appDataContext.SaveChangesAsync();
 
         return oldCredentials;
     }
