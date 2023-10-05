@@ -26,6 +26,15 @@ namespace TestGorilla.Api.Controllers
             _shortAnswerTypeQuestionService = shortAnswerTypeQuestionService;
             _mapper = mapper;
         }
+        [HttpGet("short-answer/by-id{questionId:Guid}")]
+        public async ValueTask<IActionResult> GetByIdShortQuestion(Guid shortquestionId)
+        {
+            var value = await _shortAnswerTypeQuestionService.GetByIdAsync(shortquestionId, cancellationToken: default);
+            var result = _mapper.Map<ShortAnswerTypeDTOs>(value);
+            return Ok(result);
+        }
+    
+   
 
         [HttpGet("multi-choice/by-id/{questionId:Guid}")]
         public async ValueTask<IActionResult> GetById(Guid multipleChoiceId)
