@@ -56,7 +56,6 @@ public class AppFileContext : FileContext, IDataContext
 
                 if (entry is not IFileEntityEntry<IFileSetEntity<Guid>> fileSetEntry) continue;
             }
-
         return new ValueTask(Task.CompletedTask);
     }
 
@@ -75,7 +74,6 @@ public class AppFileContext : FileContext, IDataContext
 
                 if (entry is not IFileEntityEntry<IFileSetEntity<Guid>> fileSetEntry) continue;
             }
-
         return new ValueTask(Task.CompletedTask);
     }
 
@@ -99,11 +97,8 @@ public class AppFileContext : FileContext, IDataContext
                 entityEntry.Entity.DeletedDate = DateTime.Now;
                 entityEntry.State = FileEntityState.MarkedDeleted;
             }
-
         return new ValueTask(Task.CompletedTask);
     }
-
-
 
     public ValueTask DisposeAsync()
     {
