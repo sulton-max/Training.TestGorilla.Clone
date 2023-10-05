@@ -78,7 +78,7 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
         return _appDataContext.CheckBoxQuestions.Where(predicate.Compile()).AsQueryable();
     }
 
-    public async Task<PaginationResult<CheckBoxQuestion>> GetAsync(CheckBoxQuestion question, int PageToken, int PageSize, CancellationToken cancellationToken,
+    public async Task<PaginationResult<CheckBoxQuestion>> GetAsync(Expression<Func<CheckBoxQuestion, bool>> predicate, int PageToken, int PageSize, CancellationToken cancellationToken,
         bool saveChanges = true)
     {
         if (PageToken < 1)
@@ -90,20 +90,20 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
         {
             throw new ArgumentException("PageSize must be greater than or equal to 1");
         }
-
-        int itemsToSkip = (PageToken -1) * PageSize;
-        var query = _appDataContext.CheckBoxQuestions
-            .OrderBy(question => question.Id)
-            .Skip(itemsToSkip)
-            .Take(PageSize).AsQueryable();
-        var paginationQuestions = query.ToList();
-        int totalCount =  _appDataContext.CheckBoxQuestions.Count();
-        var result = new PaginationResult<CheckBoxQuestion>
+        var query = _appDataContext.CheckBoxQuestions.Where(predicate.Compile()).AsQueryable();
+        var length = query.Count();
+        var question = query
+            .Skip((PageToken - 1) * PageSize)
+            .Take(PageSize)
+            .ToList();
+        var paginationResult = new PaginationResult<CheckBoxQuestion>
         {
-            Items = paginationQuestions,
-            TotalItems = totalCount
+            Items = question,
+            TotalItems = length,
+            PageToken = PageToken,
+            PageSize = PageSize
         };
-        return result;
+        return paginationResult;
     }
 
     public async Task<CheckBoxQuestion> GetByIdAsync(Guid id, CancellationToken cancellationToken, bool saveChanges = true)
@@ -128,9 +128,9 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
         throw new Exception("This question is not found");
     }
 
-    public async Task<IEnumerable<CheckBoxQuestion>> GetByCategoryAsync(Category category, CancellationToken cancellationToken, bool saveChanges = true)
+    public async Task<IEnumerable<CheckBoxQuestion>> GetByCategoryAsync(string category, CancellationToken cancellationToken, bool saveChanges = true)
     {
-        var question = _appDataContext.CheckBoxQuestions.Where(x => x.Category == category).AsQueryable();
+        var question = _appDataContext.CheckBoxQuestions.Where(x => x.Category.CategoryName == category).AsQueryable();
         if (question != null)
         {
             var questionList = question.ToList();

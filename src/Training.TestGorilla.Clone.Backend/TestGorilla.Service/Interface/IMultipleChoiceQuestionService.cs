@@ -14,8 +14,8 @@ public interface IMultipleChoiceQuestionService
     
     public IQueryable<MultipleChoiceQuestion> Get(Expression<Func<MultipleChoiceQuestion, bool>> predicate, CancellationToken cancellationToken, bool saveChanges = true);
 
-    public Task<PaginationResult<MultipleChoiceQuestion>> GetAsync(MultipleChoiceQuestion question, int PageToken, int PageSize,
-        CancellationToken cancellationToken, bool saveChanges = true);
+    public Task<PaginationResult<MultipleChoiceQuestion>> GetAsync(Expression<Func<MultipleChoiceQuestion, bool>> predicate,int PageToken, int PageSize,CancellationToken cancellationToken,
+         bool saveChanges = true);
     
     public Task<MultipleChoiceQuestion> GetByIdAsync(Guid id);
     

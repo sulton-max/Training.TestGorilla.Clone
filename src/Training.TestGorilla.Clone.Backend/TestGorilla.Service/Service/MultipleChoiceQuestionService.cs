@@ -80,8 +80,8 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
         return _appDataContext.MultipleChoiceQuestions.Where(predicate.Compile()).AsQueryable();
     }
 
-    public async Task<PaginationResult<MultipleChoiceQuestion>> GetAsync(MultipleChoiceQuestion question, int PageToken, int PageSize, CancellationToken cancellationToken = default,
-        bool saveChanges = true)
+    public async Task<PaginationResult<MultipleChoiceQuestion>> GetAsync(Expression<Func<MultipleChoiceQuestion, bool>> predicate, int PageToken, int PageSize, CancellationToken cancellationToken,
+         bool saveChanges = true)
     {
         if (PageToken < 1)
         {
@@ -92,31 +92,20 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
         {
             throw new ArgumentException("PageSize must be greater than or equal to 1");
         }
-        
-        var query = _appDataContext.MultipleChoiceQuestions.AsQueryable();
-        
-        if (!string.IsNullOrEmpty(question.Title))
-        {
-            query = query.Where(q => q.Title.Contains(question.Title));
-        }
-       
-        query = query.Skip((PageToken - 1) * PageSize).Take(PageSize);
-
-        var questions =  query.ToList();
-
-        
-        var totalItem = query.Count();
-
+        var query = _appDataContext.MultipleChoiceQuestions.Where(predicate.Compile()).AsQueryable();
+        var length = query.Count();
+        var question = query
+            .Skip((PageToken - 1) * PageSize)
+            .Take(PageSize)
+            .ToList();
         var paginationResult = new PaginationResult<MultipleChoiceQuestion>
         {
-            Items = questions,
-            TotalItems = totalItem,
+            Items = question,
+            TotalItems = length,
             PageToken = PageToken,
-            PageSize = PageSize
+            PageSize = PageSize,
         };
-
         return paginationResult;
-
     }
 
     public async Task<MultipleChoiceQuestion> GetByIdAsync(Guid id)
