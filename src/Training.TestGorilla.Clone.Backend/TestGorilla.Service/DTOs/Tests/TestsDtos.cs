@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestGorilla.Domain.Commons;
+using TestGorilla.Domain.Entities;
 
 namespace TestGorilla.Service.DTOs.Tests
 {
@@ -22,5 +24,30 @@ namespace TestGorilla.Service.DTOs.Tests
             Description = description;
             Duration = Duration;
         }*/
+
+        public static explicit operator TestsDtos(Test entity)
+        {
+            return new TestsDtos
+            {
+                Id = entity.Id,
+                Title = entity.Title,
+                Description = entity.Description,
+                DurationInMinute = entity.Duration
+
+
+            };
+        }
+
+        public static explicit operator Test(TestsDtos dto)
+        {
+            return new Test
+            {
+                Id = dto.Id,
+                Title = dto.Title,
+                Description = dto.Description,
+                Duration = dto.DurationInMinute
+
+            };
+        }
     }
 }
