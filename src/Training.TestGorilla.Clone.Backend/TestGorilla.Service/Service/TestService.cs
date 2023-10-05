@@ -20,39 +20,6 @@ public class TestService : ITestService
         _mapper = mapper;
     }
 
-    public async ValueTask<Test> CreateAsync(Test test, bool saveChanges = true, CancellationToken cancellationToken = default)
-    {
-        if (!_validator.IsValidTitle(test.Title))
-            throw new ArgumentException("Invalid Title");
-
-        var existTest = await _appDataContext.Tests.FindAsync(test.Id);
-
-        if (existTest != null)
-            throw new InvalidOperationException("Test already exists");
-
-        await _appDataContext.Tests.AddAsync(test);
-
-        if (saveChanges)
-            await _appDataContext.SaveChangesAsync();
-
-        return test;
-    }
-
-    public async ValueTask<Test> DeleteAsync(Guid testId, bool saveChanges = true, CancellationToken cancellationToken = default)
-    {
-        var existTest = await _appDataContext.Tests.FindAsync(testId);
-
-        if (existTest == null)
-            throw new InvalidOperationException("Test does not exists");
-
-        await _appDataContext.Tests.RemoveAsync(existTest);
-
-        if (saveChanges)
-            await _appDataContext.SaveChangesAsync();
-
-        return existTest;
-    }
-
     public async Task<PaginationResult<Test>> Get(Expression<Func<Test, bool>> predicate, int PageToken, int PageSize)
     {
         var query = _appDataContext.Tests.Where(predicate.Compile()).AsQueryable();
@@ -83,6 +50,25 @@ public class TestService : ITestService
         return existTest;
     }
 
+    public async ValueTask<Test> CreateAsync(Test test, bool saveChanges = true, CancellationToken cancellationToken = default)
+    {
+
+        if (!_validator.IsValidTitle(test.Title))
+            throw new ArgumentException("Invalid Title");
+
+        var existTest = await _appDataContext.Tests.FindAsync(test.Id);
+
+        if (existTest != null)
+            throw new InvalidOperationException("Test already exists");
+
+        await _appDataContext.Tests.AddAsync(test);
+
+        if (saveChanges)
+            await _appDataContext.SaveChangesAsync();
+
+        return test;
+    }
+
     public async ValueTask<Test> UpdateAsync(Test test, bool saveChanges = true, CancellationToken cancellationToken = default)
     {
         var existTest = _appDataContext.Tests.FirstOrDefault(result => result.Id == test.Id);
@@ -100,6 +86,21 @@ public class TestService : ITestService
 
         if (saveChanges)
             await _appDataContext.Tests.SaveChangesAsync();
+
+        return existTest;
+    }
+
+    public async ValueTask<Test> DeleteAsync(Guid testId, bool saveChanges = true, CancellationToken cancellationToken = default)
+    {
+        var existTest = await _appDataContext.Tests.FindAsync(testId);
+
+        if (existTest == null)
+            throw new InvalidOperationException("Test does not exists");
+
+        await _appDataContext.Tests.RemoveAsync(existTest);
+
+        if (saveChanges)
+            await _appDataContext.SaveChangesAsync();
 
         return existTest;
     }
