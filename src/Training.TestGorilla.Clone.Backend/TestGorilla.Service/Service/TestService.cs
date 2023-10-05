@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
-using System.Linq;
 using System.Linq.Expressions;
 using TestGorilla.DataAccess.Context;
 using TestGorilla.Domain.Entities;
-using TestGorilla.Domain.Entities.Users;
-using TestGorilla.Service.DTOs.Tests;
 using TestGorilla.Service.Helpers;
 using TestGorilla.Service.Interface;
 
@@ -88,7 +85,7 @@ public class TestService : ITestService
 
     public async ValueTask<Test> UpdateAsync(Test test, bool saveChanges = true, CancellationToken cancellationToken = default)
     {
-        var existTest = _appDataContext.Tests.FirstOrDefault( result => result.Id == test.Id);
+        var existTest = _appDataContext.Tests.FirstOrDefault(result => result.Id == test.Id);
 
         if (existTest == null || existTest.IsDeleted)
             throw new InvalidOperationException("User does not exists");
