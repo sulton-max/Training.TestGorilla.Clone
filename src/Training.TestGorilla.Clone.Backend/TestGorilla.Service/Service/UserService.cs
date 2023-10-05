@@ -52,6 +52,7 @@ public class UserService : IUserService
         if (foundUser.Role == Domain.Enums.UserRole.Candidate)
             throw new InvalidOperationException("Only Admin can delete user");
         
+        foundUser.IsDeleted = true;
         await _appDataContext.Users.RemoveAsync(foundUser);
 
         return foundUser;
