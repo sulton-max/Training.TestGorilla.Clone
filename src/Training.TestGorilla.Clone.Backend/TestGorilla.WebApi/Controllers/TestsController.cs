@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TestGorilla.Domain.Entities;
 using TestGorilla.Service.DTOs.Tests;
 using TestGorilla.Service.Interface;
@@ -15,7 +14,6 @@ public class TestsController : ControllerBase
     public TestsController(ITestService testService)
     {
         _testService = testService;
-        
     }
 
     [HttpGet("{testId:guid}")]
@@ -33,18 +31,18 @@ public class TestsController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult Get()
+    public IActionResult Get([FromQuery] int pageToken, [FromQuery] int pageSize)
     {
-        var tests = _testService.Get(test => true);
+        var tests = _testService.Get(test => true, pageToken, pageSize);
         return Ok(tests);
     }
 
     [HttpPost]
-    public async ValueTask<IActionResult> CreateTest([FromBody] Test test)
+    public async ValueTask<IActionResult> CreateTest([FromBody] TestsDtos testDto)
     {
         try
         {
-            var createdTestDto = await _testService.CreateAsync(test);
+            var createdTestDto = await _testService.CreateAsync((Test)testDto);
             return CreatedAtAction(nameof(GetById), new { testId = createdTestDto.Id }, createdTestDto);
         }
         catch (ArgumentException ex)
@@ -74,7 +72,7 @@ public class TestsController : ControllerBase
         try
         {
             var deletedTest = await _testService.DeleteAsync(testId);
-            return Ok();
+            return Ok(deletedTest);
         }
         catch (InvalidOperationException ex)
         {

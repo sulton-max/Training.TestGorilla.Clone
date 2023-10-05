@@ -2,7 +2,6 @@
 using System.Linq.Expressions;
 using TestGorilla.DataAccess.Context;
 using TestGorilla.Domain.Entities;
-using TestGorilla.Service.DTOs.Tests;
 using TestGorilla.Service.Helpers;
 using TestGorilla.Service.Interface;
 
@@ -34,7 +33,7 @@ public class TestService : ITestService
         await _appDataContext.Tests.AddAsync(test);
 
         if (saveChanges)
-            await _appDataContext.Tests.SaveChangesAsync(cancellationToken);
+            await _appDataContext.SaveChangesAsync();
 
         return test;
     }
@@ -48,19 +47,37 @@ public class TestService : ITestService
 
         await _appDataContext.Tests.RemoveAsync(existTest);
 
+        if (saveChanges)
+            await _appDataContext.SaveChangesAsync();
+
         return existTest;
     }
 
-    public IQueryable<Test> Get(Expression<Func<Test, bool>> predicate)
+    public async Task<PaginationResult<Test>> Get(Expression<Func<Test, bool>> predicate, int PageToken, int PageSize)
     {
-        return _appDataContext.Tests.Where(predicate.Compile()).AsQueryable();
+        var query = _appDataContext.Tests.Where(predicate.Compile()).AsQueryable();
+        var length = query.Count();
+
+        var tests = query
+       .Skip((PageToken - 1) * PageSize)
+       .Take(PageSize)
+       .ToList();
+
+        var paginationResult = new PaginationResult<Test>
+        {
+            Items = tests,
+            TotalItems = length,
+            PageToken = PageToken,
+            PageSize = PageSize
+        };
+        return paginationResult;
     }
 
     public async ValueTask<Test> GetByIdAsync(Guid id)
     {
-        var existTest = await _appDataContext.Tests.FindAsync(id);
+        var existTest = _appDataContext.Tests.FirstOrDefault(x => x.Id == id);
 
-        if (existTest is null)
+        if (existTest is null || existTest.IsDeleted)
             throw new InvalidOperationException("Test does not exists");
 
         return existTest;
@@ -68,15 +85,16 @@ public class TestService : ITestService
 
     public async ValueTask<Test> UpdateAsync(Test test, bool saveChanges = true, CancellationToken cancellationToken = default)
     {
-        var existTest = _appDataContext.Tests.FirstOrDefault(test);
+        var existTest = _appDataContext.Tests.FirstOrDefault(result => result.Id == test.Id);
 
-        if (existTest == null)
+        if (existTest == null || existTest.IsDeleted)
             throw new InvalidOperationException("User does not exists");
 
+        existTest.Id = test.Id;
         existTest.Title = test.Title;
         existTest.Description = test.Description;
         existTest.QuestionLevel = test.QuestionLevel;
-        existTest.DurationInMinute = test.DurationInMinute;
+        existTest.Duration = test.Duration;
         existTest.IsDeleted = test.IsDeleted;
         existTest.UpdatedTime = DateTime.UtcNow;
 

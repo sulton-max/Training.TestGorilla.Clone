@@ -17,4 +17,8 @@
     <ProjectReference Include="..\TestGorilla.Service\TestGorilla.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Storage\" />
+  </ItemGroup>
+
 </Project>

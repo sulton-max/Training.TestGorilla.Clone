@@ -1,12 +1,13 @@
 ﻿using System.Linq.Expressions;
 using TestGorilla.Domain.Entities;
+using TestGorilla.Domain.Entities.Users;
 using TestGorilla.Service.DTOs.Tests;
 
 namespace TestGorilla.Service.Interface;
 
 public interface ITestService
 {
-    IQueryable<Test> Get(Expression<Func<Test, bool>> predicate);
+    Task<PaginationResult<Test>> Get(Expression<Func<Test, bool>> predicate, int PageToken, int PageSize);
 
     ValueTask<Test> GetByIdAsync(Guid id);
 
