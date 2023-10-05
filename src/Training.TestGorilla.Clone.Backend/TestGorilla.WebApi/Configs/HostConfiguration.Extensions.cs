@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FileBaseContext.Context.Models.Configurations;
+using System.Net;
 using TestGorilla.DataAccess.Context;
 using TestGorilla.Service.Helpers;
 using TestGorilla.Service.Interface;
@@ -40,6 +41,7 @@ namespace TestGorilla.Api.Configs
             builder.Services.AddScoped<ICheckboxQuestionService, CheckBoxQuestionService>();
             builder.Services.AddScoped<IShortAnswerTypeQuestionService, ShortAnswerTypeQuestionService>();
             builder.Services.AddScoped<ITestService, TestService>();
+            builder.Services.AddScoped<IUserCredentialsService, UserCredentialsService>();
             return builder;
         }
         // Bu qismida Developerga kerak bo'ladigan narsalar registratsiyadan o'tdi

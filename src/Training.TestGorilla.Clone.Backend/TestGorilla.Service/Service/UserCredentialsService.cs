@@ -141,7 +141,7 @@ public class UserCredentialsService : IUserCredentialsService
 
     private void IsValidPassword(string password)
     {
-        if (_validationService.IsValidPassword(password))
+        if (!_validationService.IsValidPassword(password))
         {
             throw new InvalidOperationException("Password is not available");
         }
