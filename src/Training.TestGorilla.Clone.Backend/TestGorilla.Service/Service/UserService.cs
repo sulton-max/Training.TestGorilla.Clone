@@ -37,7 +37,7 @@ public class UserService : IUserService
         await _appDataContext.Users.AddAsync(user);
 
         if (saveChanges)
-            await _appDataContext.Users.SaveChangesAsync(cancellationToken);
+            await _appDataContext.Users.SaveChangesAsync();
 
         return user;
     }
@@ -104,7 +104,7 @@ public class UserService : IUserService
         foundUser.UpdatedTime = DateTime.UtcNow;
 
         if (saveChanges)
-            await _appDataContext.Users.SaveChangesAsync(cancellationToken);
+            await _appDataContext.Users.SaveChangesAsync();
 
         return foundUser;
     }

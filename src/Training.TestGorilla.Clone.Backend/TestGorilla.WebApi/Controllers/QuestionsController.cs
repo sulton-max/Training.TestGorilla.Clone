@@ -24,14 +24,14 @@ public class QuestionsController : ControllerBase
         _shortAnswerTypeQuestionService = shortAnswerTypeQuestionService;
         _mapper = mapper;
     }
-    [HttpGet("short-answer/by-id{questionId:Guid}")]
+    [HttpGet("short-answer/by-id/{shortquestionId:Guid}")]
     public async ValueTask<IActionResult> GetByIdShortQuestion(Guid shortquestionId)
     {
         var value = await _shortAnswerTypeQuestionService.GetByIdAsync(shortquestionId, cancellationToken: default);
         var result = _mapper.Map<ShortAnswerTypeDTOs>(value);
         return Ok(result);
     }
-    [HttpGet("short-answer/by-title{title}")]
+    [HttpGet("short-answer/by-title/{title}")]
     public async ValueTask<IActionResult> GetByTitleShortQuestion(string title)
     {
         var value = await _shortAnswerTypeQuestionService.GetByTitleAsync(title, cancellationToken: default);
@@ -56,7 +56,7 @@ public class QuestionsController : ControllerBase
         }
         return NotFound();
     }
-    [HttpGet("multi-choice/by-id/{questionId:Guid}")]
+    [HttpGet("multi-choice/by-id/{multipleChoiceId:Guid}")]
     public async ValueTask<IActionResult> GetById(Guid multipleChoiceId)
     {
         var value = await _multipleChoiceQuestionService.GetByIdAsync(multipleChoiceId);
@@ -71,7 +71,7 @@ public class QuestionsController : ControllerBase
         var result = _mapper.Map<IEnumerable<MultipleChoiceDTOs>>(value);
         return Ok(result);
     }
-    [HttpGet("multi-choice/by-category{categoryName}")]
+    [HttpGet("multi-choice/by-category/{categoryName}")]
     public async ValueTask<IActionResult> GetByCategory([FromRoute] string categoryName)
     {
         var value = await _multipleChoiceQuestionService.GetByCategoryAsync(categoryName, cancellationToken: default);
@@ -190,7 +190,7 @@ public class QuestionsController : ControllerBase
         var result = _mapper.Map<ShortAnswerTypeQuestion>(value);
         return Ok("Successfully");
     }
-    [HttpDelete("short-question/by-Id/{shortquestionId:Guid}")]
+    [HttpDelete("short-question/by-id/{shortquestionId:Guid}")]
     public async ValueTask<IActionResult> DeleteShortQuestionById([FromRoute]Guid shortquestionId)
     {
         var value = await _shortAnswerTypeQuestionService.DeleteAsync(shortquestionId, cancellationToken: default);

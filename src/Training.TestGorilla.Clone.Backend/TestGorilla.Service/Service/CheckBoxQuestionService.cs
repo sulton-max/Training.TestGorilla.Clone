@@ -37,7 +37,7 @@ public class CheckBoxQuestionService : ICheckboxQuestionService
 
     public async Task<CheckBoxQuestion> UpdateAsync(CheckBoxQuestion question, CancellationToken cancellationToken, bool saveChanges = true)
     {
-        if (isValidUpdated(question))
+        if (!isValidUpdated(question))
         {
             throw new InvalidOperationException("The question is not valid upadet!!");
         }

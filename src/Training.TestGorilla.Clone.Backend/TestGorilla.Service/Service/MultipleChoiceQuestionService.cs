@@ -26,7 +26,7 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
         await _appDataContext.MultipleChoiceQuestions.AddAsync(question);
         if (saveChanges)
         {
-            await _appDataContext.MultipleChoiceQuestions.SaveChangesAsync(cancellationToken);
+            await _appDataContext.MultipleChoiceQuestions.SaveChangesAsync();
         }
 
         return question;
@@ -53,7 +53,7 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
         existingQuestion.Category = question.Category;
         if (saveChanges)
         {
-            await _appDataContext.MultipleChoiceQuestions.SaveChangesAsync(cancellationToken);
+            await _appDataContext.MultipleChoiceQuestions.SaveChangesAsync();
         }
 
         return existingQuestion;
@@ -70,7 +70,7 @@ public class MultipleChoiceQuestionService : IMultipleChoiceQuestionService
 
         if (saveChanges)
         {
-            await _appDataContext.MultipleChoiceQuestions.SaveChangesAsync(cancellationToken);
+            await _appDataContext.MultipleChoiceQuestions.SaveChangesAsync();
         }
         return true;
     }

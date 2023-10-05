@@ -62,7 +62,7 @@ public class AnswerService : IAnswerService
         _appDataContext.Answers.AddAsync(answer);
 
         if (saveChanges)
-            _appDataContext.Answers.SaveChangesAsync(cancellationToken);
+            _appDataContext.Answers.SaveChangesAsync();
 
         return new ValueTask<Answer>(answer);
     }
@@ -78,7 +78,7 @@ public class AnswerService : IAnswerService
         searchingAnswer.IsCorrect = answer.IsCorrect;
 
         if (saveChanges)
-            _appDataContext.Answers.SaveChangesAsync(cancellationToken);
+            _appDataContext.Answers.SaveChangesAsync();
 
         return new ValueTask<Answer>(answer);
     }
@@ -94,7 +94,7 @@ public class AnswerService : IAnswerService
         searchingAnswer.DeletedDate = DateTime.UtcNow;
 
         if (saveChanges)
-            _appDataContext.Answers.SaveChangesAsync(cancellationToken);
+            _appDataContext.Answers.SaveChangesAsync();
 
         return new ValueTask<Answer>(searchingAnswer);
     }
