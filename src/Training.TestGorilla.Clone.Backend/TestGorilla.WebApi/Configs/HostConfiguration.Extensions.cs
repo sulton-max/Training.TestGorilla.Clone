@@ -15,7 +15,7 @@ namespace TestGorilla.Api.Configs
         {
             var fileContextOptions = new FileContextOptions<AppFileContext>
             {
-                StorageRootPath = Path.Combine(builder.Environment.ContentRootPath, "Storage")
+                StorageRootPath = Path.Combine(builder.Environment.ContentRootPath, "Data/Storage")
             };
 
             builder.Services.AddSingleton<IFileContextOptions<AppFileContext>>(fileContextOptions); // Remove generic type parameter
