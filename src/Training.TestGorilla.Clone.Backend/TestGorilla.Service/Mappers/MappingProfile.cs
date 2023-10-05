@@ -28,7 +28,6 @@ public class MappingProfile : Profile
 
         CreateMap<Test, TestsDtos>()
             .ForMember(dest => dest.DurationInMinute, opt => opt.MapFrom(src => src.Duration));
-
         CreateMap<AnswerDto, Answer>();
         CreateMap<Answer, AnswerDto>();
     }
