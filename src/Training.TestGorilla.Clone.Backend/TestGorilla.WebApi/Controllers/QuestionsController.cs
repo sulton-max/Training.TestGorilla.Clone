@@ -40,8 +40,24 @@ namespace TestGorilla.Api.Controllers
             var result = _mapper.Map<ShortAnswerTypeDTOs>(value);
             return Ok(result);
         }
-   
-
+        [HttpGet("short-question/by-category/{categoryName}")]
+        public async ValueTask<IActionResult> GetByCategoryShortQuestion([FromRoute]string categoryName)
+        {
+            var value = await _shortAnswerTypeQuestionService.GetByCategoryAsync(categoryName, cancellationToken: default);
+            var result = _mapper.Map<ShortAnswerTypeDTOs>(value);
+            return Ok(result);
+        }
+        [HttpGet("short-question/all")]
+        public async ValueTask<IActionResult> GetAllShortQuestion([FromQuery] int PageToken, [FromQuery] int PageSize)
+        {
+            var value = await _multipleChoiceQuestionService.GetAsync(question => true, PageToken, PageSize, cancellationToken: default);
+            var result = _mapper.Map<PaginationResult<ShortAnswerTypeDTOs>>(value);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            return NotFound();
+        }
         [HttpGet("multi-choice/by-id/{questionId:Guid}")]
         public async ValueTask<IActionResult> GetById(Guid multipleChoiceId)
         {
@@ -51,7 +67,7 @@ namespace TestGorilla.Api.Controllers
         }
 
         [HttpGet("multi-choice/by-title/{title}")]
-        public async ValueTask<IActionResult> GetByTitle(string MultipleChoiceTitle)
+        public async ValueTask<IActionResult> GetByTitle([FromRoute]string MultipleChoiceTitle)
         {
             var value = await _multipleChoiceQuestionService.GetByTitleAsync(MultipleChoiceTitle, cancellationToken: default);
             var result = _mapper.Map<IEnumerable<MultipleChoiceDTOs>>(value);
@@ -96,7 +112,7 @@ namespace TestGorilla.Api.Controllers
             var result = _mapper.Map<CheckboxDTOs>(value);
             return Ok(result);
         }
-        [HttpGet("check-box")]
+        [HttpGet("check-box/all")]
         public async ValueTask<IActionResult> GetAllCheckbox([FromQuery] int PageSize, [FromQuery] int PageToken)
         {
             var value = await _checkboxQuestionService.GetAsync(question => true, PageToken, PageSize, cancellationToken: default);

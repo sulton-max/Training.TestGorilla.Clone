@@ -79,7 +79,7 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
 
     }
 
-    public async Task<PaginationResult<ShortAnswerTypeQuestion>> GetAsync(ShortAnswerTypeQuestion question, int PageToken, int PageSize, CancellationToken cancellationToken,
+    public async Task<PaginationResult<ShortAnswerTypeQuestion>> GetAsync(Expression<Func<ShortAnswerTypeQuestion, bool>> predicate, int PageToken, int PageSize, CancellationToken cancellationToken,
         bool saveChanges = true)
     {
         if (PageToken < 1)
@@ -91,28 +91,19 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
         {
             throw new ArgumentException("PageSize must be greater than or equal to 1");
         }
-        
-        var query = _appDataContext.MultipleChoiceQuestions.AsQueryable();
-        
-        if (!string.IsNullOrEmpty(question.Title))
-        {
-            query = query.Where(q => q.Title.Contains(question.Title));
-        }
-       
-        query = query.Skip((PageToken - 1) * PageSize).Take(PageSize);
-
-        var questions = query.ToList();
-
-        
-        var totalItem = query.Count();
-
+        var query = _appDataContext.ShortAnswerTypeQuestions.Where(predicate.Compile()).AsQueryable();
+        var length = query.Count();
+        var question = query
+            .Skip((PageToken - 1) * PageSize)
+            .Take(PageSize)
+            .ToList();
         var paginationResult = new PaginationResult<ShortAnswerTypeQuestion>
         {
-            TotalItems = totalItem,
+            Items = question,
+            TotalItems = length,
             PageToken = PageToken,
             PageSize = PageSize
         };
-
         return paginationResult;
     }
 
@@ -137,9 +128,9 @@ public class ShortAnswerTypeQuestionService : IShortAnswerTypeQuestionService
         throw new NullReferenceException("This is question is not found!!");
     }
 
-    public async Task<IEnumerable<ShortAnswerTypeQuestion>> GetByCategoryAsync(Category category, CancellationToken cancellationToken, bool saveChanges = true)
+    public async Task<IEnumerable<ShortAnswerTypeQuestion>> GetByCategoryAsync(string category, CancellationToken cancellationToken, bool saveChanges = true)
     {
-        var existingQuestion = _appDataContext.ShortAnswerTypeQuestions.Where(x => x.Category == category).AsQueryable();
+        var existingQuestion = _appDataContext.ShortAnswerTypeQuestions.Where(x => x.Category.CategoryName == category).AsQueryable();
         if (existingQuestion != null)
         {
             var questionList = existingQuestion.ToList();
