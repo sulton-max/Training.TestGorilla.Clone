@@ -23,12 +23,10 @@ namespace TestGorilla.Api.Controllers
         public async ValueTask<IActionResult> GetAll([FromQuery] int PageSize, [FromQuery]int PageToken)
         {
             var value = await _userService.Get(user => true, PageToken, PageSize);
+
             var result = _mapper.Map<PaginationResult<UserDto>>(value);
 
-            if(result is null)
-                return NotFound();
-
-            return Ok(result);
+            return result == null ? NotFound() : Ok(result);
         }
 
         [HttpGet("{userId:guid}")]
@@ -52,6 +50,18 @@ namespace TestGorilla.Api.Controllers
                 result);
         }
 
+        [HttpPut]
+        public async ValueTask<IActionResult> UpdateUser([FromBody] UserDto user)
+        {
+            await _userService.UpdateAsync(_mapper.Map<User>(user));
+            return Ok();
+        }
 
+        [HttpDelete("{userId:guid}")]
+        public async ValueTask<IActionResult> DeleteUser([FromRoute] Guid userId)
+        {
+            await _userService.DeleteAsync(userId);
+            return Ok();
+        }
     }
 }
