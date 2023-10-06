@@ -4,6 +4,7 @@ using TestGorilla.Service.Helpers;
 using TestGorilla.DataAccess.Context;
 using System.Data;
 using System.Linq.Expressions;
+using TestGorilla.Domain.Entities;
 
 namespace TestGorilla.Service.Service;
 public class AnswerService : IAnswerService
@@ -17,10 +18,11 @@ public class AnswerService : IAnswerService
         _validatorService = validatorService;
     }
 
-    public IQueryable<Answer> Get(Expression<Func<Answer, bool>> predicate)
+    public IQueryable<Answer> Get(Expression<Func<Answer, bool>> predicate, bool saveChanges = true, CancellationToken cancellationToken = default)
     {
         return _appDataContext.Answers.Where(predicate.Compile()).AsQueryable();
     }
+
     public ValueTask<Answer> GetByIdAsync(Guid answerId)
     {
         var searchingAnswer = _appDataContext.Answers.FirstOrDefault(a => a.Id == answerId);
@@ -33,17 +35,7 @@ public class AnswerService : IAnswerService
 
     public ValueTask<ICollection<Answer>> GetByQuestionIdAsync(Guid questionId)
     {
-        ICollection<Answer> questionsAnswers = new List<Answer>();
-        
-        _appDataContext.Answers.Select(answer =>
-        {
-            if (answer.QuestionId == questionId)
-                questionsAnswers.Add(answer);
-            return answer;
-        });
-
-        if (questionsAnswers.Count == 0)
-            throw new InvalidOperationException("No answers based on the question's answers.");
+        ICollection<Answer> questionsAnswers = _appDataContext.Answers.Where(a => a.QuestionId == questionId).ToList();
 
         return new ValueTask<ICollection<Answer>>(questionsAnswers);
     }
@@ -56,7 +48,7 @@ public class AnswerService : IAnswerService
         var isUniqueText = _appDataContext.Answers
             .FirstOrDefault(a => a.AnswerText == answer.AnswerText && a.Id == answer.Id && a.QuestionId == answer.QuestionId);
         
-        if (isUniqueText == null)
+        if (isUniqueText != null)
             throw new DuplicateNameException("Data of this object is a duplicate of existing data in this question's answers.");
 
         _appDataContext.Answers.AddAsync(answer);
