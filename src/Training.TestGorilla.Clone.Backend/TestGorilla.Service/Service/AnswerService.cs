@@ -23,6 +23,35 @@ public class AnswerService : IAnswerService
         return _appDataContext.Answers.Where(predicate.Compile()).AsQueryable();
     }
 
+    public async Task<PaginationResult<Answer>> GetAsync(Expression<Func<Answer, bool>> predicate, int pageToken, int pageSize, CancellationToken cancellationToken, bool saveChanges = true)
+    {
+        if (pageToken < 1)
+        {
+            throw new ArgumentException("PageToken must be greater than or equal to 1");
+        }
+
+        if (pageSize < 1)
+        {
+            throw new ArgumentException("PageSize must be greater than or equal to 1");
+        }
+
+        var query = _appDataContext.Answers.Where(predicate.Compile()).AsQueryable();
+        var length = query.Count();
+        var question = query
+            .Skip((pageToken - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        var paginationResult = new PaginationResult<Answer>
+        {
+            Items = question,
+            TotalItems = length,
+            PageToken = pageToken,
+            PageSize = pageSize,
+        };
+        return paginationResult;
+    }
+
     public ValueTask<Answer> GetByIdAsync(Guid answerId)
     {
         var searchingAnswer = _appDataContext.Answers.FirstOrDefault(a => a.Id == answerId);
