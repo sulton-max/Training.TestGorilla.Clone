@@ -58,10 +58,10 @@ namespace TestGorilla.Api.Controllers
             var updateResult = await _categoryService.UpdateAsync(existingCategory);
             if(updateResult == null)
             {
-                return BadRequest("Failed to update!!");
+                return BadRequest();
             }
             var updateCategoryDTOs = _mapper.Map<CategoriesDTOs>(updateResult);
-            return Ok("SuccessFully");  
+            return Ok();  
         }
         [HttpDelete("{categoryId:Guid}")]
         public async ValueTask<IActionResult> DeleteCategory([FromRoute] Guid categoryId)
@@ -74,10 +74,10 @@ namespace TestGorilla.Api.Controllers
             var delete = await _categoryService.DeleteAsync(deltingCategory.Id);
             if (delete == null)
             {
-                return BadRequest("Not found!!");
+                return BadRequest();
             }
             _mapper.Map<CategoriesDTOs>(delete);
-            return Ok("successFully!!");
+            return Ok();
         }
         
     }
