@@ -18,13 +18,33 @@ public class AnswersController : ControllerBase
         _answerService = answerService;
     }
  
-    [HttpGet("{answerId:guid}")]
+    [HttpGet("answers/all")]
+    public IActionResult GetAll([FromQuery] int pageToken, [FromQuery] int pageSize, [FromServices] IAnswerService _answerService)
+    {
+        var result = _answerService.Get(category => true).Skip((pageToken - 1) * pageSize).Take(pageSize).ToList();
+        return result.Any() ? Ok(result) : NotFound();
+    }
+ 
+    [HttpGet("answers/by-id/{answerId:Guid}")]
     public async ValueTask<IActionResult> GetById([FromRoute] Guid answerId)
     {
         var value = await _answerService.GetByIdAsync(answerId);
+        
         var result = _mapper.Map<AnswerDto>(value);
+       
         return Ok(result);
     }
+
+    [HttpGet("answers/by-question-id/{answerQuestionId:Guid}")]
+    public async ValueTask<IActionResult> GetByQuestionId([FromRoute] Guid answerQuestionId/*, Guid answerId = default(Guid)*/)
+    {
+        var value = await _answerService.GetByQuestionIdAsync(answerQuestionId);
+        
+        var result = _mapper.Map<ICollection<Answer>>(value);
+
+        return Ok(result);
+    }
+
 
     [HttpPost]
     public async ValueTask<IActionResult> Create([FromBody] AnswerDto answer)
@@ -39,4 +59,25 @@ public class AnswersController : ControllerBase
             result);
     }
 
+    [HttpPut]
+    public async ValueTask<IActionResult> Update([FromBody] AnswerDto answer)
+    {
+        var value = await _answerService.GetByIdAsync(answer.Id)
+            ?? throw new FileNotFoundException("Answer not found");
+
+        value.AnswerText = answer.AnswerText;
+        value.QuestionId = answer.QuestionId;
+         
+        var result = _mapper.Map<AnswerDto>(
+            await _answerService.UpdateAsync(_mapper.Map<Answer>(value)));
+
+        return Ok(result);
+    }
+
+    [HttpDelete("{answerId:Guid}")]
+    public async ValueTask<IActionResult> DeleteAnswer([FromRoute] Guid answerId)
+    {
+        var result = await _answerService.DeleteAsync(answerId);
+        return Ok(result);
+    }
 }

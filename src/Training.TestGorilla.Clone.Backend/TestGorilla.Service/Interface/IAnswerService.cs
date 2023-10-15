@@ -5,7 +5,7 @@ namespace TestGorilla.Service.Interface;
 
 public interface IAnswerService
 {
-    IQueryable<Answer> Get(Expression<Func<Answer, bool>> predicate);
+    IQueryable<Answer> Get(Expression<Func<Answer, bool>> predicate, bool saveChanges = true, CancellationToken cancellationToken = default);
     
     ValueTask<Answer> GetByIdAsync(Guid id);
     

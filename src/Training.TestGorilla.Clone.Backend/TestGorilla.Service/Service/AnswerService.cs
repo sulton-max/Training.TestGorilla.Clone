@@ -4,6 +4,7 @@ using TestGorilla.Service.Helpers;
 using TestGorilla.DataAccess.Context;
 using System.Data;
 using System.Linq.Expressions;
+using TestGorilla.Domain.Entities;
 
 namespace TestGorilla.Service.Service;
 public class AnswerService : IAnswerService
@@ -17,10 +18,40 @@ public class AnswerService : IAnswerService
         _validatorService = validatorService;
     }
 
-    public IQueryable<Answer> Get(Expression<Func<Answer, bool>> predicate)
+    public IQueryable<Answer> Get(Expression<Func<Answer, bool>> predicate, bool saveChanges = true, CancellationToken cancellationToken = default)
     {
         return _appDataContext.Answers.Where(predicate.Compile()).AsQueryable();
     }
+
+    public async Task<PaginationResult<Answer>> GetAsync(Expression<Func<Answer, bool>> predicate, int pageToken, int pageSize, CancellationToken cancellationToken, bool saveChanges = true)
+    {
+        if (pageToken < 1)
+        {
+            throw new ArgumentException("PageToken must be greater than or equal to 1");
+        }
+
+        if (pageSize < 1)
+        {
+            throw new ArgumentException("PageSize must be greater than or equal to 1");
+        }
+
+        var query = _appDataContext.Answers.Where(predicate.Compile()).AsQueryable();
+        var length = query.Count();
+        var question = query
+            .Skip((pageToken - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        var paginationResult = new PaginationResult<Answer>
+        {
+            Items = question,
+            TotalItems = length,
+            PageToken = pageToken,
+            PageSize = pageSize,
+        };
+        return paginationResult;
+    }
+
     public ValueTask<Answer> GetByIdAsync(Guid answerId)
     {
         var searchingAnswer = _appDataContext.Answers.FirstOrDefault(a => a.Id == answerId);
@@ -33,17 +64,7 @@ public class AnswerService : IAnswerService
 
     public ValueTask<ICollection<Answer>> GetByQuestionIdAsync(Guid questionId)
     {
-        ICollection<Answer> questionsAnswers = new List<Answer>();
-        
-        _appDataContext.Answers.Select(answer =>
-        {
-            if (answer.QuestionId == questionId)
-                questionsAnswers.Add(answer);
-            return answer;
-        });
-
-        if (questionsAnswers.Count == 0)
-            throw new InvalidOperationException("No answers based on the question's answers.");
+        ICollection<Answer> questionsAnswers = _appDataContext.Answers.Where(a => a.QuestionId == questionId).ToList();
 
         return new ValueTask<ICollection<Answer>>(questionsAnswers);
     }
@@ -56,7 +77,7 @@ public class AnswerService : IAnswerService
         var isUniqueText = _appDataContext.Answers
             .FirstOrDefault(a => a.AnswerText == answer.AnswerText && a.Id == answer.Id && a.QuestionId == answer.QuestionId);
         
-        if (isUniqueText == null)
+        if (isUniqueText != null)
             throw new DuplicateNameException("Data of this object is a duplicate of existing data in this question's answers.");
 
         _appDataContext.Answers.AddAsync(answer);
